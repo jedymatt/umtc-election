@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -72,4 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->middleware('auth:admin')
         ->name('logout');
+
+    Route::resource('/admins', AdminController::class)
+        ->middleware('auth:admin');
 });

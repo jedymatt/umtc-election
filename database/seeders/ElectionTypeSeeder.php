@@ -14,6 +14,11 @@ class ElectionTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $electionTypes = [
+           ['name' => 'DSG'],
+           ['name' => 'CDSG'],
+        ];
+
+        \App\Models\ElectionType::insert($electionTypes);
     }
 }

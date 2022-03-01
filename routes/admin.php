@@ -75,5 +75,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('logout');
 
     Route::resource('/admins', AdminController::class)
+        ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 });

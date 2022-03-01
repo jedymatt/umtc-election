@@ -40,4 +40,13 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class);
+    }
 }

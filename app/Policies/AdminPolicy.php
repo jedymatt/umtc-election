@@ -13,11 +13,11 @@ class AdminPolicy
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\Admin  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function viewAny(Admin $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -25,7 +25,7 @@ class AdminPolicy
      *
      * @param  \App\Models\Admin  $user
      * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function view(Admin $user, Admin $admin)
     {

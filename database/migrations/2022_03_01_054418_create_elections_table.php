@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('start_at');
             $table->dateTime('end_at');
+            $table->foreignId('election_type_id')->constrained();
             $table->timestamps();
         });
     }

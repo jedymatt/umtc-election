@@ -23,6 +23,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $is_super_admin
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Department[] $departments
+ * @property-read int|null $departments_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\AdminFactory factory(...$parameters)
@@ -46,19 +48,13 @@ namespace App\Models{
 /**
  * App\Models\AdminDepartment
  *
- * @property int $id
  * @property int $admin_id
  * @property int $department_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment query()
  * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment whereAdminId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment whereDepartmentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminDepartment whereUpdatedAt($value)
  */
 	class AdminDepartment extends \Eloquent {}
 }
@@ -80,6 +76,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Department whereUpdatedAt($value)
  */
 	class Department extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Election
+ *
+ * @property int $id
+ * @property string|null $title
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon $start_at
+ * @property \Illuminate\Support\Carbon $end_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Election newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Election newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Election query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereEndAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereStartAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereUpdatedAt($value)
+ */
+	class Election extends \Eloquent {}
 }
 
 namespace App\Models{

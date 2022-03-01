@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -74,7 +73,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('logout');
 
-    Route::resource('/admins', AdminController::class)
+    Route::resource('/admins', \App\Http\Controllers\Admin\AdminController::class)
         ->only(['index', 'show', 'create', 'store'])
+        ->middleware('auth:admin');
+
+    Route::resource('/elections', \App\Http\Controllers\Admin\ElectionController::class)
         ->middleware('auth:admin');
 });

@@ -20,4 +20,12 @@ class Election extends Model
         'start_at' => 'datetime',
         'end_at' => 'datetime',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

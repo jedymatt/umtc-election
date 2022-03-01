@@ -24,8 +24,8 @@ class Election extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function department()
+    public function electionType()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(ElectionType::class);
     }
 }

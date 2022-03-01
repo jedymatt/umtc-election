@@ -27,7 +27,7 @@
                                             </th>
                                             <th scope="col"
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Description
+                                                Status
                                             </th>
                                             <th scope="col"
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -35,7 +35,11 @@
                                             </th>
                                             <th scope="col"
                                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Start at & End at
+                                                Start At
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                End At
                                             </th>
                                             <th scope="col" class="relative px-6 py-3">
                                                 <span class="sr-only">View</span>
@@ -46,17 +50,23 @@
                                         @foreach($elections as $election)
                                             <tr class="{{ $election->id == Auth::id() ? 'bg-gray-100' : '' }}">
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div
-                                                        class="text-sm text-gray-900">
+                                                    <div class="text-sm text-gray-900">
                                                         {{ $election->title }}
                                                     </div>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-900"> somhe
-                                                    </div>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ now() < $election->start_at ? 'Not yet started' : 'Started'}}
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $election->electionType->name }}
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {{ $election->start_at }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    Something
+                                                    {{ $election->end_at }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <a href="{{ route('admin.elections.show', $election) }}"
@@ -67,6 +77,9 @@
 
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="mt-4">
+                                    {{ $elections->links()}}
                                 </div>
                             </div>
                         </div>

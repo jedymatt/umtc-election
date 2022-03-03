@@ -15,6 +15,8 @@ class Election extends Model
         'description',
         'start_at',
         'end_at',
+        'election_type_id',
+        'department_id',
     ];
 
     protected $casts = [
@@ -31,7 +33,7 @@ class Election extends Model
     }
 
     public function department() {
-        return $this->belongsToMany(Department::class);
+        return $this->belongsTo(Department::class);
     }
 
     /**

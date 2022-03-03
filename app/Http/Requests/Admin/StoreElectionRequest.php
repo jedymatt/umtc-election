@@ -13,7 +13,7 @@ class StoreElectionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreElectionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'start_at' => 'required|date|before_or_equal:end_at',
+            'end_at' => 'required|date|after:start_at',
+            'election_type_id' => 'required|integer',
+            'department_id' => 'required_if:election_type_id,1', // Election type is CDSG
         ];
     }
 }

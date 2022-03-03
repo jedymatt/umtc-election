@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,7 @@ class Election extends Model
         'title',
         'description',
         'start_at',
-        'end_at'
+        'end_at',
     ];
 
     protected $casts = [
@@ -27,5 +28,22 @@ class Election extends Model
     public function electionType()
     {
         return $this->belongsTo(ElectionType::class);
+    }
+
+    public function department() {
+        return $this->belongsToMany(Department::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getElectionStatus() {
+        if (now() > $this->end_at) {
+            return 'Ended';
+        } else if (now() >= $this->start_at) {
+            return 'Ongoing';
+        } else {
+            return 'Not yet started';
+        }
     }
 }

@@ -67,6 +67,8 @@ namespace App\Models{
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Election[] $elections
+ * @property-read int|null $elections_count
  * @method static \Illuminate\Database\Eloquent\Builder|Department newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department query()
@@ -87,13 +89,17 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon $start_at
  * @property \Illuminate\Support\Carbon $end_at
+ * @property int $election_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ElectionType $electionType
+ * @method static \Database\Factories\ElectionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Election newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Election newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Election query()
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereElectionTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereEndAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereStartAt($value)
@@ -112,6 +118,8 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Election[] $elections
+ * @property-read int|null $elections_count
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType query()

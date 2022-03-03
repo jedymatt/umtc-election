@@ -42,6 +42,7 @@ class ElectionPolicy
     public function create(Admin $admin)
     {
         //
+        $admin->departments()->get();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreElectionRequest;
 use App\Http\Requests\Admin\UpdateElectionRequest;
+use App\Models\Department;
 use App\Models\Election;
 use function view;
 
@@ -17,8 +18,8 @@ class ElectionController extends Controller
      */
     public function index()
     {
-        $elections = Election::latest()->paginate(5);
-        return view('admin.elections.index', compact('elections'));
+        $departments = Department::orderBy('name')->with('elections')->paginate(5);
+        return view('admin.elections.index', compact('departments'));
     }
 
     /**

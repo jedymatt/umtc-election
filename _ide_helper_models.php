@@ -61,6 +61,17 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Candidate
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Candidate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Candidate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Candidate query()
+ */
+	class Candidate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Department
  *
  * @property int $id
@@ -85,13 +96,9 @@ namespace App\Models{
 /**
  * App\Models\DepartmentElection
  *
- * @property int $department_id
- * @property int $election_id
  * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection query()
- * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection whereDepartmentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection whereElectionId($value)
  */
 	class DepartmentElection extends \Eloquent {}
 }
@@ -105,17 +112,18 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon $start_at
  * @property \Illuminate\Support\Carbon $end_at
- * @property int|null $election_type_id
+ * @property int $election_type_id
+ * @property int|null $department_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Department[] $department
- * @property-read int|null $department_count
- * @property-read \App\Models\ElectionType|null $electionType
+ * @property-read \App\Models\Department|null $department
+ * @property-read \App\Models\ElectionType $electionType
  * @method static \Database\Factories\ElectionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Election newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Election newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Election query()
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Election whereDepartmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereElectionTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Election whereEndAt($value)
@@ -152,6 +160,25 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Position
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Position newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Position newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Position query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Position whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Position whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Position whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Position whereUpdatedAt($value)
+ */
+	class Position extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Program
  *
  * @property int $id
@@ -181,9 +208,9 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $department_id
- * @property int $program_id
- * @property int $year_level_id
+ * @property int|null $department_id
+ * @property int|null $program_id
+ * @property int|null $year_level_id
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens

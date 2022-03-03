@@ -69,6 +69,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Election[] $elections
  * @property-read int|null $elections_count
+ * @method static \Database\Factories\DepartmentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Department newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department query()
@@ -82,6 +83,21 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\DepartmentElection
+ *
+ * @property int $department_id
+ * @property int $election_id
+ * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection whereDepartmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DepartmentElection whereElectionId($value)
+ */
+	class DepartmentElection extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Election
  *
  * @property int $id
@@ -89,10 +105,12 @@ namespace App\Models{
  * @property string|null $description
  * @property \Illuminate\Support\Carbon $start_at
  * @property \Illuminate\Support\Carbon $end_at
- * @property int $election_type_id
+ * @property int|null $election_type_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\ElectionType $electionType
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Department[] $department
+ * @property-read int|null $department_count
+ * @property-read \App\Models\ElectionType|null $electionType
  * @method static \Database\Factories\ElectionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Election newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Election newQuery()

@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreElectionRequest;
 use App\Http\Requests\Admin\UpdateElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\ElectionType;
 use function view;
 
 class ElectionController extends Controller
@@ -18,8 +19,8 @@ class ElectionController extends Controller
      */
     public function index()
     {
-        $departments = Department::orderBy('name')->with('elections')->paginate(5);
-        return view('admin.elections.index', compact('departments'));
+        $elections = Election::with(['electionType', 'department'])->latest()->paginate(10);
+        return view('admin.elections.index', compact('elections'));
     }
 
     /**

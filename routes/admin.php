@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -9,6 +10,9 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Election\CDSGController;
+use App\Http\Controllers\Admin\Election\DSGController;
+use App\Http\Controllers\Admin\ElectionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -73,10 +77,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('logout');
 
-    Route::resource('/admins', \App\Http\Controllers\Admin\AdminController::class)
+    Route::resource('/admins', AdminController::class)
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 
-    Route::resource('/elections', \App\Http\Controllers\Admin\ElectionController::class)
+    Route::middleware('auth:admin')
+        ->name('elections.create-dsg')
+        ->group(function () {
+            Route::get('/elections/create-dsg', [DSGController::class, 'create']);
+            Route::post('/elections/create-dsg', [DSGController::class, 'store']);
+        });
+
+    Route::middleware('auth:admin')
+        ->name('elections.create-cdsg')
+        ->group(function () {
+            Route::get('/elections/create-cdsg', [CDSGController::class, 'create']);
+            Route::post('/elections/create-cdsg', [CDSGController::class, 'store']);
+        });
+
+    Route::resource('/elections', ElectionController::class)
+        ->except('create')
         ->middleware('auth:admin');
 });

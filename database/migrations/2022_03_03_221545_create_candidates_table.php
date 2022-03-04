@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+            $table->string('photo_url')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('position_id')->constrained();
+            $table->foreignId('election_id')->constrained();
             $table->timestamps();
         });
     }

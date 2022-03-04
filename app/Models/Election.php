@@ -36,14 +36,6 @@ class Election extends Model
     {
         return $this->belongsTo(Department::class);
     }
-
-    public function positions()
-    {
-        return $this->loadMissing('electionType')
-            ->electionType->loadMissing('positions')
-            ->positions();
-    }
-
     /**
      * @return string
      */

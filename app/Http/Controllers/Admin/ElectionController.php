@@ -54,7 +54,8 @@ class ElectionController extends Controller
      */
     public function show(Election $election)
     {
-        return view('admin.elections.show', compact('election'));
+        $positions = $election->loadMissing('electionType')->electionType->positions;
+        return view('admin.elections.show', compact('election', 'positions'));
     }
 
     /**

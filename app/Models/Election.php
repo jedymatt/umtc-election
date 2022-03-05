@@ -36,9 +36,17 @@ class Election extends Model
     {
         return $this->belongsTo(Department::class);
     }
-    /**
-     * @return string
-     */
+
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    public function users()
+    {
+        return $this->hasOneThrough(User::class, Candidate::class);
+    }
+
     public function getElectionStatus()
     {
         if (now() > $this->end_at) {

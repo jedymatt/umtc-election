@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreElectionRequest;
+use App\Http\Requests\Admin\StoreElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
 use Illuminate\Http\Request;

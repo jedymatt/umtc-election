@@ -49,9 +49,6 @@
                         <div class="mt-4">
                             <x-label for="department" :value="__('Assign Department')"/>
                             <select name="departments[]" id="departments" class="rounded-md shadow-sm mt-1 block w-full">
-{{--                                @foreach($roles as $id => $role)--}}
-                                {{--                                    <option value="{{ $id }}"{{ in_array($id, old('roles', [])) ? ' selected' : '' }}>{{ $role }}</option>--}}
-                                {{--                                @endforeach--}}
                                     @foreach($departments as $id => $department)
                                         <option value="{{ $id }}" {{ in_array($id, old('$departments', [])) ? ' selected' : '' }}>
                                             {{ $department }}

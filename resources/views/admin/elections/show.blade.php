@@ -28,10 +28,9 @@
                         <x-input type="datetime-local" id="end_at" name="end_at" :value="$election->end_at" disabled/>
                     </div>
 
-{{--                    <livewire:admin.election.create-candidates-form :election="$election"/>--}}
-                    @foreach($positions as $position)
-                        <livewire:admin.election.position-candidate-form :position="$position" />
-                    @endforeach
+                    <div class="mt-4">
+                        <a href="{{ route('admin.elections.candidates.index', $election->id) }}">Go to Candidates</a>
+                    </div>
                 </div>
             </div>
         </div>

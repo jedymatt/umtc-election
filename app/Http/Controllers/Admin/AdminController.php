@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Requests\Admin\StoreAdminRequest;
+use App\Http\Requests\Admin\UpdateAdminRequest;
 use App\Models\Admin;
 use App\Models\Department;
 
@@ -41,7 +41,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreAdminRequest $request
+     * @param \App\Http\Requests\Admin\StoreAdminRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreAdminRequest $request)
@@ -76,7 +76,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateAdminRequest $request
+     * @param \App\Http\Requests\Admin\UpdateAdminRequest $request
      * @param \App\Models\Admin $admin
      * @return \Illuminate\Http\Response
      */

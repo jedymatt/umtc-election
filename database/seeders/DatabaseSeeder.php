@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DepartmentSeeder::class,
             ElectionTypeSeeder::class,
+            PositionSeeder::class,
+            ElectionTypePositionSeeder::class,
+            ProgramSeeder::class,
+            YearLevelSeeder::class,
         ]);
     }
 }

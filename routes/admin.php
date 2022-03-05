@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -9,8 +10,13 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CDSGElectionController;
+use App\Http\Controllers\Admin\DSGElectionController;
+use App\Http\Controllers\Admin\Election\CDSGController;
+use App\Http\Controllers\Admin\Election\DSGController;
+use App\Http\Controllers\Admin\ElectionController;
+use App\Http\Controllers\ElectionCandidateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -77,4 +83,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/admins', AdminController::class)
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
+
+    Route::get('/dsg-elections', [DSGElectionController::class, 'create'])
+        ->middleware('auth:admin')
+        ->name('dsg-elections');
+
+    Route::post('/dsg-elections', [DSGElectionController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('dsg-elections');
+
+    Route::get('/cdsg-elections', [CDSGElectionController::class, 'create'])
+        ->middleware('auth:admin')
+        ->name('cdsg-elections');
+
+    Route::post('/cdsg-elections', [CDSGElectionController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('cdsg-elections');
+
+    Route::resource('/elections', ElectionController::class)
+        ->except('create')
+        ->middleware('auth:admin');
+
+    Route::get('/elections/{election}/candidates', [ElectionCandidateController::class, 'index'])
+        ->middleware('auth:admin')
+        ->name('elections.candidates.index');
 });

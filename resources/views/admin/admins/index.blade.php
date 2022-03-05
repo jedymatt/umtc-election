@@ -44,11 +44,16 @@
                                         @foreach($admins as $admin)
                                             <tr class="{{ $admin->id == Auth::id() ? 'bg-gray-100' : '' }}">
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div
-                                                        class="text-sm text-gray-900">
-                                                        {{ $admin->name }}
-                                                        {{ $admin->id == Auth::id() ? '(You)' : '' }}
-                                                    </div>
+                                                    @if ($admin->id == Auth::id())
+                                                        <div class="text-sm text-gray-900 font-bold">
+                                                            {{ $admin->name}}
+                                                            <span class="italic text-gray-400">(You)</span>
+                                                        </div>
+                                                    @else
+                                                        <div class="text-sm text-gray-900">
+                                                            {{ $admin->name }}
+                                                        </div>
+                                                    @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm text-gray-900"> {{ $admin->email }}

@@ -32,14 +32,23 @@ class Election extends Model
         return $this->belongsTo(ElectionType::class);
     }
 
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 
-    /**
-     * @return string
-     */
-    public function getElectionStatus() {
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    public function users()
+    {
+        return $this->hasOneThrough(User::class, Candidate::class);
+    }
+
+    public function getElectionStatus()
+    {
         if (now() > $this->end_at) {
             return 'Ended';
         } else if (now() >= $this->start_at) {
@@ -48,4 +57,6 @@ class Election extends Model
             return 'Not yet started';
         }
     }
+
+
 }

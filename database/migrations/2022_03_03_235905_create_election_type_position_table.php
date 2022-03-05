@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('department_id')->nullable()->constrained();
-            $table->foreignId('program_id')->nullable()->constrained();
-            $table->foreignId('year_level_id')->nullable()->constrained();
+        Schema::create('election_type_position', function (Blueprint $table) {
+            $table->foreignId('election_type_id')->constrained();
+            $table->foreignId('position_id')->constrained();
         });
     }
 
@@ -27,8 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('election_type_position');
     }
 };

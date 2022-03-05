@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('department_id')->nullable()->constrained();
-            $table->foreignId('program_id')->nullable()->constrained();
-            $table->foreignId('year_level_id')->nullable()->constrained();
+        Schema::create('positions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
         });
     }
 
@@ -27,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('positions');
     }
 };

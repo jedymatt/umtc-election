@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Election extends Model
 {
@@ -25,38 +28,37 @@ class Election extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function electionType()
+    public function electionType(): BelongsTo
     {
         return $this->belongsTo(ElectionType::class);
     }
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
-    public function candidates()
+    public function candidates(): HasMany
     {
         return $this->hasMany(Candidate::class);
     }
 
-    public function users()
+    public function status(): Attribute
     {
-        return $this->hasOneThrough(User::class, Candidate::class);
-    }
+        return Attribute::get(function () {
+            $now = Carbon::now();
 
-    public function getElectionStatus()
-    {
-        if (now() > $this->end_at) {
-            return 'Ended';
-        } else if (now() >= $this->start_at) {
-            return 'Ongoing';
-        } else {
+            if ($now > $this->end_at) {
+                return 'Ended';
+            }
+
+            if ($now >= $this->start_at) {
+                return 'Ongoing';
+            }
+
             return 'Not yet started';
-        }
+        });
     }
-
-
 }

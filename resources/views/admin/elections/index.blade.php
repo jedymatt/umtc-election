@@ -65,7 +65,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->getElectionStatus()}}
+                                                    {{ $election->status}}
                                                 </td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

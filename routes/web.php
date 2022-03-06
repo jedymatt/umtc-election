@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActiveElectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,5 +22,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+Route::get('/active-elections', [ActiveElectionController::class, 'index'])
+    ->middleware('auth')
+    ->name('active-elections');
+
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

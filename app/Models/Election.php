@@ -48,14 +48,14 @@ class Election extends Model
     public function status(): Attribute
     {
         return Attribute::get(function () {
-            $now = Carbon::now();
+            $now = now();
 
             if ($now > $this->end_at) {
                 return 'Ended';
             }
 
             if ($now >= $this->start_at) {
-                return 'Ongoing';
+                return 'Active';
             }
 
             return 'Not yet started';

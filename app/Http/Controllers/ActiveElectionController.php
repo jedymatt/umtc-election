@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Election;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class ActiveElectionController extends Controller
 {
@@ -12,8 +11,9 @@ class ActiveElectionController extends Controller
     {
         $now = now();
         $activeElections = Election::where('start_at', '<=', $now)
-            ->where('end_at', '<=', $now )
+            ->where('end_at', '>=', $now )
             ->latest()->get();
+
         return response()->json($activeElections);
     }
 }

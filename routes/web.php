@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActiveElectionController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ElectionVoteController;
 use App\Http\Controllers\VoterProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,14 @@ Route::get('/dashboard', function () {
 Route::get('/active-elections', [ActiveElectionController::class, 'index'])
     ->middleware('auth')
     ->name('active-elections');
+
+Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
+    ->middleware('auth')
+    ->name('elections.vote');
+
+Route::post('/elections/{election}/vote', [ElectionVoteController::class , 'store'])
+    ->middleware('auth')
+    ->name('elections.vote');
 
 Route::get('/user/profile', [UserProfileController::class, 'show'])
     ->middleware('auth')

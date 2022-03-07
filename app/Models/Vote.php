@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Voter extends Model
+class Vote extends Model
 {
     use HasFactory;
 
@@ -22,5 +22,10 @@ class Voter extends Model
     public function election()
     {
         return $this->belongsTo(Election::class);
+    }
+
+    public function candidates()
+    {
+        return $this->belongsToMany(Candidate::class);
     }
 }

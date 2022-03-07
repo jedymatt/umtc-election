@@ -12,8 +12,6 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CDSGElectionController;
 use App\Http\Controllers\Admin\DSGElectionController;
-use App\Http\Controllers\Admin\Election\CDSGController;
-use App\Http\Controllers\Admin\Election\DSGController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\ElectionCandidateController;
 use Illuminate\Support\Facades\Route;

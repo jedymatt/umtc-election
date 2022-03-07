@@ -18,7 +18,7 @@
                                 @foreach($candidates->where('position_id', $position->id) as $candidate)
                                     <div>
                                         <input id="positions.{{$position->id}}.candidates.{{$candidate->id}}"
-                                               name="positions[{{ $position->id }}].candidates[]" type="radio"
+                                               name="candidates[{{ $position->id }}]" type="radio"
                                                value="{{ $candidate->id }}"/>
                                         <label
                                             for="positions.{{$position->id}}.candidates.{{$candidate->id}}">

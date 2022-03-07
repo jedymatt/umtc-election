@@ -14,9 +14,12 @@ class ElectionVoteController extends Controller
     {
         $positions = $election->electionType->positions;
 
-        $candidates = $election->candidates()->with(['election', 'position', 'user'])
-            ->orderBy(User::select('name')->where('id', 'candidates.user_id'))
+        $candidates = $election->candidates()
+            ->with(['election', 'position', 'user'])
+            ->orderBy(User::select('name')
+                ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
+
         return view('elections.vote', compact(
             'election', 'positions', 'candidates'
         ));
@@ -25,14 +28,13 @@ class ElectionVoteController extends Controller
     public function store(Request $request, Election $election)
     {
         // TODO: Validate election
-
         $vote = Vote::create([
             'user_id' => $request->user()->id,
             'election_id' => $election->id,
         ]);
 
-        $vote->candidates()->sync($request->input('positions.*'));
+        $vote->candidates()->sync($request->input('candidates'));
 
-        return redirect()->back(); // TODO: Redirect to proper route
+        return response()->json($vote->candidates); // TODO: Redirect to proper route
     }
 }

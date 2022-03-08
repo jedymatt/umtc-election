@@ -9,10 +9,11 @@ use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CDSGElectionController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DSGElectionController;
 use App\Http\Controllers\Admin\ElectionController;
+use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\ElectionCandidateController;
 use Illuminate\Support\Facades\Route;
 
@@ -105,4 +106,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/elections/{election}/candidates', [ElectionCandidateController::class, 'index'])
         ->middleware('auth:admin')
         ->name('elections.candidates.index');
+
+    Route::get('/elections/{election}/result', [ElectionResultController::class, 'show']);
 });

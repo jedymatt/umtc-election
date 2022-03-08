@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Candidate;
+use App\Models\Department;
 use App\Models\Election;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -29,8 +30,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (App::environment('local')) {
-            User::factory(8000)->create();
-            Election::factory(10)->create();
+            User::factory(50)->create();
+            Department::all()->each(function ($department) {
+                Election::factory(5)->create([
+                    'department_id' => $department->id,
+                ]);
+            });
             Candidate::factory(1000)->create();
         }
     }

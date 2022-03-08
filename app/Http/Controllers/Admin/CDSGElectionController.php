@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDSGElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\ElectionTag;
 use App\Models\ElectionType;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,11 +23,13 @@ class CDSGElectionController extends Controller
 
     public function create()
     {
-        return view('admin.cdsg-elections.create');
+        $departments = Department::with('availableElections')->get();
+        return view('admin.cdsg-elections.create', compact('departments'));
     }
 
     public function store(Request $request)
     {
+//        dd($request->all());
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'description' => 'nullable|string',
@@ -36,7 +40,10 @@ class CDSGElectionController extends Controller
         $election = Election::make($validator->validated());
         $election->electionType()->associate($this->electionType);
         $election->save();
-
+        $tag = Tag::create();
+        $election->tag()->associate($tag);
+        Election::whereIn('id', $request->input('elections'))
+            ->update(['tag_id' => $tag->id]);
         return redirect()->route('admin.elections.index');
     }
 }

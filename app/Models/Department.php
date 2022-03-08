@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
 {
@@ -14,11 +16,18 @@ class Department extends Model
     ];
 
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function elections()
+    public function elections(): HasMany
     {
-        return $this->belongsToMany(Election::class);
+        return $this->hasMany(Election::class);
     }
+
+    public function availableElections(): HasMany
+    {
+        return $this->hasMany(Election::class)
+            ->where('start_at', '<=', now())
+            ->where('end_at', '>=', now())
+            ->where('elections.election_type_id', 2)
+            ->whereNull('tag_id');
+    }
+
 }

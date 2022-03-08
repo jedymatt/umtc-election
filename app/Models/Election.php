@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
 class Election extends Model
 {
@@ -20,6 +19,7 @@ class Election extends Model
         'end_at',
         'election_type_id',
         'department_id',
+        'tag_id'
     ];
 
     protected $casts = [
@@ -62,5 +62,18 @@ class Election extends Model
 
             return 'Not yet started';
         });
+    }
+
+    public function latestActive(): Election
+    {
+        $now = now();
+        return $this->where('start_at', '<=', $now)
+            ->where('end_at', '>=', $now)
+            ->latest();
+    }
+
+    public function tag(): BelongsTo
+    {
+        return $this->belongsTo(Tag::class);
     }
 }

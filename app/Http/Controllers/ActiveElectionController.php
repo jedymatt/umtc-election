@@ -14,6 +14,6 @@ class ActiveElectionController extends Controller
             ->where('end_at', '>=', $now )
             ->latest()->get();
 
-        return response()->json($activeElections);
+        return view('active-elections.index',compact('activeElections'));
     }
 }

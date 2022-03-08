@@ -34,6 +34,6 @@ class UserProfileController extends Controller
 
         $request->user()->update($validator->validated());
 
-        return redirect()->route('user-profile.show');
+        return redirect()->route('user-profile');
     }
 }

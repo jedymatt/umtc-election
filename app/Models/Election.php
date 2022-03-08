@@ -27,9 +27,6 @@ class Election extends Model
         'end_at' => 'datetime',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function electionType(): BelongsTo
     {
         return $this->belongsTo(ElectionType::class);
@@ -43,6 +40,11 @@ class Election extends Model
     public function candidates(): HasMany
     {
         return $this->hasMany(Candidate::class);
+    }
+
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
     }
 
     public function status(): Attribute

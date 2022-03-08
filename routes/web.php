@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\ActiveElectionController;
-use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ElectionVoteController;
-use App\Http\Controllers\VoterProfileController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,11 +38,11 @@ Route::post('/elections/{election}/vote', [ElectionVoteController::class , 'stor
 
 Route::get('/user/profile', [UserProfileController::class, 'show'])
     ->middleware('auth')
-    ->name('user-profile.show');
+    ->name('user-profile');
 
-Route::post('/user/profile', [UserProfileController::class, 'update'])
+Route::put('/user/profile', [UserProfileController::class, 'update'])
     ->middleware('auth')
-    ->name('user-profile.update');
+    ->name('user-profile');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

@@ -25,9 +25,4 @@ class ElectionFactory extends Factory
             'department_id' => $this->faker->randomElement(Department::all()),
         ];
     }
-
-    public function dsg()
-    {
-
-    }
 }

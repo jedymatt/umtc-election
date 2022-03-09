@@ -33,7 +33,6 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        @dump($errors)
                         <div class="mt-4 border-t border-gray-200">
                             @error('elections')
                             <p class="text-sm text-red-600">{{ $message }}</p>

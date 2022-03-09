@@ -35,6 +35,6 @@ class ElectionVoteController extends Controller
 
         $vote->candidates()->sync($request->input('candidates'));
 
-        return response()->json($vote->candidates); // TODO: Redirect to proper route
+        return redirect()->route('active-elections');
     }
 }

@@ -33,18 +33,23 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mt-4 outline-0">
+                        @dump($errors)
+                        <div class="mt-4 border-t border-gray-200">
+                            @error('elections')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                             <div class="mt-4">
                                 @foreach($departments as $department)
                                     <span>{{ $department->name }}</span>
                                     <div>
                                         @foreach($department->availableElections as $election)
                                             <div>
-                                                <input id="elections.{{ $department->id }}.{{ $election->id }}"
+                                                <input id="elections[{{ $department->id }}][{{ $election->id }}]"
                                                        type="radio"
-                                                       name="elections[{{$department->id}}]"
+                                                       {{--                                                       name="elections[{{$department->id}}]"--}}
+                                                       name="elections[{{$department->id}}][]"
                                                        value="{{$election->id}}"/>
-                                                <label for="elections.{{ $department->id }}.{{ $election->id }}">
+                                                <label for="elections[{{ $department->id }}][{{ $election->id }}]">
                                                     {{ $election->title }}
                                                 </label>
                                             </div>

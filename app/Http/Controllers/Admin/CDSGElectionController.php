@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreDSGElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
-use App\Models\ElectionTag;
 use App\Models\ElectionType;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CDSGElectionController extends Controller
 {
@@ -29,12 +29,15 @@ class CDSGElectionController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
+        abort_if(!$request->user('admin')->isSuperAdmin(), 403);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'start_at' => 'required|date|before_or_equal:end_at',
+            'start_at' => 'required|date|before:end_at',
             'end_at' => 'required|date|after:start_at',
+            'elections' => 'required|array|size:7',
+            'elections.*' => 'required|integer|in_array:elections'
         ]);
 
         $election = Election::make($validator->validated());

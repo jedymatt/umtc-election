@@ -49,4 +49,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsToMany(Department::class);
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->is_super_admin;
+    }
 }

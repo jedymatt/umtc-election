@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
@@ -30,6 +31,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (App::environment('local')) {
+            Admin::factory()->create([
+                'email' => 'admin@example.com',
+                'is_super_admin' => true,
+            ]);
             User::factory(50)->create();
             Department::all()->each(function ($department) {
                 Election::factory(5)->create([

@@ -48,13 +48,16 @@
                         </div>
                         <div class="mt-4">
                             <x-label for="department" :value="__('Assign Department')"/>
-                            <select name="departments[]" id="departments" class="rounded-md shadow-sm mt-1 block w-full">
-                                    @foreach($departments as $id => $department)
-                                        <option value="{{ $id }}" {{ in_array($id, old('$departments', [])) ? ' selected' : '' }}>
-                                            {{ $department }}
-                                        </option>
-                                    @endforeach
-                            </select>
+
+                            @foreach($departments as $id => $department)
+                                <div class="mt-1">
+                                    <input type="radio" value="{{ $id }}"
+                                           id="department[{{ $id }}]" name="department"/>
+                                    <label for="department[{{ $id }}]">
+                                        {{ $department }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
                         <div class="flex justify-end mt-4">
                             <x-button>Create Admin Account</x-button>

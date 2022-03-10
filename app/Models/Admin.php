@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -41,17 +42,18 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function departments()
+    public function department(): BelongsTo
     {
-        return $this->belongsToMany(Department::class);
+        return $this->belongsTo(Department::class);
     }
 
-    public function isSuperAdmin()
+    public function isSuperAdmin(): bool
     {
         return $this->is_super_admin;
+    }
+
+    public function role(): string
+    {
+        return $this->isSuperAdmin() ? 'Super Administrator' : 'Administrator';
     }
 }

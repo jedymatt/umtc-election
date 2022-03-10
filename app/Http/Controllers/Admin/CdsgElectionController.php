@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class CDSGElectionController extends Controller
+class CdsgElectionController extends Controller
 {
     protected $electionType;
 
@@ -23,7 +23,7 @@ class CDSGElectionController extends Controller
 
     public function create()
     {
-        $departments = Department::with('availableElections')->get();
+        $departments = Department::with('availableDsgElections')->get();
         return view('admin.cdsg-elections.create', compact('departments'));
     }
 
@@ -36,8 +36,8 @@ class CDSGElectionController extends Controller
             'description' => 'nullable|string',
             'start_at' => 'required|date|before:end_at',
             'end_at' => 'required|date|after:start_at',
+            'elections.*' => 'required|integer',
             'elections' => 'required|array|size:7',
-            'elections.*' => 'required|integer|in_array:elections'
         ]);
 
         $election = Election::make($validator->validated());

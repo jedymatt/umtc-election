@@ -21,12 +21,19 @@ class Department extends Model
         return $this->hasMany(Election::class);
     }
 
-    public function availableElections(): HasMany
+    public function activeElections(): HasMany
+    {
+        return $this->elections()
+            ->where('start_at', '<=', now())
+            ->where('end_at', '>=', now());
+    }
+
+    public function availableDsgElections(): HasMany
     {
         return $this->hasMany(Election::class)
             ->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
-            ->where('elections.election_type_id', 2)
+            ->where('election_type_id', 1)
             ->whereNull('tag_id');
     }
 

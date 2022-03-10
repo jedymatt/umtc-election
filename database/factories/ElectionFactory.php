@@ -21,7 +21,7 @@ class ElectionFactory extends Factory
             'end_at' => Carbon::now()->addDays(3),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'election_type_id' => ElectionType::whereName('DSG')->firstOrFail()->id,
+            'election_type_id' => ElectionType::whereName('DSG')->firstOrFail(),
             'department_id' => $this->faker->randomElement(Department::all()),
         ];
     }

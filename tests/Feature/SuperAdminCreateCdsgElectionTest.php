@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
-class SuperAdminCreateCDSGElectionTest extends TestCase
+class SuperAdminCreateCdsgElectionTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

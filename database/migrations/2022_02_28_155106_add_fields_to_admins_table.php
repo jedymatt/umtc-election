@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('admins', function (Blueprint $table) {
             $table->boolean('is_super_admin')->default(false);
+            $table->foreignId('department_id')->nullable()->constrained();
         });
     }
 

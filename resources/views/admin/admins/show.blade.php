@@ -22,22 +22,18 @@
                     <div class="mt-4">
                         <x-label for="is_super_admin" value="Role"/>
                         <x-input id="is_super_admin" name="is_super_admin"
-                                 :value="$admin->is_super_admin ? 'Super Administrator' : 'Administrator'" type="text"
+                                 :value="$admin->role()" type="text"
                                  disabled
                                  class="block mt-1 w-full"/>
                     </div>
-                    <div class="mt-4">
-                        <x-label value="Assigned Department(s)"/>
-                        <div class="block mt-1">
-                            @foreach($admin->departments as $department)
-                                <span
-                                    class="px-2 p-1 inline-flex text-xs leading-5 font-semibold
-                                    rounded-full bg-green-100 text-green-800 m-0.5">
-                                    {{ $department->name }}
-                                </span>
-                            @endforeach
+                    @if(!$admin->isSuperAdmin())
+                        <div class="mt-4">
+                            <x-label for="department" value="Department"/>
+                            <x-input id="department" name="department" value="{{$admin->department->name}}" type="text"
+                                     disabled
+                                     class="block mt-1 w-full"/>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>

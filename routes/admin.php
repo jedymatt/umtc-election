@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\CDSGElectionController;
+use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DSGElectionController;
 use App\Http\Controllers\Admin\ElectionController;
@@ -91,11 +91,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('dsg-elections');
 
-    Route::get('/cdsg-elections', [CDSGElectionController::class, 'create'])
+    Route::get('/cdsg-elections', [CdsgElectionController::class, 'create'])
         ->middleware('auth:admin')
         ->name('cdsg-elections');
 
-    Route::post('/cdsg-elections', [CDSGElectionController::class, 'store'])
+    Route::post('/cdsg-elections', [CdsgElectionController::class, 'store'])
         ->middleware('auth:admin')
         ->name('cdsg-elections');
 

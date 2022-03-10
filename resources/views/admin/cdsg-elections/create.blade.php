@@ -33,25 +33,29 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mt-4 outline-0">
-                            <div class="mt-4">
-                                @foreach($departments as $department)
-                                    <span>{{ $department->name }}</span>
-                                    <div>
-                                        @foreach($department->availableElections as $election)
-                                            <div>
-                                                <input id="elections.{{ $department->id }}.{{ $election->id }}"
-                                                       type="radio"
-                                                       name="elections[{{$department->id}}]"
-                                                       value="{{$election->id}}"/>
-                                                <label for="elections.{{ $department->id }}.{{ $election->id }}">
-                                                    {{ $election->title }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endforeach
-                            </div>
+                        <div class="mt-4 border-t border-gray-200"></div>
+                        <div class="mt-4">
+                            <input type="hidden" name="elections">
+                            @foreach($departments as $department)
+                                <span>{{ $department->name }}</span>
+                                <div>
+                                    @foreach($department->availableDsgElections as $election)
+                                        <div>
+                                            <input id="elections[{{ $department->id }}][{{ $election->id }}]"
+                                                   type="radio"
+                                                   {{--                                                       name="elections[{{$department->id}}]"--}}
+                                                   name="elections[{{$department->id}}][]"
+                                                   value="{{$election->id}}"/>
+                                            <label for="elections[{{ $department->id }}][{{ $election->id }}]">
+                                                {{ $election->title }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                            @error('elections')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="flex justify-end mt-4">
                             <x-button>Create</x-button>

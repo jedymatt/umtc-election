@@ -18,7 +18,7 @@
                             <th>Department</th>
                             <th>Vote Started</th>
                             <th>Vote Ended</th>
-                            <th>Result</th>
+                            <th class="sr-only">Result</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -47,8 +47,10 @@
                                     {{ $election->end_at }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('admin.elections.show', $election) }}"
-                                       class="text-indigo-600 hover:text-indigo-900">View</a>
+                                    <a href="{{ route('elections.vote', $election) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">Vote</a>
+                                    <a href="{{ route('elections.result', $election) }}"
+                                       class="text-indigo-600 hover:text-indigo-900 ml-2">Result</a>
                                 </td>
                             </tr>
                         @endforeach

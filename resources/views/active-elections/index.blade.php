@@ -18,7 +18,6 @@
                             <th>Department</th>
                             <th>Vote Started</th>
                             <th>Vote Ended</th>
-                            <th>Result</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">

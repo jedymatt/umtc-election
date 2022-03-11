@@ -107,5 +107,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('elections.candidates.index');
 
-    Route::get('/elections/{election}/result', [ElectionResultController::class, 'show']);
+    Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
+        ->name('elections.result.show');
 });

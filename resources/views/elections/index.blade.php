@@ -15,7 +15,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         @foreach($activeElections as $election)
                             <div class="rounded-md shadow-sm focus:ring border border-gray-200 p-6">
-                                <a href="{{ route('elections.vote', $election) }}"
+                                <a href="{{ route('elections.show', $election) }}"
                                    class="font-bold text-2xl hover:underline underline-offset-auto decoration-2 text-primary"
                                 >{{ $election->title }}</a>
                                 <div class="text-md mt-4">
@@ -53,7 +53,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         @forelse($endedElections as $election)
                             <div class="rounded-md shadow-sm focus:ring border border-gray-200 p-6">
-                                <a href="{{ route('elections.vote', $election) }}"
+                                <a href="{{ route('elections.show', $election) }}"
                                    class="font-bold text-2xl hover:underline underline-offset-auto decoration-2 text-primary"
                                 >{{ $election->title }}</a>
                                 <div class="text-md mt-4">

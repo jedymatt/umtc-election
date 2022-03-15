@@ -65,6 +65,11 @@ class Election extends Model
         });
     }
 
+    public function isActive()
+    {
+        return $this->start_at <= now() && $this->end_at >= now();
+    }
+
     public function latestActive(): Election
     {
         return $this->where('start_at', '<=', now())

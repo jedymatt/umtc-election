@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class ElectionType extends Model
 {
     use HasFactory;
+
+    public const DSG = 1;
+    public const CDSG = 2;
 
     protected $guarded = [
         'name',

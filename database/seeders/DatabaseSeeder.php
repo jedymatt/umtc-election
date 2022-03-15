@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
@@ -31,10 +32,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (config('app.debug')) {
-            Admin::factory()->create([
+            Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
-                'is_super_admin' => true,
             ]);
+
+            User::factory()->create([
+                'email' => 'user@example.com'
+            ]);
+
             User::factory(20)->create();
             Department::all()->each(function ($department) {
                 Election::factory(rand(1, 3))->create([
@@ -42,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             });
             Candidate::factory(20)->create();
+//            Vote::factory(20)->create();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,4 +45,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function availableElections()
+    {
+        return Election::with(['electionType', 'department'])
+            ->where('start_at', '<=', now())
+            ->where('end_at', '>=', now())
+            ->where('department_id', '=', $this->department_id)
+            ->whereDoesntHave('votes.user', function (Builder $query) {
+                $query->where('id', $this->id);
+            });
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function hasVotedElection(Election $election)
+    {
+        $voteCount = $this->votes()->where('votes.election_id', $election->id)->count();
+
+        return $voteCount >= 1;
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

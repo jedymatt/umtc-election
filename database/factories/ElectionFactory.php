@@ -15,7 +15,7 @@ class ElectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word(),
+            'title' => $this->faker->unique()->word(),
             'description' => $this->faker->text(),
             'start_at' => Carbon::now(),
             'end_at' => Carbon::now()->addDays(3),
@@ -30,7 +30,8 @@ class ElectionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'election_type_id' => ElectionType::whereName('CDSG'),
+                'election_type_id' => ElectionType::whereName('CDSG')->firstOrFail(),
+                'department_id' => null,
             ];
         });
     }

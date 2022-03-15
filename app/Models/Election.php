@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Election extends Model
 {
@@ -66,14 +67,38 @@ class Election extends Model
 
     public function latestActive(): Election
     {
-        $now = now();
-        return $this->where('start_at', '<=', $now)
-            ->where('end_at', '>=', $now)
+        return $this->where('start_at', '<=', now())
+            ->where('end_at', '>=', now())
             ->latest();
     }
+
+    public function hasVotedByUser(User $user)
+    {
+        $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
+
+        return $voteCount >= 1;
+    }
+
 
     public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('start_at', '<=', now())
+            ->where('end_at', '>=', now());
+    }
+
+    public function scopeEnded(Builder $query): Builder
+    {
+        return $query->where('end_at', '<', now());
+    }
+
+    public function scopeOfDepartment(Builder $query, int $departmentId): Builder
+    {
+        return $query->where('department_id', $departmentId)
+            ->where('election_type_id', ElectionType::DSG);
     }
 }

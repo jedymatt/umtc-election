@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ElectionType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +16,16 @@ class ElectionTypeSeeder extends Seeder
     public function run()
     {
         $electionTypes = [
-           ['name' => 'DSG'],
-           ['name' => 'CDSG'],
+            [
+                'id' => ElectionType::DSG,
+                'name' => 'DSG',
+            ],
+            [
+                'id' => ElectionType::CDSG,
+                'name' => 'CDSG',
+            ],
         ];
 
-        \App\Models\ElectionType::insert($electionTypes);
+        ElectionType::insert($electionTypes);
     }
 }

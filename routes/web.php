@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\ActiveElectionController;
+use App\Http\Controllers\ElectionController;
+use App\Http\Controllers\DoneElectionController;
 use App\Http\Controllers\ElectionResultController;
 use App\Http\Controllers\ElectionVoteController;
+use App\Http\Controllers\ExpiredElectionController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,15 +27,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/active-elections', [ActiveElectionController::class, 'index'])
+Route::get('/elections', [ElectionController::class, 'index'])
     ->middleware('auth')
-    ->name('active-elections');
+    ->name('elections.index');
 
 Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
     ->middleware('auth')
     ->name('elections.vote');
 
-Route::post('/elections/{election}/vote', [ElectionVoteController::class , 'store'])
+Route::post('/elections/{election}/vote', [ElectionVoteController::class, 'store'])
     ->middleware('auth')
     ->name('elections.vote');
 

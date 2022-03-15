@@ -27,13 +27,18 @@ class ElectionVoteController extends Controller
 
     public function store(Request $request, Election $election)
     {
-        // TODO: Validate election
-        $vote = Vote::create([
+        $validator = Validator::make($request->all(),[
+            'candidates' => 'required|array|size:7',
+            'candidates.*' => 'required|integer',
+        ]);
+
+        $vote = Vote::make([
             'user_id' => $request->user()->id,
             'election_id' => $election->id,
         ]);
 
-        $vote->candidates()->sync($request->input('candidates'));
+        $vote->candidates()->sync($validator->validated());
+        $vote->create();
 
         return redirect()->route('elections.active');
     }

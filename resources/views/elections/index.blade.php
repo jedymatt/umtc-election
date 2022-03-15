@@ -34,14 +34,10 @@
                                 </div>
                                 <div class="pt-4">
                                     @if($election->hasVotedByUser(auth()->user()))
-                                        <span class="rounded-md bg-primary-200 p-2 text-white">
-                                            Done Vote
-                                        </span>
+                                        <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote</x-primary.button>
                                     @else
-                                    <a href="{{ route('elections.vote', $election) }}"
-                                       class="rounded-md bg-primary p-2 text-white">
-                                        Vote
-                                    </a>
+                                        <x-primary.button-link href="{{ route('elections.vote', $election) }}">Vote
+                                        </x-primary.button-link>
                                     @endif
                                 </div>
                             </div>

@@ -27,9 +27,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/elections', [ElectionController::class, 'index'])
-    ->middleware('auth')
-    ->name('elections.index');
+Route::resource('/elections', ElectionController::class)
+    ->only('index', 'show')
+    ->middleware('auth');
 
 Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
     ->middleware('auth')

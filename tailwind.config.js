@@ -10,7 +10,22 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+            },
+            'colors': {
+                'primary': {
+                    DEFAULT: '#af2532',
+                    '50': '#fbf4f5',
+                    '100': '#f7e9eb',
+                    '200': '#ebc9cc',
+                    '300': '#dfa8ad',
+                    '400': '#c76670',
+                    '500': '#af2532',
+                    '600': '#9e212d',
+                    '700': '#831c26',
+                    '800': '#69161e',
+                    '900': '#561219'
+                }
             },
         },
     },

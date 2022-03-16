@@ -44,9 +44,16 @@ class DatabaseSeeder extends Seeder
             Department::all()->each(function ($department) {
                 Election::factory(rand(1, 3))->create([
                     'department_id' => $department->id,
-                ]);
+                ])->each(function ($election) {
+                    Candidate::factory(rand(2, 5))->hasAttached(
+                        Vote::factory()->count(rand(4, 10)),
+                    )->create([
+                        'election_id' => $election->id,
+                    ]);
+
+                });
             });
-            Candidate::factory(20)->create();
+//            Candidate::factory(20)->create();
 //            Vote::factory(20)->create();
         }
     }

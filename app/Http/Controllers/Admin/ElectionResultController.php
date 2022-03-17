@@ -13,13 +13,14 @@ class ElectionResultController extends Controller
     {
         $positions = $election->electionType->positions;
         $candidates = $election->candidates()
-            ->with(['position', 'user', 'votes'])
+            ->with(['position', 'user'])
+            ->withCount('votes')
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
         return view('admin.elections.result.show', compact(
-            'election', 'positions', 'candidates'
+            'election', 'positions', 'candidates',
         ));
     }
 }

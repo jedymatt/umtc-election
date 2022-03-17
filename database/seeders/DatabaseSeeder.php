@@ -40,14 +40,17 @@ class DatabaseSeeder extends Seeder
                 'email' => 'user@example.com'
             ]);
 
-            User::factory(20)->create();
+//            User::factory(20)->create();
             Department::all()->each(function ($department) {
-                Election::factory(rand(1, 3))->create([
+                Election::factory()->has(
+                    Candidate::factory()->count(25)
+                        ->hasAttached(
+                            Vote::factory(5)
+                        ),
+                )->create([
                     'department_id' => $department->id,
                 ]);
             });
-            Candidate::factory(20)->create();
-//            Vote::factory(20)->create();
         }
     }
 }

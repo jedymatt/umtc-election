@@ -30,7 +30,7 @@
                                 <div class="mt-4">
                                     <span class="font-bold text-lg text-primary">{{ $position->name }}</span>
                                     @foreach($candidates->where('position_id', $position->id) as $candidate)
-                                        <div class="mt-2 sm:pl-6">
+                                        <div class="mt-2">
                                             <input id="positions.{{$position->id}}.candidates.{{$candidate->id}}"
                                                    name="candidates[{{ $position->id }}]" type="radio"
                                                    class="text-primary"

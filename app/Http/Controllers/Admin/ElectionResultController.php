@@ -20,7 +20,7 @@ class ElectionResultController extends Controller
             ->get();
 
         return view('admin.elections.result.show', compact(
-            'election', 'positions', 'candidates'
+            'election', 'positions', 'candidates',
         ));
     }
 }

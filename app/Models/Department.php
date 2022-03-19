@@ -32,12 +32,11 @@ class Department extends Model
         return $this->hasMany(Election::class)->ended()->ofDepartment($this->id);
     }
 
-    public function availableDsgElections(): HasMany
+    public function endedDsgElections(): HasMany
     {
         return $this->hasMany(Election::class)
-            ->where('start_at', '<=', now())
-            ->where('end_at', '>=', now())
-            ->where('election_type_id', 1)
+            ->where('end_at', '<', now())
+            ->where('election_type_id', ElectionType::TYPE_DSG)
             ->whereNull('cdsg_id');
     }
 

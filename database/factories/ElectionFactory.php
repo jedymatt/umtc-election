@@ -35,4 +35,14 @@ class ElectionFactory extends Factory
             ];
         });
     }
+
+    public function ended()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+              'start_at' => $this->faker->dateTimeBetween(),
+              'end_at' => Carbon::now(),
+            ];
+        });
+    }
 }

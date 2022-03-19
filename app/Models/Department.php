@@ -38,7 +38,7 @@ class Department extends Model
             ->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
             ->where('election_type_id', 1)
-            ->whereNull('tag_id');
+            ->whereNull('cdsg_id');
     }
 
 }

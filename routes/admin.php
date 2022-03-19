@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DSGElectionController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionResultController;
+use App\Http\Controllers\Admin\ExportElectionResultController;
 use App\Http\Controllers\ElectionCandidateController;
 use Illuminate\Support\Facades\Route;
 
@@ -108,5 +109,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('elections.candidates.index');
 
     Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
+        ->middleware('auth:admin')
         ->name('elections.result.show');
+
+    Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
+        ->name('elections.result.export-excel');
 });

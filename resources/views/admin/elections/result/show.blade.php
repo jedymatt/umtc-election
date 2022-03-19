@@ -51,7 +51,7 @@
                         </div>
                     @endforeach
                     <div class="flex justify-end mt-4">
-                        <x-primary.button type="button">Export Spreadsheet</x-primary.button>
+                        <x-primary.button-link href="{{ route('admin.elections.result.export-excel', $election) }}">Export Excel</x-primary.button-link>
                     </div>
                 </div>
             </div>

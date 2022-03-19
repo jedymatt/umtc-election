@@ -103,6 +103,6 @@ class Election extends Model
     public function scopeOfDepartment(Builder $query, int $departmentId): Builder
     {
         return $query->where('department_id', $departmentId)
-            ->where('election_type_id', ElectionType::DSG);
+            ->where('election_type_id', ElectionType::TYPE_DSG);
     }
 }

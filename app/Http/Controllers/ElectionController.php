@@ -19,12 +19,12 @@ class ElectionController extends Controller
 
         $activeElections = Election::with(['department', 'electionType'])
             ->active()->ofDepartment($user->department_id)
-            ->orWhere('election_type_id', ElectionType::CDSG)
+            ->orWhere('election_type_id', ElectionType::TYPE_CDSG)
             ->get();
 
         $endedElections = Election::ended()
             ->ofDepartment($user->department_id)
-            ->orWhere('election_type_id', ElectionType::CDSG)
+            ->orWhere('election_type_id', ElectionType::TYPE_CDSG)
             ->get();
         return view('elections.index', compact('activeElections', 'endedElections'));
     }

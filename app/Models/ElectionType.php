@@ -10,8 +10,8 @@ class ElectionType extends Model
 {
     use HasFactory;
 
-    public const DSG = 1;
-    public const CDSG = 2;
+    public const TYPE_DSG = 1;
+    public const TYPE_CDSG = 2;
 
     protected $guarded = [
         'name',

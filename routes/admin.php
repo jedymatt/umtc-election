@@ -112,5 +112,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('elections.result.show');
 
-    Route::post('/elections/{election}/export-result', [ExportElectionResultController::class, 'store']);
+    Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
+        ->name('elections.result.export-excel');
 });

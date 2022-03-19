@@ -20,6 +20,7 @@ class Election extends Model
         'end_at',
         'election_type_id',
         'department_id',
+        'cdsg_id',
     ];
 
     protected $casts = [
@@ -45,6 +46,11 @@ class Election extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function cdsg(): BelongsTo
+    {
+        return $this->belongsTo(Election::class, 'id', 'cdsg_id');
     }
 
     public function status(): Attribute
@@ -104,5 +110,10 @@ class Election extends Model
     {
         return $query->where('department_id', $departmentId)
             ->where('election_type_id', ElectionType::TYPE_DSG);
+    }
+
+    public function scopeNoCdsg(Builder $query)
+    {
+        return $query->where('cdsg_id', null);
     }
 }

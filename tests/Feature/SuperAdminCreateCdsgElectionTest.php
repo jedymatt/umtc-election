@@ -99,7 +99,7 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
     {
         $superAdmin = Admin::factory()->superAdmin()->create();
 
-        $departments = Department::with('availableDsgElections')->get();
+        $departments = Department::with('endedDsgElections')->get();
         $elections = $departments->mapWithKeys(function (Department $department) {
             $election = $this->faker->randomElement($department->availableDsgElections);
 
@@ -122,7 +122,7 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
     {
         $superAdmin = Admin::factory()->superAdmin()->create();
 
-        $departments = Department::with('availableDsgElections')->get();
+        $departments = Department::with('endedDsgElections')->get();
         $elections = $departments->mapWithKeys(function (Department $department) {
             $election = $this->faker->randomElement($department->availableDsgElections);
             return [$department->id => $election->id];

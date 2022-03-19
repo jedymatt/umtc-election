@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
-use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +15,7 @@ class CdsgElectionController extends Controller
 {
     public function create()
     {
-        $departments = Department::with('availableDsgElections')->get();
+        $departments = Department::with('endedDsgElections')->get();
         return view('admin.cdsg-elections.create', compact('departments'));
     }
 

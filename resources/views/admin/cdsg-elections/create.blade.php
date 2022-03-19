@@ -39,7 +39,7 @@
                             @foreach($departments as $department)
                                 <span>{{ $department->name }}</span>
                                 <div>
-                                    @foreach($department->availableDsgElections as $election)
+                                    @foreach($department->endedDsgElections as $election)
                                         <div>
                                             <input id="elections[{{ $department->id }}][{{ $election->id }}]"
                                                    type="radio"

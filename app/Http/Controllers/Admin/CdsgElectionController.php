@@ -43,6 +43,7 @@ class CdsgElectionController extends Controller
         $election = Election::make($validator->validated());
         $election->electionType()->associate($this->electionType);
         $election->save();
+        // TODO: Remove Tag implementation
         $tag = Tag::create();
         $election->tag()->associate($tag);
         Election::whereIn('id', $request->input('elections'))

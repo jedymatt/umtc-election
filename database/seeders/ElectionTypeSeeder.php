@@ -17,11 +17,11 @@ class ElectionTypeSeeder extends Seeder
     {
         $electionTypes = [
             [
-                'id' => ElectionType::DSG,
+                'id' => ElectionType::TYPE_DSG,
                 'name' => 'DSG',
             ],
             [
-                'id' => ElectionType::CDSG,
+                'id' => ElectionType::TYPE_CDSG,
                 'name' => 'CDSG',
             ],
         ];

@@ -40,7 +40,6 @@ class DatabaseSeeder extends Seeder
                 'email' => 'user@example.com'
             ]);
 
-//            User::factory(20)->create();
             Department::all()->each(function ($department) {
                 Election::factory()->has(
                     Candidate::factory()->count(25)
@@ -49,6 +48,10 @@ class DatabaseSeeder extends Seeder
                         ),
                 )->create([
                     'department_id' => $department->id,
+                ]);
+
+                Election::factory(5)->ended()->create([
+                    'department_id' => $department->id
                 ]);
             });
         }

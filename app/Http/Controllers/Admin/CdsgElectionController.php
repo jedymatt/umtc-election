@@ -14,13 +14,6 @@ use Illuminate\Validation\Rule;
 
 class CdsgElectionController extends Controller
 {
-    protected $electionType;
-
-    public function __construct()
-    {
-        $this->electionType = ElectionType::whereName('CDSG')->firstOrFail();
-    }
-
     public function create()
     {
         $departments = Department::with('availableDsgElections')->get();
@@ -41,13 +34,10 @@ class CdsgElectionController extends Controller
         ]);
 
         $election = Election::make($validator->validated());
-        $election->electionType()->associate($this->electionType);
+        $election->electionType()->associate(ElectionType::TYPE_CDSG);
         $election->save();
-        // TODO: Remove Tag implementation
-        $tag = Tag::create();
-        $election->tag()->associate($tag);
         Election::whereIn('id', $request->input('elections'))
-            ->update(['tag_id' => $tag->id]);
+            ->update(['cdsg_id' => $election->id]);
         return redirect()->route('admin.elections.index');
     }
 }

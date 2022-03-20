@@ -2,6 +2,15 @@
 
 University of Mindanao Tagum College Election System
 
+## Prerequisites
+
+* Php 8.0.2 or up
+* Node and Npm
+* composer
+* MySQL
+* XAMPP (Optional)
+* Docker (Optional)
+
 ## Run Locally
 
 Clone the repository and go to umtc-election directory
@@ -20,9 +29,12 @@ Note: If you are using laravel sail, replace `.env.example` to `.env.sail` inste
 
 Then, configure the .env file according to your use case.
 
-Install composer dependencies
+Install application dependencies and compile assets
 ```shell
 composer install
+
+npm install
+npm run dev
 ```
 
 Populate the tables and the data to the database

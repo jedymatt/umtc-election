@@ -20,7 +20,9 @@ class ElectionVoteController extends Controller
             ->where('user_id', $user->id)
             ->exists();
 
-        abort_if($hasVote, 403);
+        $electionEnded = $election->end_at < now();
+
+        abort_if($electionEnded || $hasVote, 403);
 
         $positions = $election->electionType->positions;
 
@@ -43,14 +45,16 @@ class ElectionVoteController extends Controller
             ->where('user_id', $user->id)
             ->exists();
 
-        abort_if($hasVote, 403);
+        $electionEnded = $election->end_at < now();
+
+        abort_if($electionEnded || $hasVote, 403);
 
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',
         ]);
 
         $validated = $validator->validated();
-        
+
         $vote = Vote::create([
             'user_id' => $user->id,
             'election_id' => $election->id,

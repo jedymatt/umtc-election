@@ -29,7 +29,7 @@ Note: If you are using laravel sail, replace `.env.example` to `.env.sail` inste
 
 Then, configure the .env file according to your use case.
 
-Install application dependencies and compile assets
+Install the dependencies and then compile the assets
 ```shell
 composer install
 

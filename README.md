@@ -20,6 +20,11 @@ Note: If you are using laravel sail, replace `.env.example` to `.env.sail` inste
 
 Then, configure the .env file according to your use case.
 
+Install composer dependencies
+```shell
+composer install
+```
+
 Populate the tables and the data to the database
 ```shell
 php artisan migrate --seed

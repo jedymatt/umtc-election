@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             Department::all()->each(function ($department) {
-                Election::factory()->has(
+                Election::factory(3)->has(
                     Candidate::factory()->count(25)
                         ->hasAttached(
                             Vote::factory(5)
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
                     'department_id' => $department->id,
                 ]);
 
-                Election::factory(5)->ended()->create([
+                Election::factory(3)->ended()->create([
                     'department_id' => $department->id
                 ]);
             });

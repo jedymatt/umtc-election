@@ -22,7 +22,6 @@
                     <div class="mt-4">
                         <form action="{{ route('elections.vote', $election) }}" method="post">
                             @csrf
-                            <input type="hidden" name="candidates[]">
                             @error('candidates')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror

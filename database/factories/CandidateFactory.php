@@ -20,7 +20,7 @@ class CandidateFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->randomElement(User::all()),
+            'user_id' => User::factory(),
             'position_id' => $this->faker->randomElement(Position::all()),
             'election_id' => Election::factory(),
         ];

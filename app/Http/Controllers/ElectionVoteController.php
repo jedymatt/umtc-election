@@ -6,12 +6,22 @@ use App\Models\Election;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class ElectionVoteController extends Controller
 {
-    public function create(Election $election)
+    public function create(Request $request, Election $election)
     {
+        $user = $request->user();
+
+        $hasVote = Vote::where('election_id', $election->id)
+            ->where('user_id', $user->id)
+            ->exists();
+
+        abort_if($hasVote, 403);
+
         $positions = $election->electionType->positions;
 
         $candidates = $election->candidates()
@@ -27,19 +37,29 @@ class ElectionVoteController extends Controller
 
     public function store(Request $request, Election $election)
     {
-        $validator = Validator::make($request->all(),[
-            'candidates' => 'required|array|size:7',
+        $user = $request->user();
+
+        $hasVote = Vote::where('election_id', $election->id)
+            ->where('user_id', $user->id)
+            ->exists();
+
+        abort_if($hasVote, 403);
+
+        $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',
         ]);
 
-        $vote = Vote::make([
-            'user_id' => $request->user()->id,
+        $validated = $validator->validated();
+        
+        $vote = Vote::create([
+            'user_id' => $user->id,
             'election_id' => $election->id,
         ]);
 
-        $vote->candidates()->sync($validator->validated());
-        $vote->create();
+        if (array_key_exists('candidates', $validated)) {
+            $vote->candidates()->sync($validated['candidates']);
+        }
 
-        return redirect()->route('elections.active');
+        return redirect()->route('elections.index');
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Election;
-use Illuminate\Http\Request;
+use function view;
 
 class ElectionResultController extends Controller
 {

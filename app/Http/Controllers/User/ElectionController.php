@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Models\Department;
+use App\Http\Controllers\Controller;
 use App\Models\Election;
 use App\Models\ElectionType;
-use App\Models\User;
-use App\Models\Vote;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function view;
 
 class ElectionController extends Controller
 {

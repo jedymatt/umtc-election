@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Program;
-use App\Models\User;
 use App\Models\YearLevel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use function redirect;
+use function view;
 
 class UserProfileController extends Controller
 {

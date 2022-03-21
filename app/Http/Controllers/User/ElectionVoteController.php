@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Election;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+use function abort_if;
+use function now;
+use function redirect;
+use function view;
 
 class ElectionVoteController extends Controller
 {

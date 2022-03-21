@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\DoneElectionController;
-use App\Http\Controllers\ElectionResultController;
-use App\Http\Controllers\ElectionVoteController;
 use App\Http\Controllers\ExpiredElectionController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\User\ElectionController;
+use App\Http\Controllers\User\ElectionResultController;
+use App\Http\Controllers\User\ElectionVoteController;
+use App\Http\Controllers\User\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*

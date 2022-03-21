@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
             ]);
 
             User::factory()->create([
-                'email' => 't.user.123456@umindanao.edu.ph'
+                'name' => 'Test User',
+                'email' => 't.user.123456.tc@umindanao.edu.ph'
             ]);
 
             Department::all()->each(function ($department) {

@@ -37,20 +37,20 @@ class DatabaseSeeder extends Seeder
             ]);
 
             User::factory()->create([
-                'email' => 'user@example.com'
+                'email' => 't.user.123456@umindanao.edu.ph'
             ]);
 
             Department::all()->each(function ($department) {
-                Election::factory(3)->has(
-                    Candidate::factory()->count(25)
+                Election::factory(2)->has(
+                    Candidate::factory()->count(3)
                         ->hasAttached(
-                            Vote::factory(5)
+                            Vote::factory(3)
                         ),
                 )->create([
                     'department_id' => $department->id,
                 ]);
 
-                Election::factory(3)->ended()->create([
+                Election::factory(1)->ended()->create([
                     'department_id' => $department->id
                 ]);
             });

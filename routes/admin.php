@@ -27,12 +27,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('dashboard');
 
-    Route::get('/register', [RegisteredUserController::class, 'create'])
-        ->middleware('guest:admin')
-        ->name('register');
+    // Route::get('/register', [RegisteredUserController::class, 'create'])
+    //     ->middleware('guest:admin')
+    //     ->name('register');
 
-    Route::post('/register', [RegisteredUserController::class, 'store'])
-        ->middleware('guest:admin');
+    // Route::post('/register', [RegisteredUserController::class, 'store'])
+    //     ->middleware('guest:admin');
 
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
         ->middleware('guest:admin')

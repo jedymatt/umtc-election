@@ -63,4 +63,4 @@ Run the application
 ```shell
 php artisan serve
 ```
-Finally, visit http://localhost:8000 to view the site.
+Finally, visit <http://localhost:8000> to view the site.

@@ -20,6 +20,12 @@
                             />
                         </div>
                         <div class="mt-4">
+                            <x-label value="Email Address"/>
+                            <x-input type="email" :value="$user->email"
+                            class="w-full mt-1" disabled
+                            />
+                        </div>
+                        <div class="mt-4">
                             <x-label value="Department"/>
                             <select name="department_id" id="department_id" class="w-full">
                                 @foreach($departments as $department)
@@ -29,7 +35,7 @@
                         </div>
                         <div class="mt-4">
                             <x-label value="Year Level"/>
-                            <select name="year_level_id" id="year_level_id">
+                            <select name="year_level_id" id="year_level_id" class="w-full">
                                 @foreach($yearLevels as $yearLevel)
                                     <option value="{{ $yearLevel  }}"> {{ $yearLevel->name }}</option>
                                 @endforeach
@@ -37,13 +43,13 @@
                         </div>
                         <div class="mt-4">
                             <x-label value="Program"/>
-                            <select name="program_id" id="program_id">
+                            <select name="program_id" id="program_id" class="w-full">
                                 @foreach($programs as $program)
                                     <option value="{{ $program  }}"> {{ $program->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="flex justify-end items-center h-4">
+                        <div class="flex justify-end items-center mt-4">
                             <x-button>Save</x-button>
                         </div>
                     </form>

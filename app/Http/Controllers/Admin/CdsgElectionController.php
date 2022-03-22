@@ -15,8 +15,9 @@ class CdsgElectionController extends Controller
 {
     public function create()
     {
-        $departments = Department::with('endedDsgElections')->get();
-        return view('admin.cdsg-elections.create', compact('departments'));
+        $departments = Department::all();
+        $elections = Election::ended()->whereNull('cdsg_id')->get();
+        return view('admin.cdsg-elections.create', compact('departments', 'elections'));
     }
 
     public function store(Request $request)
@@ -33,7 +34,7 @@ class CdsgElectionController extends Controller
         ]);
 
         $election = Election::make($validator->validated());
-        $election->electionType()->associate(ElectionType::TYPE_CDSG);
+        $election->election_type_id = ElectionType::TYPE_CDSG;
         $election->save();
         Election::whereIn('id', $request->input('elections'))
             ->update(['cdsg_id' => $election->id]);

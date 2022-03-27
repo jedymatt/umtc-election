@@ -1,32 +1,43 @@
 <div>
     <div>
-        <div>
-            <label>
-                <input wire:model="searchText" type="text" placeholder="Search using name or email">
-            </label>
-            <label>
-                <select wire:model="selectedPositionId">
-                    @foreach($positions as $position)
-                        <option value="{{ $position->id }}">
-                            {{ $position->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </label>
-            <button type="button" wire:click.prevent="addCandidate">Add</button>
+        <div class="sm:flex gap-4">
+            <input wire:model="searchText" type="search" placeholder="Search using name or email"
+                   class="rounded-md w-full inline-block"
+            >
+            <select wire:model="selectedPositionId" class="rounded-md inline-block w-full mt-1 sm:mt-0">
+                @foreach($positions as $position)
+                    <option value="{{ $position->id }}">
+                        {{ $position->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
-        <div>
+        <div class="mt-1">
+{{--            @if($searchText != '')--}}
+                <ul>
+                    @foreach($users as $user)
+                        <li class="border-b">
+                            <a href="#" wire:click.prevent="addCandidate({{ $user->id }})"
+                               class="block hover:bg-gray-100 w-full px-4 py-2"
+                            >
+                                {{ $user->name }}
+                                <span class="block text-sm text-gray-800">
+                                {{ $user->email }}
+                            </span>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="text-gray-600 text-sm px-4 border-b py-2">
 
-            @foreach($users as $user)
-                <div>
-                    <a href="#" wire:click.prevent="addCandidate({{ $user->id }})">
-                        {{ $user->name }} ({{ $user->email }})
-                    </a>
+                    @if($users->isNotEmpty())
+
+                        Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }} users
+                    @elseif($searchText != '')
+                        No results
+                    @endif
                 </div>
-            @endforeach
-            <div>
-
-            </div>
+{{--            @endif--}}
         </div>
     </div>
     <div>
@@ -53,7 +64,7 @@
                                 <tr class="border-b">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {{ $candidate['user_name'] }}
-                                        <div class="font-light">
+                                        <div class="font-light text-gray-700">
                                             {{ $candidate['user_email'] }}
                                         </div>
                                     </td>
@@ -66,14 +77,18 @@
                                             Remove
                                         </button>
                                     </td>
-                                <input type="hidden" name="candidates[{{ $loop->index }}][user_id]"
-                                       value="{{ $candidate['user_id']  }}">
-                                <input type="hidden" name="candidates[{{ $loop->index }}][position_id]"
-                                       value="{{ $candidate['position_id'] }}">
+                                    <input type="hidden" name="candidates[{{ $loop->index }}][user_id]"
+                                           value="{{ $candidate['user_id']  }}">
+                                    <input type="hidden" name="candidates[{{ $loop->index }}][position_id]"
+                                           value="{{ $candidate['position_id'] }}">
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="max">Add Candidates</td>
+                                <tr class="border-b">
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                                    colspan="3"
+                                    >
+                                        <span class="flex justify-center">Empty Candidates</span>
+                                    </td>
                                 </tr>
                             @endforelse
                             </tbody>

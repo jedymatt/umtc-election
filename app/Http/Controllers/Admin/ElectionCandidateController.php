@@ -1,16 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Candidate;
+use App\Http\Controllers\Controller;
 use App\Models\Election;
-use App\Models\ElectionType;
-use App\Models\Position;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use function view;
 
 class ElectionCandidateController extends Controller
 {

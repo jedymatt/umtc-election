@@ -48,7 +48,7 @@
                         <div class="mt-4">
                             <span class="text-xl font-medium text-primary">Select DSG Elections</span>
                             @foreach($departments as $department)
-                                <div x-data="{ open: false }" class="my-2">
+                                <div x-data="{ open: true }" class="my-2">
                                     <button type="button" class="block text-left"
                                             @click="open=!open">
                                         {{ $department->name }}

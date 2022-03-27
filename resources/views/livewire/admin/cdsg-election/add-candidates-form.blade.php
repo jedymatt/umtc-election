@@ -5,7 +5,7 @@
                 <input wire:model="searchText" type="text" placeholder="Search using name or email">
             </label>
             <label>
-                <select wire:model="selectedPositionId" name="position_id">
+                <select wire:model="selectedPositionId">
                     @foreach($positions as $position)
                         <option value="{{ $position->id }}">
                             {{ $position->name }}
@@ -19,12 +19,14 @@
 
             @foreach($users as $user)
                 <div>
-                    <a wire:click.prevent="addCandidate">{{ $user->name }} ({{ $user->email }})</a>
+                    <a href="#" wire:click.prevent="addCandidate({{ $user->id }})">
+                        {{ $user->name }} ({{ $user->email }})
+                    </a>
                 </div>
             @endforeach
             <div>
 
-</div>
+            </div>
         </div>
     </div>
     <div>
@@ -50,17 +52,24 @@
                             @forelse($candidates as $candidate)
                                 <tr class="border-b">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $candidate->name }}
-                                        <div>
-                                            {{ $candidate->email }}
+                                        {{ $candidate['user_name'] }}
+                                        <div class="font-light">
+                                            {{ $candidate['user_email'] }}
                                         </div>
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {{ $candidate->position }}
+                                        {{ $candidate['position_name'] }}
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        <button>Remove</button>
+                                        <button class="text-red-500 hover:underline" type="button"
+                                                wire:click.prevent="removeCandidate({{ json_encode($candidate)  }})">
+                                            Remove
+                                        </button>
                                     </td>
+                                <input type="hidden" name="candidates[{{ $loop->index }}][user_id]"
+                                       value="{{ $candidate['user_id']  }}">
+                                <input type="hidden" name="candidates[{{ $loop->index }}][position_id]"
+                                       value="{{ $candidate['position_id'] }}">
                                 </tr>
                             @empty
                                 <tr>

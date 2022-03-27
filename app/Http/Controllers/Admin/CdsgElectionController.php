@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
@@ -31,6 +32,8 @@ class CdsgElectionController extends Controller
             'end_at' => 'required|date|after:start_at',
             'elections.*' => 'required|integer',
             'elections' => 'required|array|size:7',
+            'candidates.*.user_id' => 'integer',
+            'candidates.*.position_id' => 'integer',
         ]);
 
         $election = Election::make($validator->validated());
@@ -38,6 +41,8 @@ class CdsgElectionController extends Controller
         $election->save();
         Election::whereIn('id', $request->input('elections'))
             ->update(['cdsg_id' => $election->id]);
+
+        $election->candidates()->createMany($validator->validated()['candidates']);
         return redirect()->route('admin.elections.index');
     }
 }

@@ -4,8 +4,12 @@ namespace App\Http\Livewire\Admin\CdsgElection;
 
 use App\Models\Candidate;
 use App\Models\Election;
+use App\Models\ElectionType;
 use App\Models\Position;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,7 +17,6 @@ use Livewire\WithPagination;
 class AddCandidatesForm extends Component
 {
     public Collection $candidates;
-    public $election;
     public $positions;
     public $searchText = '';
 
@@ -21,20 +24,31 @@ class AddCandidatesForm extends Component
     public $selectedUserId = null;
 
 
-    public function mount(Election $election)
+    public function mount()
     {
-        $this->positions = $election->electionType->positions;
+        $this->positions = Position::whereRelation('electionType', 'id', ElectionType::TYPE_CDSG)->get();
         $this->selectedPositionId = $this->positions->first()->id;
         $this->candidates = collect();
     }
 
     public function render()
     {
+        $users = new LengthAwarePaginator([], 0, 5);
+        if ($this->searchText != '') {
+            $users = User::search($this->searchText)
+                ->query(function (Builder $query) {
+                    $users = $this->candidates->map(function ($candidate) {
+                        return $candidate['user_id'];
+                    });
+                    $query->whereNotIn('id', $users);
+                })
+                ->paginate(5);
+        }
+
         return view('livewire.admin.cdsg-election.add-candidates-form', [
-            'users' => User::search($this->searchText)->paginate(5),
+            'users' => $users,
         ]);
     }
-
 
     public function addCandidate(User $user)
     {
@@ -46,8 +60,6 @@ class AddCandidatesForm extends Component
 
             'position_id' => $this->selectedPositionId,
             'position_name' => $this->positions->where('id', $this->selectedPositionId)->first()->name,
-
-            'election_id' => $this->election->id,
         ]);
     }
 

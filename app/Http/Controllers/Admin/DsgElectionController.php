@@ -10,7 +10,7 @@ use App\Models\ElectionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DSGElectionController extends Controller
+class DsgElectionController extends Controller
 {
     protected $electionType;
     protected $departments;

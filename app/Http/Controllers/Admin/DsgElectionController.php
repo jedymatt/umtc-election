@@ -10,14 +10,12 @@ use App\Models\ElectionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DSGElectionController extends Controller
+class DsgElectionController extends Controller
 {
-    protected $electionType;
     protected $departments;
 
     public function __construct()
     {
-        $this->electionType = ElectionType::whereName('DSG')->firstOrFail();
         $this->departments = Department::orderBy('name')->get();
     }
 
@@ -35,12 +33,16 @@ class DSGElectionController extends Controller
             'start_at' => 'required|date|before_or_equal:end_at',
             'end_at' => 'required|date|after:start_at',
             'department_id' => 'required|integer',
-
+            'candidates.*.user_id' => 'integer',
+            'candidates.*.position_id' => 'integer',
         ]);
 
+
         $election = Election::make($validator->validated());
-        $election->electionType()->associate($this->electionType);
+        $election->election_type_id = ElectionType::TYPE_DSG;
         $election->save();
+
+        $election->candidates()->createMany($validator->validated()['candidates']);
 
         return redirect()->route('admin.elections.index');
     }

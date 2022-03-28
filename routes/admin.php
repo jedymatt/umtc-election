@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DSGElectionController;
+use App\Http\Controllers\Admin\DsgElectionController;
 use App\Http\Controllers\Admin\ElectionCandidateController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionResultController;
@@ -83,11 +83,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 
-    Route::get('/dsg-elections', [DSGElectionController::class, 'create'])
+    Route::get('/dsg-elections', [DsgElectionController::class, 'create'])
         ->middleware('auth:admin')
         ->name('dsg-elections');
 
-    Route::post('/dsg-elections', [DSGElectionController::class, 'store'])
+    Route::post('/dsg-elections', [DsgElectionController::class, 'store'])
         ->middleware('auth:admin')
         ->name('dsg-elections');
 

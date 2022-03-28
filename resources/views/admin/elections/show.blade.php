@@ -27,10 +27,6 @@
                         <x-label for="end_at" value="End At"/>
                         <x-input type="datetime-local" id="end_at" name="end_at" :value="$election->end_at" disabled/>
                     </div>
-
-                    <div class="mt-4">
-                        <a href="{{ route('admin.elections.candidates.index', $election->id) }}">Go to Candidates</a>
-                    </div>
                 </div>
             </div>
         </div>

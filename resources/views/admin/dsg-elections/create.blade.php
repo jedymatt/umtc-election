@@ -37,7 +37,7 @@
                         <div class="mt-4">
                             <x-label for="department_id" value="Department"/>
                             <select name="department_id" id="department_id" @selected(old('department_id'))
-                            class="mt-1 w-full">
+                            class="mt-1 w-full rounded-md">
                                 @foreach($departments as $department)
                                     <option value="{{ $department->id }}">
                                         <span>{{ $department->name }}</span>
@@ -47,6 +47,14 @@
                             @error('department_id')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
+                        </div>
+                        <div class="mt-4 border-t border-gray-200">
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-xl font-medium text-primary">Candidates</span>
+                            <div class="my-2">
+                                <livewire:admin.dsg-election.add-candidates-form />
+                            </div>
                         </div>
                         <div class="flex justify-end mt-4">
                             <x-button>Create</x-button>

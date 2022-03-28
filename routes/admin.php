@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DsgElectionController;
-use App\Http\Controllers\Admin\ElectionCandidateController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
@@ -102,10 +101,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/elections', ElectionController::class)
         ->except('create')
         ->middleware('auth:admin');
-
-    Route::get('/elections/{election}/candidates', [ElectionCandidateController::class, 'index'])
-        ->middleware('auth:admin')
-        ->name('elections.candidates.index');
 
     Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
         ->middleware('auth:admin')

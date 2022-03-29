@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreElectionRequest;
 use App\Http\Requests\Admin\UpdateElectionRequest;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Models\Position;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use function view;
 
 class ElectionController extends Controller
@@ -28,7 +32,19 @@ class ElectionController extends Controller
 
     public function show(Election $election)
     {
-        $positions = $election->loadMissing('electionType')->electionType->positions;
-        return view('admin.elections.show', compact('election', 'positions'));
+        $positions = Position::ofElection($election)->get();
+        // $candidates = Candidate::ofElection($election)
+        //     ->with(['user', 'user.department'])
+        //     ->withCount('votes')
+        //     ->orderBy(User::select('name')
+        //         ->whereColumn('candidates.user_id', 'users.id'))
+        //     ->get();
+
+        $candidates = Candidate::ofElection($election)
+            ->with(['user', 'user.department'])
+            ->join('users', 'candidates.user_id', '=', 'users.id')
+            ->orderBy('users.name')
+            ->get();
+        return view('admin.elections.show', compact('election', 'positions', 'candidates'));
     }
 }

@@ -817,6 +817,9 @@ select {
 .table-auto {
   table-layout: auto;
 }
+.table-fixed {
+  table-layout: fixed;
+}
 .origin-top-left {
   transform-origin: top left;
 }
@@ -1003,6 +1006,9 @@ select {
 }
 .p-2 {
   padding: 0.5rem;
+}
+.p-4 {
+  padding: 1rem;
 }
 .px-4 {
   padding-left: 1rem;

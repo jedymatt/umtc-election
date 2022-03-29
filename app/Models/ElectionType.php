@@ -13,6 +13,8 @@ class ElectionType extends Model
     public const TYPE_DSG = 1;
     public const TYPE_CDSG = 2;
 
+    public $timestamps = false;
+
     protected $guarded = [
         'name',
         'description'

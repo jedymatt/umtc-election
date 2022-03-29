@@ -21,11 +21,48 @@
                     </div>
                     <div class="mt-4">
                         <x-label for="start_at" value="Start At"/>
-                        <x-input type="datetime-local" id="start_at" name="start_at" :value="$election->start_at" disabled/>
+                        <x-input type="datetime-local" id="start_at" name="start_at" :value="$election->start_at"
+                                 disabled/>
                     </div>
                     <div class="mt-4">
                         <x-label for="end_at" value="End At"/>
                         <x-input type="datetime-local" id="end_at" name="end_at" :value="$election->end_at" disabled/>
+                    </div>
+
+                    <div class="mt-4">
+                        @foreach($positions as $position)
+                            <div class="mt-2">
+                                <table class="table-fixed border w-full">
+                                    <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th scope="col" colspan="2" class="text-left py-2">
+                                            {{ $position->name }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left">
+                                            Name
+                                        </th>
+                                        <th class="text-left">
+                                            Department
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($candidates->where('position_id', '=', $position->id) as $candidate)
+                                        <tr>
+                                            <td>
+                                                {{ $candidate->user->name }}
+                                            </td>
+                                            <td>
+                                                {{ $candidate->user->department->name }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

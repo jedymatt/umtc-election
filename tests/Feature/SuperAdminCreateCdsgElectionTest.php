@@ -22,7 +22,7 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->post('admin/cdsg-elections', []);
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     public function test_empty_elections()

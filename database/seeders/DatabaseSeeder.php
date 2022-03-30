@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
             ]);
-            
+
             Admin::factory()->create([
                 'email' => 'basic@example.com'
             ]);

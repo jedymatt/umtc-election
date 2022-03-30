@@ -20,4 +20,14 @@ class Position extends Model
     {
         $query->whereRelation('electionType', 'id', ElectionType::TYPE_CDSG);
     }
+
+    public function scopeDsgElection(Builder $query)
+    {
+        $query->whereRelation('electionType', 'id', ElectionType::TYPE_DSG);
+    }
+
+    public function scopeOfElectionType(Builder $query, ElectionType $electionType)
+    {
+        $query->whereRelation('electionType', 'id', $electionType->id);
+    }
 }

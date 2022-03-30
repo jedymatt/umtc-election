@@ -703,9 +703,6 @@ select {
 .mt-10 {
   margin-top: 2.5rem;
 }
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
 .block {
   display: block;
 }
@@ -820,9 +817,6 @@ select {
 .table-auto {
   table-layout: auto;
 }
-.table-fixed {
-  table-layout: fixed;
-}
 .origin-top-left {
   transform-origin: top left;
 }
@@ -866,9 +860,6 @@ select {
 .flex-col {
   flex-direction: column;
 }
-.flex-wrap {
-  flex-wrap: wrap;
-}
 .items-center {
   align-items: center;
 }
@@ -911,20 +902,11 @@ select {
   --tw-divide-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-divide-opacity));
 }
-.overflow-auto {
-  overflow: auto;
-}
 .overflow-hidden {
   overflow: hidden;
 }
-.overflow-scroll {
-  overflow: scroll;
-}
 .overflow-x-auto {
   overflow-x: auto;
-}
-.whitespace-normal {
-  white-space: normal;
 }
 .whitespace-nowrap {
   white-space: nowrap;
@@ -949,20 +931,17 @@ select {
 .border {
   border-width: 1px;
 }
-.border-4 {
-  border-width: 4px;
-}
 .border-b {
   border-bottom-width: 1px;
+}
+.border-r {
+  border-right-width: 1px;
 }
 .border-t {
   border-top-width: 1px;
 }
 .border-l-4 {
   border-left-width: 4px;
-}
-.border-r {
-  border-right-width: 1px;
 }
 .border-b-2 {
   border-bottom-width: 2px;
@@ -1018,18 +997,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(238 242 255 / var(--tw-bg-opacity));
 }
-.bg-primary-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(247 233 235 / var(--tw-bg-opacity));
-}
-.bg-primary-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(251 244 245 / var(--tw-bg-opacity));
-}
-.bg-primary-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(235 201 204 / var(--tw-bg-opacity));
-}
 .fill-current {
   fill: currentColor;
 }
@@ -1039,11 +1006,11 @@ select {
 .p-6 {
   padding: 1.5rem;
 }
-.p-2 {
-  padding: 0.5rem;
-}
 .p-4 {
   padding: 1rem;
+}
+.p-2 {
+  padding: 0.5rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1119,9 +1086,6 @@ select {
 .pt-1 {
   padding-top: 0.25rem;
 }
-.pl-4 {
-  padding-left: 1rem;
-}
 .text-left {
   text-align: left;
 }
@@ -1192,11 +1156,11 @@ select {
 .leading-tight {
   line-height: 1.25;
 }
-.leading-7 {
-  line-height: 1.75rem;
-}
 .leading-normal {
   line-height: 1.5;
+}
+.leading-7 {
+  line-height: 1.75rem;
 }
 .tracking-wider {
   letter-spacing: 0.05em;
@@ -1264,9 +1228,9 @@ select {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
 }
-.text-primary-900 {
+.text-primary-700 {
   --tw-text-opacity: 1;
-  color: rgb(86 18 25 / var(--tw-text-opacity));
+  color: rgb(131 28 38 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;

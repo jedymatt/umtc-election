@@ -26,7 +26,7 @@ class AddCandidatesForm extends Component
 
     public function mount()
     {
-        $this->positions = Position::whereRelation('electionType', 'id', ElectionType::TYPE_CDSG)->get();
+        $this->positions = Position::Cdsgelection()->get();
         $this->selectedPositionId = $this->positions->first()->id;
         $this->candidates = collect();
     }

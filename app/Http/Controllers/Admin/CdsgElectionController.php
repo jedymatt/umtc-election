@@ -14,8 +14,10 @@ use Illuminate\Validation\Rule;
 
 class CdsgElectionController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
+        abort_if(!$request->user('admin')->is_super_admin, 401);
+
         $departments = Department::all();
         $elections = Election::ended()->whereNull('cdsg_id')->get();
         return view('admin.cdsg-elections.create', compact('departments', 'elections'));
@@ -23,7 +25,7 @@ class CdsgElectionController extends Controller
 
     public function store(Request $request)
     {
-        abort_if(!$request->user('admin')->isSuperAdmin(), 403);
+        abort_if(!$request->user('admin')->is_super_admin, 401);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

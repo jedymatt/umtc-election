@@ -70,7 +70,7 @@ class Election extends Model
         });
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->start_at <= now() && $this->end_at >= now();
     }
@@ -80,19 +80,6 @@ class Election extends Model
         return $this->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
             ->latest();
-    }
-
-    public function hasVotedByUser(User $user)
-    {
-        $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
-
-        return $voteCount >= 1;
-    }
-
-
-    public function tag(): BelongsTo
-    {
-        return $this->belongsTo(Tag::class);
     }
 
     public function scopeActive(Builder $query): Builder

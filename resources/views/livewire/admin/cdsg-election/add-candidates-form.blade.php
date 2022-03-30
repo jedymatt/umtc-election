@@ -13,7 +13,6 @@
             </select>
         </div>
         <div class="mt-1">
-{{--            @if($searchText != '')--}}
                 <ul>
                     @foreach($users as $user)
                         <li class="border-b">
@@ -37,7 +36,6 @@
                         No results
                     @endif
                 </div>
-{{--            @endif--}}
         </div>
     </div>
     <div>

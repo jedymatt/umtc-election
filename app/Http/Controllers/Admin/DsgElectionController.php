@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreDSGElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
@@ -12,16 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class DsgElectionController extends Controller
 {
-    protected $departments;
-
-    public function __construct()
-    {
-        $this->departments = Department::orderBy('name')->get();
-    }
-
     public function create()
     {
-        $departments = $this->departments;
+        $departments = Department::orderBy('name')->get();
         return view('admin.dsg-elections.create', compact('departments'));
     }
 
@@ -40,9 +32,9 @@ class DsgElectionController extends Controller
 
         $election = Election::make($validator->validated());
         $election->election_type_id = ElectionType::TYPE_DSG;
-        $election->save();
 
         $election->candidates()->createMany($validator->validated()['candidates']);
+        $election->push();
 
         return redirect()->route('admin.elections.index');
     }

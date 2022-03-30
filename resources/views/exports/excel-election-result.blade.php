@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($candidates->filter(function ($candidate) use($position) { return $candidate->position_id == $position->id; }) as $candidate)
+        @foreach($candidates->where('position_id', '=', $position->id) as $candidate)
             <tr>
                 <td>{{ $candidate->user->name }}</td>
                 <td>{{ $candidate->votes_count }}</td>

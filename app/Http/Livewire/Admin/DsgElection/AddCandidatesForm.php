@@ -12,15 +12,16 @@ use Livewire\Component;
 
 class AddCandidatesForm extends Component
 {
-    public $search = '';
     public Collection $candidates;
-    public $positions;
+    public Collection $positions;
 
-    public $selectedPosition;
+    public int $selectedPosition;
+
+    public string $search = '';
 
     public function mount()
     {
-        $this->positions = Position::whereRelation('electionType', 'id', ElectionType::TYPE_DSG)->get();
+        $this->positions = Position::dsgElection()->get();
         $this->selectedPosition = $this->positions->first()->id;
         $this->candidates = collect();
     }

@@ -703,6 +703,9 @@ select {
 .mt-10 {
   margin-top: 2.5rem;
 }
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
 .block {
   display: block;
 }
@@ -863,6 +866,9 @@ select {
 .flex-col {
   flex-direction: column;
 }
+.flex-wrap {
+  flex-wrap: wrap;
+}
 .items-center {
   align-items: center;
 }
@@ -896,15 +902,29 @@ select {
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
 }
+.divide-x > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-x-reverse: 0;
+  border-right-width: calc(1px * var(--tw-divide-x-reverse));
+  border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+}
 .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-divide-opacity));
 }
+.overflow-auto {
+  overflow: auto;
+}
 .overflow-hidden {
   overflow: hidden;
 }
+.overflow-scroll {
+  overflow: scroll;
+}
 .overflow-x-auto {
   overflow-x: auto;
+}
+.whitespace-normal {
+  white-space: normal;
 }
 .whitespace-nowrap {
   white-space: nowrap;
@@ -928,6 +948,9 @@ select {
 }
 .border {
   border-width: 1px;
+}
+.border-4 {
+  border-width: 4px;
 }
 .border-b {
   border-bottom-width: 1px;
@@ -994,6 +1017,18 @@ select {
 .bg-indigo-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(238 242 255 / var(--tw-bg-opacity));
+}
+.bg-primary-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 233 235 / var(--tw-bg-opacity));
+}
+.bg-primary-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 244 245 / var(--tw-bg-opacity));
+}
+.bg-primary-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(235 201 204 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1084,6 +1119,9 @@ select {
 .pt-1 {
   padding-top: 0.25rem;
 }
+.pl-4 {
+  padding-left: 1rem;
+}
 .text-left {
   text-align: left;
 }
@@ -1092,6 +1130,9 @@ select {
 }
 .text-right {
   text-align: right;
+}
+.text-justify {
+  text-align: justify;
 }
 .align-middle {
   vertical-align: middle;
@@ -1153,6 +1194,9 @@ select {
 }
 .leading-7 {
   line-height: 1.75rem;
+}
+.leading-normal {
+  line-height: 1.5;
 }
 .tracking-wider {
   letter-spacing: 0.05em;
@@ -1219,6 +1263,10 @@ select {
 .text-gray-300 {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+.text-primary-900 {
+  --tw-text-opacity: 1;
+  color: rgb(86 18 25 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;

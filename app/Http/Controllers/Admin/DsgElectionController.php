@@ -11,9 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class DsgElectionController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $departments = Department::orderBy('name')->get();
+
+        if ($request->user('admin')->is_super_admin) {
+            $departments = Department::orderBy('name')->get();
+        } else {
+            $departments[] = $request->user('admin')->department;
+        }
         return view('admin.dsg-elections.create', compact('departments'));
     }
 

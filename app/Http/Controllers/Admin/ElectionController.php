@@ -32,19 +32,13 @@ class ElectionController extends Controller
 
     public function show(Election $election)
     {
-        $positions = Position::ofElection($election)->get();
-        // $candidates = Candidate::ofElection($election)
-        //     ->with(['user', 'user.department'])
-        //     ->withCount('votes')
-        //     ->orderBy(User::select('name')
-        //         ->whereColumn('candidates.user_id', 'users.id'))
-        //     ->get();
+         $candidates = Candidate::ofElection($election)
+             ->with(['user', 'user.department', 'position'])
+             ->orderBy('position_id')
+             ->orderBy(User::select('name')
+                 ->whereColumn('candidates.user_id', 'users.id'))
+             ->get();
 
-        $candidates = Candidate::ofElection($election)
-            ->with(['user', 'user.department'])
-            ->join('users', 'candidates.user_id', '=', 'users.id')
-            ->orderBy('users.name')
-            ->get();
-        return view('admin.elections.show', compact('election', 'positions', 'candidates'));
+        return view('admin.elections.show', compact('election', 'candidates'));
     }
 }

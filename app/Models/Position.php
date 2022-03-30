@@ -11,6 +11,8 @@ class Position extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function electionType(): BelongsToMany
     {
         return $this->belongsToMany(ElectionType::class);

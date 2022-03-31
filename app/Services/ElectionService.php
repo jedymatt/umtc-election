@@ -6,6 +6,8 @@ use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Vote;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class ElectionService
 {
@@ -34,5 +36,14 @@ class ElectionService
         }
 
         return true;
+    }
+
+    public function generateFileName(): string
+    {
+        $title = $this->election->title;
+        $extension = '.xlsx';
+
+        $dateString = Carbon::now()->format('M d, Y u');
+        return $title . ' ' . $dateString . $extension;
     }
 }

@@ -60,7 +60,9 @@ class ElectionFactory extends Factory
                 Candidate::factory()
                     ->count(rand(1, 5))
                     ->hasAttached(Vote::factory()
-                        ->count(rand(1, 5)))
+                        ->count(rand(1, 5))
+                        ->for(User::factory()
+                            ->state(new Sequence(['department_id' => $election->department_id]))))
                     ->create([
                         'election_id' => $election->id,
                         'position_id' => $positionId,

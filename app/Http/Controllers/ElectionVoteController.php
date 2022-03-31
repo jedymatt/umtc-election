@@ -19,7 +19,7 @@ class ElectionVoteController extends Controller
     {
         $canVote = (new ElectionService($election))->canVote($request->user());
 
-        abort_if(!$canVote, 403);
+        abort_unless($canVote, 403);
 
         $positions = $election->electionType->positions;
 
@@ -38,7 +38,7 @@ class ElectionVoteController extends Controller
     {
         $canVote = (new ElectionService($election))->canVote($request->user());
 
-        abort_if(!$canVote, 403);
+        abort_unless($canVote, 403);
 
 
         $validator = Validator::make($request->all(), [

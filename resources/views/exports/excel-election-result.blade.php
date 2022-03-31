@@ -5,7 +5,7 @@
             <th>{{ $position->name }}</th>
         </tr>
         <tr>
-            <th>Candidates</th>
+            <th>Name</th>
             <th>Votes</th>
         </tr>
         </thead>

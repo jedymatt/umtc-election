@@ -32,6 +32,7 @@ class Position extends Model
 
     public function scopeOfElectionType(Builder $query, ElectionType $electionType)
     {
-        $query->whereRelation('electionType', 'id', $electionType->id);
+        $query->whereRelation('electionType', 'id', $electionType->id)
+            ->orderBy('id');
     }
 }

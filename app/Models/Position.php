@@ -20,12 +20,14 @@ class Position extends Model
 
     public function scopeCdsgElection(Builder $query)
     {
-        $query->whereRelation('electionType', 'id', ElectionType::TYPE_CDSG);
+        $query->whereRelation('electionType', 'id', ElectionType::TYPE_CDSG)
+            ->orderBy('id');
     }
 
     public function scopeDsgElection(Builder $query)
     {
-        $query->whereRelation('electionType', 'id', ElectionType::TYPE_DSG);
+        $query->whereRelation('electionType', 'id', ElectionType::TYPE_DSG)
+            ->orderBy('id');
     }
 
     public function scopeOfElectionType(Builder $query, ElectionType $electionType)

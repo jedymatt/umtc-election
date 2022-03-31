@@ -1,7 +1,7 @@
 <div>
     <div>
         <div class="sm:flex gap-4">
-            <input wire:model="searchText" type="search" placeholder="Search using name or email"
+            <input wire:model.debounce.500ms="searchText" type="search" placeholder="Search using name or email"
                    class="rounded-md w-full inline-block"
             >
             <select wire:model="selectedPositionId" class="rounded-md inline-block w-full mt-1 sm:mt-0">
@@ -13,29 +13,29 @@
             </select>
         </div>
         <div class="mt-1">
-                <ul>
-                    @foreach($users as $user)
-                        <li class="border-b">
-                            <a href="#" wire:click.prevent="addCandidate({{ $user->id }})"
-                               class="block hover:bg-gray-100 w-full px-4 py-2"
-                            >
-                                {{ $user->name }}
-                                <span class="block text-sm text-gray-800">
+            <ul>
+                @foreach($users as $user)
+                    <li class="border-b">
+                        <a href="#" wire:click.prevent="addCandidate({{ $user->id }})"
+                           class="block hover:bg-gray-100 w-full px-4 py-2"
+                        >
+                            {{ $user->name }}
+                            <span class="block text-sm text-gray-800">
                                 {{ $user->email }}
                             </span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-                <div class="text-gray-600 text-sm px-4 border-b py-2">
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="text-gray-600 text-sm px-4 border-b py-2">
 
-                    @if($users->isNotEmpty())
+                @if($users->isNotEmpty())
 
-                        Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }} users
-                    @elseif($searchText != '')
-                        No results
-                    @endif
-                </div>
+                    Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }} users
+                @elseif($searchText != '')
+                    No results
+                @endif
+            </div>
         </div>
     </div>
     <div>
@@ -83,7 +83,7 @@
                             @empty
                                 <tr class="border-b">
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                                    colspan="3"
+                                        colspan="3"
                                     >
                                         <span class="flex justify-center">Empty Candidates</span>
                                     </td>

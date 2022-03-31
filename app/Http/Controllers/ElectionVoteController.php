@@ -37,7 +37,9 @@ class ElectionVoteController extends Controller
     public function store(Request $request, Election $election)
     {
         $canVote = (new ElectionService($election))->canVote($request->user());
-        abort_if($canVote, 403);
+
+        abort_if(!$canVote, 403);
+
 
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',

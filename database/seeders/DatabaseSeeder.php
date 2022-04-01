@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -41,17 +43,30 @@ class DatabaseSeeder extends Seeder
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
             ]);
 
-            $departments = Department::pluck('id');
-            $departmentsLength = count($departments);
-
             Election::factory()
-                ->count($departmentsLength * 2)
+                ->count(7)
+                ->has(
+                    Candidate::factory()
+                        ->count(20)
+                )
+                ->has(
+                    Vote::factory()
+                        ->count(20)
+                )
                 ->create();
 
 
             Election::factory()
-                ->count(rand(1, 5))
+                ->count(7)
                 ->ended()
+                ->has(
+                    Candidate::factory()
+                        ->count(20)
+                )
+                ->has(
+                    Vote::factory()
+                        ->count(20)
+                )
                 ->create();
         }
     }

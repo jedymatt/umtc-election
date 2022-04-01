@@ -29,10 +29,22 @@ Note: If you are using laravel sail, replace `.env.example` to `.env.sail` inste
 
 Then, configure the .env file according to your use case.
 
-Install the dependencies and then compile the assets
+Install the composer dependencies
 ```shell
-composer install
+composer install --ignore-platform-reqs
+```
+Run this instead when using docker:
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
+Then, compile the assets
+```shell
 npm install
 npm run dev
 ```
@@ -51,4 +63,4 @@ Run the application
 ```shell
 php artisan serve
 ```
-Finally, visit http://localhost:8000 to view the site.
+Finally, visit <http://localhost:8000> to view the site.

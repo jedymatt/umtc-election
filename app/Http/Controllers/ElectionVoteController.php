@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Election;
 use App\Models\User;
 use App\Models\Vote;
+use App\Services\ElectionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use function abort_if;
-use function now;
 use function redirect;
 use function view;
 
@@ -16,15 +15,9 @@ class ElectionVoteController extends Controller
 {
     public function create(Request $request, Election $election)
     {
-        $user = $request->user();
+        $canVote = (new ElectionService($election))->canVote($request->user());
 
-        $hasVote = Vote::where('election_id', $election->id)
-            ->where('user_id', $user->id)
-            ->exists();
-
-        $electionEnded = $election->end_at < now();
-
-        abort_if($electionEnded || $hasVote, 403);
+        abort_unless($canVote, 403);
 
         $positions = $election->electionType->positions;
 
@@ -41,15 +34,10 @@ class ElectionVoteController extends Controller
 
     public function store(Request $request, Election $election)
     {
-        $user = $request->user();
+        $canVote = (new ElectionService($election))->canVote($request->user());
 
-        $hasVote = Vote::where('election_id', $election->id)
-            ->where('user_id', $user->id)
-            ->exists();
+        abort_unless($canVote, 403);
 
-        $electionEnded = $election->end_at < now();
-
-        abort_if($electionEnded || $hasVote, 403);
 
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',
@@ -58,7 +46,7 @@ class ElectionVoteController extends Controller
         $validated = $validator->validated();
 
         $vote = Vote::create([
-            'user_id' => $user->id,
+            'user_id' => $request->user()->id,
             'election_id' => $election->id,
         ]);
 

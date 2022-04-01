@@ -3,14 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
-use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\User;
-use App\Models\Vote;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {
@@ -36,25 +32,27 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@example.com',
             ]);
 
+            Admin::factory()->create([
+                'email' => 'basic@example.com'
+            ]);
+
             User::factory()->create([
                 'name' => 'Juan Dela Cruz',
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
             ]);
 
-            Department::all()->each(function ($department) {
-                Election::factory(2)->has(
-                    Candidate::factory()->count(3)
-                        ->hasAttached(
-                            Vote::factory(3)
-                        ),
-                )->create([
-                    'department_id' => $department->id,
-                ]);
+            $departments = Department::pluck('id');
+            $departmentsLength = count($departments);
 
-                Election::factory(1)->ended()->create([
-                    'department_id' => $department->id
-                ]);
-            });
+            Election::factory()
+                ->count($departmentsLength * 2)
+                ->create();
+
+
+            Election::factory()
+                ->count(rand(1, 5))
+                ->ended()
+                ->create();
         }
     }
 }

@@ -26,7 +26,7 @@
                                                         </th>
                                                         <th scope="col"
                                                             class="px-6 py-4 text-left">
-                                                            Number of Votes
+                                                            Votes
                                                         </th>
                                                     </tr>
                                                     </thead>
@@ -50,9 +50,13 @@
                             </div>
                         </div>
                     @endforeach
-                    <div class="flex justify-end mt-4">
-                        <x-primary.button-link href="{{ route('admin.elections.result.export-excel', $election) }}">Export Excel</x-primary.button-link>
-                    </div>
+                    @if($election->hasEnded())
+                        <div class="flex justify-end mt-4">
+                            <x-primary.button-link href="{{ route('admin.elections.result.export-excel', $election) }}">
+                                Export Excel
+                            </x-primary.button-link>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -3,27 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreDSGElectionRequest;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DSGElectionController extends Controller
+class DsgElectionController extends Controller
 {
-    protected $electionType;
-    protected $departments;
-
-    public function __construct()
+    public function create(Request $request)
     {
-        $this->electionType = ElectionType::whereName('DSG')->firstOrFail();
-        $this->departments = Department::orderBy('name')->get();
-    }
 
-    public function create()
-    {
-        $departments = $this->departments;
+        if ($request->user('admin')->is_super_admin) {
+            $departments = Department::orderBy('name')->get();
+        } else {
+            $departments[] = $request->user('admin')->department;
+        }
         return view('admin.dsg-elections.create', compact('departments'));
     }
 
@@ -35,12 +30,16 @@ class DSGElectionController extends Controller
             'start_at' => 'required|date|before_or_equal:end_at',
             'end_at' => 'required|date|after:start_at',
             'department_id' => 'required|integer',
-
+            'candidates.*.user_id' => 'integer',
+            'candidates.*.position_id' => 'integer',
         ]);
 
+
         $election = Election::make($validator->validated());
-        $election->electionType()->associate($this->electionType);
-        $election->save();
+        $election->election_type_id = ElectionType::TYPE_DSG;
+
+        $election->candidates()->createMany($validator->validated()['candidates']);
+        $election->push();
 
         return redirect()->route('admin.elections.index');
     }

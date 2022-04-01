@@ -24,11 +24,13 @@ module.exports = {
                     '600': '#9e212d',
                     '700': '#831c26',
                     '800': '#69161e',
-                    '900': '#561219'
+                    '900': '#561219',
                 }
             },
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 };

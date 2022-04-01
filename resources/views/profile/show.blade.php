@@ -16,8 +16,7 @@
                             <x-label value="Full Name"/>
                             <x-input type="text" :value="old('name') ?? $user->name"
                                      id="name" name="name"
-                                     class="w-full mt-1"
-                            />
+                                     class="w-full mt-1" />
                         </div>
                         <div class="mt-4">
                             <x-label value="Email Address"/>

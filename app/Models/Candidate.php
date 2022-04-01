@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +35,10 @@ class Candidate extends Model
     public function votes()
     {
         return $this->belongsToMany(Vote::class);
+    }
+
+    public function scopeOfElection(Builder $query, Election $election): Builder
+    {
+        return $query->where('election_id', $election->id);
     }
 }

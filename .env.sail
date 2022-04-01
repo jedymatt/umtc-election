@@ -2,7 +2,7 @@ APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_URL=http://umtc-election.test
+APP_URL=http://localhost
 
 LOG_CHANNEL=stack
 LOG_DEPRECATIONS_CHANNEL=null
@@ -52,8 +52,7 @@ MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 
 SCOUT_DRIVER=database
-#SCOUT_DRIVER=meilisearch
-#MEILISEARCH_HOST=http://meilisearch:7700
+SCOUT_QUEUE=true
 
 WWWGROUP=1000
 WWWUSER=1000

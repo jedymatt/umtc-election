@@ -22,7 +22,7 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
         $response = $this->actingAs($admin, 'admin')
             ->post('admin/cdsg-elections', []);
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     public function test_empty_elections()
@@ -98,13 +98,12 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
     public function test_input_election_in_every_department()
     {
         $superAdmin = Admin::factory()->superAdmin()->create();
-
-        $departments = Department::with('endedDsgElections')->get();
-        $elections = $departments->mapWithKeys(function (Department $department) {
-            $election = $this->faker->randomElement($department->endedDsgElections);
-
-            return [$department->id => $election->id];
-        })->toArray();
+        $departments = Department::all();
+        $elections = [];
+        foreach ($departments as $department) {
+            $election = Election::factory()->ended()->create(['department_id' => $department->id]);
+            $elections[$election->department_id] = $election->id;
+        }
 
         $response = $this->actingAs($superAdmin, 'admin')
             ->post('admin/cdsg-elections', [
@@ -122,11 +121,12 @@ class SuperAdminCreateCdsgElectionTest extends TestCase
     {
         $superAdmin = Admin::factory()->superAdmin()->create();
 
-        $departments = Department::with('endedDsgElections')->get();
-        $elections = $departments->mapWithKeys(function (Department $department) {
-            $election = $this->faker->randomElement($department->endedDsgElections);
-            return [$department->id => $election->id];
-        })->toArray();
+        $departments = Department::all();
+        $elections = [];
+        foreach ($departments as $department) {
+            $election = Election::factory()->ended()->create(['department_id' => $department->id]);
+            $elections[$election->department_id] = $election->id;
+        }
 
         $elections[$departments->first()->id] = null;
 

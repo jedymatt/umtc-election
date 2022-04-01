@@ -7,15 +7,13 @@ use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DSGElectionController;
+use App\Http\Controllers\Admin\DsgElectionController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
-use App\Http\Controllers\ElectionCandidateController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -84,11 +82,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 
-    Route::get('/dsg-elections', [DSGElectionController::class, 'create'])
+    Route::get('/dsg-elections', [DsgElectionController::class, 'create'])
         ->middleware('auth:admin')
         ->name('dsg-elections');
 
-    Route::post('/dsg-elections', [DSGElectionController::class, 'store'])
+    Route::post('/dsg-elections', [DsgElectionController::class, 'store'])
         ->middleware('auth:admin')
         ->name('dsg-elections');
 
@@ -103,10 +101,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/elections', ElectionController::class)
         ->except('create')
         ->middleware('auth:admin');
-
-    Route::get('/elections/{election}/candidates', [ElectionCandidateController::class, 'index'])
-        ->middleware('auth:admin')
-        ->name('elections.candidates.index');
 
     Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
         ->middleware('auth:admin')

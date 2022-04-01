@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Admin;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,11 +24,13 @@ class AdminFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+
+            'department_id' => $this->faker->randomElement(Department::all()),
         ];
     }
 
@@ -36,6 +39,7 @@ class AdminFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'is_super_admin' => true,
+                'department_id' => null,
             ];
         });
     }

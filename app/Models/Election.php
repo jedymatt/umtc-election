@@ -70,7 +70,7 @@ class Election extends Model
         });
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->start_at <= now() && $this->end_at >= now();
     }
@@ -80,19 +80,6 @@ class Election extends Model
         return $this->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
             ->latest();
-    }
-
-    public function hasVotedByUser(User $user)
-    {
-        $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
-
-        return $voteCount >= 1;
-    }
-
-
-    public function tag(): BelongsTo
-    {
-        return $this->belongsTo(Tag::class);
     }
 
     public function scopeActive(Builder $query): Builder
@@ -106,14 +93,26 @@ class Election extends Model
         return $query->where('end_at', '<', now());
     }
 
-    public function scopeOfDepartment(Builder $query, int $departmentId): Builder
+    public function scopeOfDepartment(Builder $query, Department $department): Builder
     {
-        return $query->where('department_id', $departmentId)
+        return $query->where('department_id', $department->id)
             ->where('election_type_id', ElectionType::TYPE_DSG);
+    }
+
+    public function hasVotedByUser(User $user)
+    {
+        $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
+
+        return $voteCount >= 1;
     }
 
     public function scopeNoCdsg(Builder $query)
     {
         return $query->where('cdsg_id', null);
+    }
+
+    public function hasEnded(): bool
+    {
+        return $this->end_at < now();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
@@ -13,15 +14,18 @@ use Illuminate\Validation\Rule;
 
 class CdsgElectionController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        $departments = Department::with('endedDsgElections')->get();
-        return view('admin.cdsg-elections.create', compact('departments'));
+        abort_if(!$request->user('admin')->is_super_admin, 401);
+
+        $departments = Department::all();
+        $elections = Election::ended()->whereNull('cdsg_id')->get();
+        return view('admin.cdsg-elections.create', compact('departments', 'elections'));
     }
 
     public function store(Request $request)
     {
-        abort_if(!$request->user('admin')->isSuperAdmin(), 403);
+        abort_if(!$request->user('admin')->is_super_admin, 401);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
@@ -30,13 +34,17 @@ class CdsgElectionController extends Controller
             'end_at' => 'required|date|after:start_at',
             'elections.*' => 'required|integer',
             'elections' => 'required|array|size:7',
+            'candidates.*.user_id' => 'integer',
+            'candidates.*.position_id' => 'integer',
         ]);
 
         $election = Election::make($validator->validated());
-        $election->electionType()->associate(ElectionType::TYPE_CDSG);
+        $election->election_type_id = ElectionType::TYPE_CDSG;
         $election->save();
         Election::whereIn('id', $request->input('elections'))
             ->update(['cdsg_id' => $election->id]);
+
+        $election->candidates()->createMany($validator->validated()['candidates']);
         return redirect()->route('admin.elections.index');
     }
 }

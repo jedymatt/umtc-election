@@ -22,20 +22,25 @@ class StudentEmail implements Rule
 
         if ($domain != 'umindanao.edu.ph') return false;
 
-        $usernameParts = explode('.', $username);
+        $parsedUsername = explode('.', $username);
 
-        if (count($usernameParts) != 4) return false;
+        if (count($parsedUsername) != 4) return false;
 
-        list($initialGivenName,
-            $surname,
-            $studentId,
-            $postfix) = $usernameParts;
+        $initialGivenName = $parsedUsername[0];
+        $studentId = $parsedUsername[2];
+        $postfix = $parsedUsername[3];
 
-        if (strlen($initialGivenName) != 1
-            || strlen($studentId) != 6
-            || $postfix != 'tc') return false;
+        if (strlen($initialGivenName) != 1) {
+            return false;
+        }
 
-        if (!ctype_digit($studentId)) return false;
+        if (strlen($studentId) != 6 || !ctype_digit($studentId)) {
+            return false;
+        }
+
+        if ($postfix != 'tc') {
+            return false;
+        }
 
         return true;
     }

@@ -50,25 +50,4 @@ class ElectionFactory extends Factory
             ];
         });
     }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (Election $election) {
-            $positionIds = Position::pluck('id');
-
-            foreach ($positionIds as $positionId) {
-                Candidate::factory()
-                    ->count(rand(1, 5))
-                    ->hasAttached(Vote::factory()
-                        ->count(rand(1, 5))
-                        ->for(User::factory()
-                            ->state(new Sequence(['department_id' => $election->department_id]))))
-                    ->create([
-                        'election_id' => $election->id,
-                        'position_id' => $positionId,
-                    ]);
-            }
-
-        });
-    }
 }

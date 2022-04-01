@@ -52,42 +52,13 @@ class DatabaseSeeder extends Seeder
 
             Election::factory()
                 ->count($departmentsLength * 2)
-                ->state(new Sequence(function ($sequence) use ($departments, $departmentsLength) {
-                    $index = $sequence->index % $departmentsLength;
-                    return ['department_id' => $departments[$index]];
-                }))
                 ->create();
 
 
             Election::factory()
-                ->count($departmentsLength)
+                ->count(rand(1, 5))
                 ->ended()
-                ->state(new Sequence(function ($sequence) use ($departments, $departmentsLength) {
-                    $index = $sequence->index;
-                    return ['department_id' => $departments[$index]];
-                }))
                 ->create();
-//            Department::all()->each(function ($department) {
-//                Election::factory(2)
-//                    ->has(Candidate::factory()
-//                        ->count(7)
-//                        ->hasAttached(
-//                            Vote::factory(3)
-//                        )
-//                        ->for(User::factory()
-//                            ->state(new Sequence(
-//                                fn(Sequence $sequence) => ['department_id' => Department::all()->random()],
-//                            ))
-//                        ),
-//
-//                    )->create([
-//                        'department_id' => $department->id,
-//                    ]);
-//
-//                Election::factory(1)->ended()->create([
-//                    'department_id' => $department->id
-//                ]);
-//            });
         }
     }
 }

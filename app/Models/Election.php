@@ -110,4 +110,9 @@ class Election extends Model
     {
         return $query->where('cdsg_id', null);
     }
+
+    public function hasEnded(): bool
+    {
+        return $this->end_at < now();
+    }
 }

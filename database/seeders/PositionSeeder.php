@@ -18,13 +18,13 @@ class PositionSeeder extends Seeder
         $positions = [
             ['name' => 'President'],
             ['name' => 'Vice President'],
+            ['name' => 'Vice President for Internal Affairs'],
+            ['name' => 'Vice President for External Affairs'],
             ['name' => 'Secretary'],
             ['name' => 'Treasurer'],
             ['name' => 'Auditor'],
             ['name' => 'P.I.O'],
             ['name' => 'Business Manager'],
-            ['name' => 'Vice President for Internal Affairs'],
-            ['name' => 'Vice President for External Affairs'],
         ];
 
 

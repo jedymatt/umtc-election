@@ -8,8 +8,6 @@ use App\Models\Vote;
 use App\Services\ElectionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use function abort_if;
-use function now;
 use function redirect;
 use function view;
 

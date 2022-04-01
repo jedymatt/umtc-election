@@ -16,6 +16,9 @@
                         Type: {{ $election->electionType->name }}
                     </div>
                     <div class="mt-4">
+                        Department: {{ $election->department->name }}
+                    </div>
+                    <div class="mt-4">
                         Start at: {{ $election->start_at->toDayDateTimeString() }}
                     </div>
                     <div class="mt-4">
@@ -41,14 +44,14 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <span class="text-lg font-medium text-primary">Candidates</span>
                     <div class="mt-4">
-                        <div class="overflow-x-auto border">
+                        <div class="overflow-x-auto border-x border-t">
                             <table class="table-auto w-full">
-                                <thead class="bg-gray-50 border-b">
+                                <thead class="border-b">
                                 <tr class="bg-gray-100">
-                                    <th class="text-left p-4 border-r font-medium">
+                                    <th class="text-left p-4 font-medium">
                                         Name
                                     </th>
-                                    <th class="text-left p-4 border-r font-medium">
+                                    <th class="text-left p-4 font-medium">
                                         Position
                                     </th>
                                     <th class="text-left p-4 font-medium">
@@ -58,7 +61,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($candidates as $candidate)
-                                    <tr class="{{ $loop->even ? 'bg-gray-50' : ''}} divide-x">
+                                    <tr class="border-b hover:bg-gray-50">
                                         <td class="p-4">
                                             {{ $candidate->user->name }}
                                         </td>

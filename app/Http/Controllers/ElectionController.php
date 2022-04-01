@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Election;
 use App\Models\ElectionType;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use function view;
 
 class ElectionController extends Controller

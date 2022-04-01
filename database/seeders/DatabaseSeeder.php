@@ -3,16 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
-use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
-use App\Models\Position;
 use App\Models\User;
-use App\Models\Vote;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
 
 class DatabaseSeeder extends Seeder
 {

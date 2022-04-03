@@ -26,7 +26,7 @@ class ElectionController extends Controller
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
-
+        
         return view('admin.elections.show', compact('election', 'candidates'));
     }
 }

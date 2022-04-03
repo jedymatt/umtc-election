@@ -23,7 +23,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <span class="text-lg font-medium text-primary">CDSG Elections</span>
+                    <span class="text-lg font-medium text-primary">CDSG Election</span>
                     <div class="flex justify-end mt-4">
                         <x-primary.button-link href="#">
                             Create CDSG Election

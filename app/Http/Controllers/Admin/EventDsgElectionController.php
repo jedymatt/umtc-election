@@ -26,6 +26,8 @@ class EventDsgElectionController extends Controller
         /** @var Admin $user */
         $user = auth('admin')->user();
 
+        abort_unless(!$this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
+
         $occupiedDepartments = $event->elections->map(function ($election) {
             return $election->department_id;
         })->toArray();

@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Event;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Seeder;
@@ -42,6 +43,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Juan Dela Cruz',
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
             ]);
+
+            Event::factory()->create();
 
 //            Election::factory()
 //                ->count(7)

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Event extends Model
 {
@@ -25,9 +26,9 @@ class Event extends Model
             ->where('election_type_id', '=', ElectionType::TYPE_DSG);
     }
 
-    public function cdsgElections(): HasMany
+    public function cdsgElection(): HasOne
     {
-        return $this->hasMany(Election::class)
+        return $this->hasOne(Election::class)
             ->where('election_type_id', '=', ElectionType::TYPE_CDSG);
     }
 }

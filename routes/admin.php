@@ -120,18 +120,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::post('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'store'])
         ->middleware('auth:admin')
-        ->name('events.dsg-election.create');
+        ->name('events.dsg-election.store');
 
-    Route::resource('/events', EventController::class)
-        ->middleware('auth:admin')
-        ->only(['index', 'show', 'create', 'store']);
-
-    Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'store'])
+    Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'create'])
         ->middleware('auth:admin')
         ->name('events.cdsg-election.create');
 
     Route::post('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'store'])
         ->middleware('auth:admin')
-        ->name('events.cdsg-election.create');
+        ->name('events.cdsg-election.store');
+
+    Route::resource('/events', EventController::class)
+        ->middleware('auth:admin')
+        ->only(['index', 'show', 'create', 'store']);
 
 });

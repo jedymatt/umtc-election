@@ -20,9 +20,9 @@ class EventService
 
     public function canCreateDsgElection(Admin $user): bool
     {
-        $occupiedDepartments = $this->event->elections->map(function ($election) {
+        $occupiedDepartments = $this->event->dsgElections->map(function ($election) {
             return $election->department_id;
-        })->toArray();
+        })->filter();
 
         $hasAvailableDepartments = Department::orderBy('name')
             ->whereNotIn('id', $occupiedDepartments)
@@ -33,7 +33,7 @@ class EventService
 
         }
 
-        if (!$user->is_super_admin && in_array($user->department_id, $occupiedDepartments)) {
+        if (!$user->is_super_admin && !$occupiedDepartments->contains($user->department_id)) {
             return false;
         }
 

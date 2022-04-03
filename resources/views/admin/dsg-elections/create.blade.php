@@ -12,7 +12,7 @@
                     <form action="{{ route('admin.dsg-elections') }}" method="post">
                         @csrf
                         <div>
-                            <label for="title" class="block font-medium text-sm text-gray-700">Start At</label>
+                            <label for="title" class="block font-medium text-sm text-gray-700">Title</label>
                             <input type="text" id="title" name="title"
                                    class="w-full rounded-md" value="{{ old('title') }}"/>
                             @error('title')

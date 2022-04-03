@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DsgElectionController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionResultController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
 use Illuminate\Support\Facades\Route;
 
@@ -107,5 +109,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('elections.result.show');
 
     Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
+        ->middleware('auth:admin')
         ->name('elections.result.export-excel');
+
+
+    Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
+        ->middleware('auth:admin')
+        ->name('events.dsg-election.create');
+
+    Route::post('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('events.dsg-election.create');
+
+    Route::resource('/events', EventController::class)
+        ->middleware('auth:admin')
+        ->only(['index', 'show', 'create', 'store']);
 });

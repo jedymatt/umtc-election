@@ -59,7 +59,7 @@
                                 @empty
                                     <tr class="border-b">
                                         <td class="p-4" colspan="3">
-                                            <span class="flex justify-center text-gray-400">No records!</span>
+                                            <span class="flex justify-center text-gray-400">No record!</span>
                                         </td>
                                     </tr>
                                 @endforelse

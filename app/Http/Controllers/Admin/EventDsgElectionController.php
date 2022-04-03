@@ -14,19 +14,13 @@ use Illuminate\Support\Facades\Validator;
 
 class EventDsgElectionController extends Controller
 {
-    private EventService $eventService;
-
-    public function __construct(Event $event)
-    {
-        $this->eventService = new EventService($event);
-    }
 
     public function create(Event $event)
     {
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless($this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless((new EventService($event))->canCreateDsgElection($user), 403, 'Cannot create election');
 
         $occupiedDepartments = $event->dsgElections->map(function ($election) {
             return $election->department_id;
@@ -47,7 +41,7 @@ class EventDsgElectionController extends Controller
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless($this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless((new EventService($event))->canCreateDsgElection($user), 403, 'Cannot create election');
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

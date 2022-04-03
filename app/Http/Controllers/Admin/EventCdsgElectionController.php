@@ -13,19 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class EventCdsgElectionController extends Controller
 {
-    private EventService $eventService;
-
-    public function __construct(Event $event)
-    {
-        $this->eventService = new EventService($event);
-    }
 
     public function create(Event $event)
     {
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless($this->eventService->canCreateCdsgElection($user), 403, 'Cannot create election');
+        abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
 
         return view('admin.events.cdsg-elections.create', compact('event'));
     }
@@ -35,7 +29,7 @@ class EventCdsgElectionController extends Controller
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless($this->eventService->canCreateCdsgElection($user), 403, 'Cannot create election');
+        abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

@@ -20,7 +20,7 @@ class ElectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->unique()->words(3, true),
+            'title' => $this->faker->unique()->words(asText: true),
             'description' => $this->faker->text(),
             'start_at' => Carbon::now(),
             'end_at' => Carbon::now()->addDays(3),

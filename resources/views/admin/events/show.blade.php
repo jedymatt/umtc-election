@@ -25,7 +25,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <span class="text-lg font-medium text-primary">CDSG Election</span>
                     <div class="flex justify-end mt-4">
-                        <x-primary.button-link href="#">
+                        <x-primary.button-link href="{{ route('admin.events.cdsg-election.create', $event) }}">
                             Create CDSG Election
                         </x-primary.button-link>
                     </div>
@@ -48,7 +48,9 @@
                                 @forelse($cdsgElections as $election)
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="p-4">
-                                            {{ $election->title }}
+                                            <a href="{{ route('admin.elections.show', $election) }}"
+                                               class="hover:underline"
+                                            >{{ $election->title }}</a>
                                         </td>
                                         <td class="p-4">
                                             {{ $election->status }}
@@ -101,13 +103,17 @@
                                 @forelse($dsgElections as $election)
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="p-4">
-                                            {{ $election->title }}
+                                            <a href="{{ route('admin.elections.show', $election) }}"
+                                               class="hover:underline"
+                                            >
+                                                {{ $election->title }}
+                                            </a>
                                         </td>
                                         <td class="p-4">
                                             {{ $election->status }}
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->department->name }}
+                                            {{ $election->department?->name }}
                                         </td>
                                     </tr>
                                 @empty

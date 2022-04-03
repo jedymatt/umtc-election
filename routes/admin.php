@@ -85,22 +85,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 
-    Route::get('/dsg-elections', [DsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('dsg-elections');
-
-    Route::post('/dsg-elections', [DsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('dsg-elections');
-
-    Route::get('/cdsg-elections', [CdsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('cdsg-elections');
-
-    Route::post('/cdsg-elections', [CdsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('cdsg-elections');
-
     Route::resource('/elections', ElectionController::class)
         ->except('create')
         ->middleware('auth:admin');

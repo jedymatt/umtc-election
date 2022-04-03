@@ -37,9 +37,11 @@ class DsgElectionController extends Controller
 
         $election = Election::make($validator->validated());
         $election->election_type_id = ElectionType::TYPE_DSG;
+        $election->save();
 
-        $election->candidates()->createMany($validator->validated()['candidates']);
-        $election->push();
+        if (in_array('candidates', $validator->validated())) {
+            $election->candidates()->createMany($validator->validated()['candidates']);
+        }
 
         return redirect()->route('admin.elections.index');
     }

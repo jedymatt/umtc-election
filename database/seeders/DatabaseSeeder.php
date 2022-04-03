@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Event;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Seeder;
@@ -43,31 +44,33 @@ class DatabaseSeeder extends Seeder
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
             ]);
 
-            Election::factory()
-                ->count(7)
-                ->has(
-                    Candidate::factory()
-                        ->count(20)
-                )
-                ->has(
-                    Vote::factory()
-                        ->count(20)
-                )
-                ->create();
+            Event::factory()->create();
 
-
-            Election::factory()
-                ->count(7)
-                ->ended()
-                ->has(
-                    Candidate::factory()
-                        ->count(20)
-                )
-                ->has(
-                    Vote::factory()
-                        ->count(20)
-                )
-                ->create();
+//            Election::factory()
+//                ->count(7)
+//                ->has(
+//                    Candidate::factory()
+//                        ->count(20)
+//                )
+//                ->has(
+//                    Vote::factory()
+//                        ->count(20)
+//                )
+//                ->create();
+//
+//
+//            Election::factory()
+//                ->count(7)
+//                ->ended()
+//                ->has(
+//                    Candidate::factory()
+//                        ->count(20)
+//                )
+//                ->has(
+//                    Vote::factory()
+//                        ->count(20)
+//                )
+//                ->create();
         }
     }
 }

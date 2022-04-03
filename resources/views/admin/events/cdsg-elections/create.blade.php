@@ -1,7 +1,7 @@
 <x-admin-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create DSG Election') }}
+            {{ __('Create CDSG Election') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('admin.dsg-elections') }}" method="post">
+                    <form action="{{ route('admin.events.cdsg-election.store', $event) }}" method="post">
                         @csrf
                         <div>
                             <label for="title" class="block font-medium text-sm text-gray-700">Title</label>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="mt-4">
                             <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="10"
+                            <textarea name="description" id="description"
                                       class="w-full rounded-md"
                             >{{ old('description') }}</textarea>
                         </div>
@@ -42,26 +42,12 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mt-4">
-                            <label class="text-sm font-medium text-gray-700" for="department_id">Department</label>
-                            <select name="department_id" id="department_id" @selected(old('department_id'))
-                            class="mt-1 w-full rounded-md">
-                                @foreach($departments as $department)
-                                    <option value="{{ $department->id }}">
-                                        <span>{{ $department->name }}</span>
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('department_id')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
                         <div class="mt-4 border-t border-gray-200">
                         </div>
                         <div class="mt-4">
                             <span class="text-xl font-medium text-primary">Candidates</span>
                             <div class="my-2">
-                                <livewire:admin.dsg-election.add-candidates-form/>
+                                <livewire:admin.cdsg-election.add-candidates-form/>
                             </div>
                         </div>
                         <div class="flex justify-end mt-4">

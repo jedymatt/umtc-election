@@ -26,20 +26,18 @@ class EventController extends Controller
     public function show(Event $event)
     {
 
-        $dsgElections = $event->elections()
-            ->where('election_type_id', '=', ElectionType::TYPE_DSG)
+        $dsgElections = $event->dsgElections()
             ->orderBy(Department::select('name')
                 ->whereColumn('department_id', '=', 'id'))
             ->get();
-        $cdsgElections = $event->elections()
-            ->where('election_type_id', '=', ElectionType::TYPE_CDSG)
-            ->get();
+
+        $cdsgElection = $event->cdsgElection()->get();
 
 
         return view('admin.events.show', compact(
             'event',
             'dsgElections',
-            'cdsgElections',
+            'cdsgElection',
         ));
     }
 

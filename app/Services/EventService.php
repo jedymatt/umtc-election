@@ -14,8 +14,6 @@ class EventService
     public function __construct(Event $event)
     {
         $this->event = $event;
-
-        $event->loadMissing('elections');
     }
 
     public function canCreateDsgElection(Admin $user): bool
@@ -28,7 +26,7 @@ class EventService
             ->whereNotIn('id', $occupiedDepartments)
             ->exists();
 
-        if ($user->is_super_admin && !$hasAvailableDepartments) {
+        if (!$hasAvailableDepartments) {
             return false;
 
         }
@@ -46,17 +44,14 @@ class EventService
             return false;
         }
 
-        $hasCdsgElection = $this->event->elections()
-            ->where('election_type_id', '=', ElectionType::TYPE_DSG)
-            ->exists();
+        $hasCdsgElection = $this->event->has('cdsgElection')->exists();
 
         if ($hasCdsgElection) {
             return false;
         }
 
-        $dsgElectionsCount = $this->event->elections
-            ->where('election_type_id', '=', ElectionType::TYPE_DSG)
-            ->count();
+        $dsgElectionsCount = $this->event->dsgElections()
+            ->ended()->count();
 
         if ($dsgElectionsCount != 7) {
             return false;

@@ -14,7 +14,7 @@
                         DSG Elections: {{ $dsgElections->count()  }} / 7
                     </div>
                     <div>
-                        CDSG Election: {{ $cdsgElections->count()  }} / 1
+                        CDSG Election: {{ $cdsgElection->count()  }} / 1
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                 </thead>
                                 <tbody>
 
-                                @forelse($cdsgElections as $election)
+                                @forelse($cdsgElection as $election)
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="p-4">
                                             <a href="{{ route('admin.elections.show', $election) }}"

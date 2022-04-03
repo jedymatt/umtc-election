@@ -18,13 +18,6 @@ class ElectionController extends Controller
         return view('admin.elections.index', compact('elections'));
     }
 
-    public function store(StoreElectionRequest $request)
-    {
-        $election = Election::create($request->validated());
-
-        return redirect()->route('admin.elections.show', compact('election'));
-    }
-
     public function show(Election $election)
     {
         $candidates = Candidate::ofElection($election)

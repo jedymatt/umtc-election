@@ -26,16 +26,17 @@ class EventDsgElectionController extends Controller
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless(!$this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless($this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
 
-        $occupiedDepartments = $event->elections->map(function ($election) {
+        $occupiedDepartments = $event->dsgElections->map(function ($election) {
             return $election->department_id;
-        })->toArray();
+        })->filter();
 
         if ($user->is_super_admin) {
-            $departments = Department::orderBy('name')->whereNotIn('id', $occupiedDepartments)->get();
+            $departments = Department::orderBy('name')
+                ->whereNotIn('id', $occupiedDepartments)->get();
         } else {
-            $departments = in_array($user->department_id, $occupiedDepartments) ? [] : [$user->department];
+            $departments = $occupiedDepartments->contains($user->department_id) ? collect() : collect([$user->department]);
         }
 
         return view('admin.events.dsg-elections.create', compact('event', 'departments'));
@@ -46,7 +47,7 @@ class EventDsgElectionController extends Controller
         /** @var Admin $user */
         $user = auth('admin')->user();
 
-        abort_unless(!$this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless($this->eventService->canCreateDsgElection($user), 403, 'Cannot create election');
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
@@ -63,13 +64,11 @@ class EventDsgElectionController extends Controller
         $election = Election::make($validated);
         $election->election_type_id = ElectionType::TYPE_DSG;
         $election->event_id = $event->id;
+        $election->save();
 
         if (array_key_exists('candidates', $validated)) {
-            $election->save();
             $election->candidates()->createMany($validated['candidates']);
         }
-
-        $election->push();
 
         return redirect()->route('admin.events.show', $event);
     }

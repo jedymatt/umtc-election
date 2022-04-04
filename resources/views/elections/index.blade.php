@@ -36,7 +36,7 @@
                                     @if($election->hasVotedByUser(auth()->user()))
                                         <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote</x-primary.button>
                                     @else
-                                        <x-primary.button-link href="{{ route('elections.vote', $election) }}">Vote
+                                        <x-primary.button-link href="{{ route('elections.vote.create', $election) }}">Vote
                                         </x-primary.button-link>
                                     @endif
                                 </div>

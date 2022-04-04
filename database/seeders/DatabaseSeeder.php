@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
 
             Event::factory()->create();
 
+            Event::factory()->includeActiveDsgElections()->create();
+            Event::factory()->includeEndedDsgElections()->create();
+
 //            Election::factory()
 //                ->count(7)
 //                ->has(

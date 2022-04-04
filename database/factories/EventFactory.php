@@ -24,9 +24,9 @@ class EventFactory extends Factory
         ];
     }
 
-    public function hasFullActiveDsgElections(): EventFactory
+    public function includeActiveDsgElections($totalDepartment = 7): EventFactory
     {
-        $sequence = Department::all()->map(function ($department) {
+        $sequence = Department::limit($totalDepartment)->inRandomOrder()->get()->map(function ($department) {
             return ['department_id' => $department->id];
         });
 
@@ -34,9 +34,9 @@ class EventFactory extends Factory
             ->state(new Sequence(...$sequence->toArray())));
     }
 
-    public function hasFullEndedDsgElections(): EventFactory
+    public function includeEndedDsgElections($totalDepartment = 7): EventFactory
     {
-        $sequence = Department::all()->map(function ($department) {
+        $sequence = Department::limit($totalDepartment)->inRandomOrder()->get()->map(function ($department) {
             return ['department_id' => $department->id];
         });
 

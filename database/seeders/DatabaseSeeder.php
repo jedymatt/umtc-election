@@ -9,6 +9,7 @@ use App\Models\Election;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Vote;
+use App\Models\Winner;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -45,6 +46,8 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $this->call(EventSeeder::class);
+
+            Winner::factory()->count(20)->create();
 
 //            Election::factory()
 //                ->count(7)

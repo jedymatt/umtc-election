@@ -22,10 +22,10 @@ cd umtc-election
 
 Generate .env file
 ```shell
-cp .env.example .env
+cp .env.development .env
 ```
 
-Note: If you are using laravel sail, replace `.env.example` to `.env.sail` instead.
+Note: If you are using laravel sail, replace `.env.development` to `.env.sail` instead.
 
 Then, configure the .env file according to your use case.
 

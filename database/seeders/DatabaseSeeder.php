@@ -44,10 +44,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
             ]);
 
-            Event::factory()->create();
-
-            Event::factory()->includeActiveDsgElections()->create();
-            Event::factory()->includeEndedDsgElections()->create();
+            $this->call(EventSeeder::class);
 
 //            Election::factory()
 //                ->count(7)

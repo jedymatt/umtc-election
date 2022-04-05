@@ -41,4 +41,9 @@ class Candidate extends Model
     {
         return $query->where('election_id', $election->id);
     }
+
+    public function scopeOfPosition(Builder $query, Position $position): Builder
+    {
+        return $query->where('position_id', $position->id);
+    }
 }

@@ -17,6 +17,7 @@ class ExportElectionResultController extends Controller
         abort_unless($election->isEnded(), 403);
 
         $fileName = (new ElectionService($election))->generateFileName();
+
         return (new ExcelElectionResultExport($election))
             ->download($fileName);
     }

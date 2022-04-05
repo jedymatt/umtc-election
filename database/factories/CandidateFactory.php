@@ -28,7 +28,7 @@ class CandidateFactory extends Factory
         ];
     }
 
-    public function configure(): CandidateFactory
+    public function configure(): self
     {
         return $this->afterMaking(function (Candidate $candidate) {
             if ($candidate->has('election')

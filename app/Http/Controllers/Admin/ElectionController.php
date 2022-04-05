@@ -11,10 +11,10 @@ use function view;
 
 class ElectionController extends Controller
 {
-
     public function index()
     {
         $elections = Election::with(['electionType', 'department'])->latest()->paginate(10);
+
         return view('admin.elections.index', compact('elections'));
     }
 

@@ -25,12 +25,11 @@ class VoteFactory extends Factory
         ];
     }
 
-    public function configure(): VoteFactory
+    public function configure(): self
     {
         return $this->afterCreating(function (Vote $vote) {
             if ($vote->has('election')
                 && $vote->election->election_type_id == ElectionType::TYPE_DSG) {
-
                 $vote->user->department_id = $vote->election->department_id;
 
                 $candidates = $this->faker->randomElements($vote->election->candidates, rand(1, $vote->election->candidates->count()));

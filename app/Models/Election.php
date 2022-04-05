@@ -15,9 +15,10 @@ class Election extends Model
     use HasFactory;
 
     public const STATUS_NOT_STARTED = 1;
-    public const STATUS_ACTIVE = 2;
-    public const STATUS_ENDED = 3;
 
+    public const STATUS_ACTIVE = 2;
+
+    public const STATUS_ENDED = 3;
 
     protected $fillable = [
         'title',
@@ -102,7 +103,6 @@ class Election extends Model
         };
     }
 
-
     public function isActive(): bool
     {
         return $this->status() === static::STATUS_ACTIVE;
@@ -113,13 +113,12 @@ class Election extends Model
         return $this->status() === static::STATUS_ENDED;
     }
 
-    public function latestActive(): Election
+    public function latestActive(): self
     {
         return $this->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
             ->latest();
     }
-
 
     public function hasVotedByUser(User $user)
     {
@@ -133,11 +132,9 @@ class Election extends Model
         return $query->where('cdsg_id', null);
     }
 
-
     public function winners(): Collection
     {
         $positions = $this->electionType->positions;
-
 
         /** @var Collection<Candidate> $winners */
         $winners = collect();

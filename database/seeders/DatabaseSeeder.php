@@ -36,12 +36,12 @@ class DatabaseSeeder extends Seeder
             ]);
 
             Admin::factory()->create([
-                'email' => 'basic@example.com'
+                'email' => 'basic@example.com',
             ]);
 
             User::factory()->create([
                 'name' => 'Juan Dela Cruz',
-                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
+                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
 
             $this->call(EventSeeder::class);

@@ -18,6 +18,7 @@ class UserProfileController extends Controller
         $departments = Department::orderBy('name')->get();
         $programs = Program::orderBy('name')->get();
         $yearLevels = YearLevel::orderBy('name')->get();
+
         return view('profile.show', compact(
             'user', 'departments', 'programs', 'yearLevels'
         ));

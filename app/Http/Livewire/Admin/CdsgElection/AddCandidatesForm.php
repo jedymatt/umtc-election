@@ -17,12 +17,14 @@ use Livewire\WithPagination;
 class AddCandidatesForm extends Component
 {
     public Collection $candidates;
+
     public $positions;
+
     public $searchText = '';
 
     public $selectedPositionId = null;
-    public $selectedUserId = null;
 
+    public $selectedUserId = null;
 
     public function mount()
     {
@@ -52,7 +54,6 @@ class AddCandidatesForm extends Component
 
     public function addCandidate(User $user)
     {
-
         $this->candidates->prepend([
             'user_id' => $user->id,
             'user_name' => $user->name,

@@ -11,13 +11,14 @@ class ElectionType extends Model
     use HasFactory;
 
     public const TYPE_DSG = 1;
+
     public const TYPE_CDSG = 2;
 
     public $timestamps = false;
 
     protected $guarded = [
         'name',
-        'description'
+        'description',
     ];
 
     public function elections()

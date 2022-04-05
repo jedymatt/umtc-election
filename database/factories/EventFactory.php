@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -45,6 +47,10 @@ class EventFactory extends Factory
                 ->count($sequence->count())
                 ->ended()
                 ->state(new Sequence(...$sequence->toArray()))
+                ->has(Candidate::factory()
+                    ->count(20))
+                ->has(Vote::factory()
+                    ->count(100))
         );
     }
 }

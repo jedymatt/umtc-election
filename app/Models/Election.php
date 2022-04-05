@@ -8,10 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Election extends Model
 {
     use HasFactory;
+
+    public const STATUS_NOT_STARTED = 1;
+    public const STATUS_ACTIVE = 2;
+    public const STATUS_ENDED = 3;
+
 
     protected $fillable = [
         'title',
@@ -48,38 +54,9 @@ class Election extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public function cdsg(): BelongsTo
+    public function event(): BelongsTo
     {
-        return $this->belongsTo(Election::class, 'id', 'cdsg_id');
-    }
-
-    public function status(): Attribute
-    {
-        return Attribute::get(function () {
-            $now = now();
-
-            if ($now > $this->end_at) {
-                return 'Ended';
-            }
-
-            if ($now >= $this->start_at) {
-                return 'Active';
-            }
-
-            return 'Not yet started';
-        });
-    }
-
-    public function isActive(): bool
-    {
-        return $this->start_at <= now() && $this->end_at >= now();
-    }
-
-    public function latestActive(): Election
-    {
-        return $this->where('start_at', '<=', now())
-            ->where('end_at', '>=', now())
-            ->latest();
+        return $this->belongsTo(Event::class);
     }
 
     public function scopeActive(Builder $query): Builder
@@ -99,6 +76,51 @@ class Election extends Model
             ->where('election_type_id', ElectionType::TYPE_DSG);
     }
 
+    public function status(): int
+    {
+        $now = Carbon::now();
+
+        if ($now > $this->end_at) {
+            return static::STATUS_ENDED;
+        }
+
+        if ($now >= $this->start_at) {
+            return static::STATUS_ACTIVE;
+        }
+
+        return static::STATUS_NOT_STARTED;
+    }
+
+    public function statusMessage(): string
+    {
+        $status = $this->status();
+
+        return match ($status) {
+            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_ENDED => 'Ended',
+            default => 'Not Yet Started',
+        };
+    }
+
+
+    public function isActive(): bool
+    {
+        return $this->status() === static::STATUS_ACTIVE;
+    }
+
+    public function isEnded(): bool
+    {
+        return $this->status() === static::STATUS_ENDED;
+    }
+
+    public function latestActive(): Election
+    {
+        return $this->where('start_at', '<=', now())
+            ->where('end_at', '>=', now())
+            ->latest();
+    }
+
+
     public function hasVotedByUser(User $user)
     {
         $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
@@ -111,13 +133,22 @@ class Election extends Model
         return $query->where('cdsg_id', null);
     }
 
-    public function hasEnded(): bool
-    {
-        return $this->end_at < now();
-    }
 
-    public function event(): BelongsTo
+    public function winners()
     {
-        return $this->belongsTo(Event::class);
+        $positions = $this->electionType->positions;
+
+        $candidates = $this->candidates;
+
+        $winners = [];
+
+        foreach ($positions as $position) {
+            $winners[] = $candidates->where('position_id', '=', $position->id)
+                ->max('votes_count')
+                ->get();
+
+        }
+
+        dd($winners);
     }
 }

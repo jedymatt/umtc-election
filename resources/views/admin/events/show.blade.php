@@ -53,7 +53,7 @@
                                             >{{ $election->title }}</a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->status }}
+                                            {{ $election->statusMessage() }}
                                         </td>
                                     </tr>
                                 @empty
@@ -110,7 +110,7 @@
                                             </a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->status }}
+                                            {{ $election->statusMessage() }}
                                         </td>
                                         <td class="p-4">
                                             {{ $election->department?->name }}

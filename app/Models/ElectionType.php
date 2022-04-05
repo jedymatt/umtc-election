@@ -16,11 +16,6 @@ class ElectionType extends Model
 
     public $timestamps = false;
 
-    protected $guarded = [
-        'name',
-        'description',
-    ];
-
     public function elections()
     {
         return $this->hasMany(Election::class);

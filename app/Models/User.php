@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JetBrains\PhpStorm\ArrayShape;
@@ -80,7 +80,6 @@ class User extends Authenticatable
 
     public function toSearchableArray(): array
     {
-
         return [
             'name' => $this->name,
             'email' => $this->email,

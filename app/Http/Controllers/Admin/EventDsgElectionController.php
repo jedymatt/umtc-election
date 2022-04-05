@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Validator;
 
 class EventDsgElectionController extends Controller
 {
-
     public function create(Event $event)
     {
         /** @var Admin $user */

@@ -38,7 +38,6 @@ class ElectionVoteController extends Controller
 
         abort_unless($canVote, 403);
 
-
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',
         ]);

@@ -33,7 +33,7 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        ResetPassword::createUrlUsing(function($notifiable, $token){
+        ResetPassword::createUrlUsing(function ($notifiable, $token) {
             return url(route('admin.password.reset', [
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),

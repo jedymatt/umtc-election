@@ -20,7 +20,7 @@ class ElectionService
 
     public function canVote(User $user): bool
     {
-        if (!$this->election->isActive()) {
+        if (! $this->election->isActive()) {
             return false;
         }
 
@@ -44,6 +44,7 @@ class ElectionService
         $extension = '.xlsx';
 
         $dateString = Carbon::now()->format('M d, Y u');
-        return $title . ' ' . $dateString . $extension;
+
+        return $title.' '.$dateString.$extension;
     }
 }

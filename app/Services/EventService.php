@@ -26,12 +26,11 @@ class EventService
             ->whereNotIn('id', $occupiedDepartments)
             ->exists();
 
-        if (!$hasAvailableDepartments) {
+        if (! $hasAvailableDepartments) {
             return false;
-
         }
 
-        if (!$user->is_super_admin && !$occupiedDepartments->contains($user->department_id)) {
+        if (! $user->is_super_admin && ! $occupiedDepartments->contains($user->department_id)) {
             return false;
         }
 
@@ -40,7 +39,7 @@ class EventService
 
     public function canCreateCdsgElection(Admin $user): bool
     {
-        if (!$user->is_super_admin) {
+        if (! $user->is_super_admin) {
             return false;
         }
 
@@ -59,5 +58,4 @@ class EventService
 
         return true;
     }
-
 }

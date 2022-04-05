@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class EventCdsgElectionController extends Controller
 {
-
     public function create(Event $event)
     {
         /** @var Admin $user */
@@ -46,7 +45,6 @@ class EventCdsgElectionController extends Controller
         $election->election_type_id = ElectionType::TYPE_CDSG;
         $election->event_id = $event->id;
         $election->save();
-
 
         if (array_key_exists('candidates', $validated)) {
             $election->candidates()->createMany($validated['candidates']);

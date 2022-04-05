@@ -37,7 +37,6 @@ Route::post('/elections/{election}/vote', [ElectionVoteController::class, 'store
     ->middleware('auth')
     ->name('elections.vote.store');
 
-
 Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
     ->middleware('auth')
     ->name('elections.result');
@@ -51,5 +50,5 @@ Route::get('/user/profile', [UserProfileController::class, 'show'])
 //    ->middleware('auth')
 //    ->name('user-profile');
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/admin.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';

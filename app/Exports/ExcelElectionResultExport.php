@@ -32,7 +32,7 @@ class ExcelElectionResultExport implements FromView, ShouldAutoSize
     {
         $positions = Position::ofElectionType($this->election->electionType)->get();
         $candidates = $this->election->candidates()->with('user')->withCount('votes')->get();
+
         return view('exports.excel-election-result', compact('positions', 'candidates'));
     }
-
 }

@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class Election extends Model
 {
@@ -134,21 +134,20 @@ class Election extends Model
     }
 
 
-    public function winners()
+    public function winners(): Collection
     {
         $positions = $this->electionType->positions;
 
-        $candidates = $this->candidates;
 
-        $winners = [];
+        /** @var Collection<Candidate> $winners */
+        $winners = collect();
 
         foreach ($positions as $position) {
-            $winners[] = $candidates->where('position_id', '=', $position->id)
-                ->max('votes_count')
-                ->get();
-
+            $winners[] = $this->candidates()->withCount('votes')->ofPosition($position)
+                ->with('user', 'position')
+                ->orderBy('votes_count', 'desc')->limit(1)->first();
         }
 
-        dd($winners);
+        return $winners->filter();
     }
 }

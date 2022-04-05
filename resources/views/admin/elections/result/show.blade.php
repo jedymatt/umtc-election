@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     @endforeach
-                    @if($election->hasEnded())
+                    @if($election->isEnded())
                         <div class="flex justify-end mt-4">
                             <x-primary.button-link href="{{ route('admin.elections.result.export-excel', $election) }}">
                                 Export Excel

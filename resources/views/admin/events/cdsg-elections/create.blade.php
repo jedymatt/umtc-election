@@ -20,7 +20,7 @@
                             @enderror
                         </div>
                         <div class="mt-4">
-                            <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
+                            <label for="description" class="block font-medium text-sm text-gray-700">Description (Optional)</label>
                             <textarea name="description" id="description"
                                       class="w-full rounded-md"
                             >{{ old('description') }}</textarea>

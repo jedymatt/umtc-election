@@ -137,7 +137,7 @@ class Election extends Model
         return $query->where('cdsg_id', null);
     }
 
-    public function winners(): Collection
+    public function highestVotes(): Collection
     {
         $positions = $this->electionType->positions;
 

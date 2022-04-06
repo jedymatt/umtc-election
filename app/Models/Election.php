@@ -60,6 +60,11 @@ class Election extends Model
         return $this->belongsTo(Event::class);
     }
 
+    public function winners(): HasMany
+    {
+        return $this->hasMany(Winner::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('start_at', '<=', now())

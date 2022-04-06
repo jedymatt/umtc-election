@@ -139,6 +139,8 @@ class Election extends Model
 
     public function highestVotes(): Collection
     {
+        // FIXME: Get the highest candidate per election, if there is a tie, get all the highest that has tie
+
         $positions = $this->electionType->positions;
 
         /** @var Collection<Candidate> $winners */

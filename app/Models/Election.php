@@ -137,6 +137,14 @@ class Election extends Model
         return $query->where('cdsg_id', null);
     }
 
+    public function highestVotesCandidates()
+    {
+        // TODO
+        return $this->hasMany(Candidate::class)
+            ->groupBy('position_id')
+            ;
+    }
+
     public function highestVotes(): Collection
     {
         // FIXME: Get the highest candidate per election, if there is a tie, get all the highest that has tie

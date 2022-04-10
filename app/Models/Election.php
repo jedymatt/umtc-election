@@ -127,39 +127,11 @@ class Election extends Model
 
     public function hasVotedByUser(User $user)
     {
-        $voteCount = $this->votes()->where('votes.user_id', $user->id)->count();
-
-        return $voteCount >= 1;
+        return $this->votes()->where('user_id', $user->id)->exists();
     }
 
     public function scopeNoCdsg(Builder $query)
     {
         return $query->where('cdsg_id', null);
-    }
-
-    public function highestVotesCandidates()
-    {
-        // TODO
-        return $this->hasMany(Candidate::class)
-            ->groupBy('position_id')
-            ;
-    }
-
-    public function highestVotes(): Collection
-    {
-        // FIXME: Get the highest candidate per election, if there is a tie, get all the highest that has tie
-
-        $positions = $this->electionType->positions;
-
-        /** @var Collection<Candidate> $winners */
-        $winners = collect();
-
-        foreach ($positions as $position) {
-            $winners[] = $this->candidates()->withCount('votes')->ofPosition($position)
-                ->with('user', 'position')
-                ->orderBy('votes_count', 'desc')->limit(1)->first();
-        }
-
-        return $winners->filter();
     }
 }

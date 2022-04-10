@@ -6,6 +6,7 @@ use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Vote;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -46,5 +47,16 @@ class ElectionService
         $dateString = Carbon::now()->format('M d, Y u');
 
         return $title.' '.$dateString.$extension;
+    }
+
+
+    public function getCandidatesWithHighestVotesPerPosition()
+    {
+        // TODO: Get candidates with its highest votes count per position
+        $candidates = $this->election->candidates()->withCount('votes')->get();
+
+        foreach ($candidates as $candidate) {
+
+        }
     }
 }

@@ -55,7 +55,7 @@ class ElectionService
     {
         $candidates = Candidate::ofElection($this->election)->withCount('votes')
             ->orderBy('position_id')
-            ->orderBy('votes_count', 'desc')
+            ->orderBy('votes_count', 'desc') // FIXME: Tentative remove since it is of no effect
             ->get();
 
         $positions = Position::ofElectionType($this->election->electionType)->get();

@@ -9,48 +9,56 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    @foreach ($positions as $position)
-                        <div class="mt-4">
-                            <span class="font-bold text-lg text-primary">{{ $position->name }}</span>
-                            <div class="mt-2">
-                                <div class="flex flex-col">
-                                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                                            <div class="overflow-hidden">
-                                                <table class="min-w-full border table-auto">
-                                                    <thead class="border-b bg-gray-50">
-                                                        <tr>
-                                                            <th scope="col" class="px-6 py-4 text-left">
-                                                                Name
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-4 text-left">
-                                                                Votes
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($candidates->filter(function ($candidate) use ($position) {
-        return $candidate->position_id == $position->id;
-    })
-    as $candidate)
-                                                            <tr class="border-b">
-                                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                                    {{ $candidate->user->name }}
-                                                                </td>
-                                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                                    {{ $candidate->votes_count }}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div>
+                        <span class="text-xl font-medium">{{ $election->title }}</span>
+                    </div>
+                    <div>
+                        {{ $election->statusMessage() }}
+                    </div>
+
+                    <div class="mt-4">
+                        <!-- component -->
+                        <div class="overflow-x-auto border-x border-t">
+                            <table class="table-auto w-full">
+                                <thead class="border-b">
+                                    <tr class="bg-gray-100">
+                                        <th class="text-left p-4 font-medium">
+                                            Name
+                                        </th>
+                                        <th class="text-left p-4 font-medium">
+                                            Department
+                                        </th>
+                                        <th class="text-left p-4 font-medium">
+                                            Votes
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($positions as $position)
+                                        <tr class="border-b border-l-8 border-l-primary">
+                                            <td class="p-4" colspan="3">
+                                                <span class="font-medium text-primary">{{ $position->name }}</span>
+                                            </td>
+                                        </tr>
+                                        @foreach ($candidates->where('position_id', $position->id) as $candidate)
+                                            <tr class="border-b hover:bg-gray-50">
+                                                <td class="p-4">
+                                                    {{ $candidate->user->name }}
+                                                </td>
+                                                <td class="p-4">
+                                                    {{ $candidate->user->department->name }}
+                                                </td>
+                                                <td class="p-4">
+                                                    {{ $candidate->votes_count }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
             </div>
         </div>

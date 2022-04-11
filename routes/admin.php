@@ -117,7 +117,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->only(['index', 'show', 'create', 'store']);
 
-    Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
+    Route::get('/monitor-elections/{election}', [MonitorElectionController::class, 'show'])
         ->middleware('auth:admin')
         ->name('monitor-election.show');
 });

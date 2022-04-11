@@ -63,18 +63,11 @@ class ElectionService
         $winners = collect();
 
         foreach ($positions as $position) {
-            $maxVotesCount = 0;
-            foreach ($candidates->where('position_id', $position->id) as $candidate) {
-                if ($candidate->votes_count > $maxVotesCount) {
-                    $maxVotesCount = $candidate->votes_count;
-                }
-            }
+            $maxVotesCount = $candidates->where('position_id', $position->id)->max('votes_count');
 
-            foreach ($candidates->where('position_id', $position->id) as $candidate) {
-                if ($maxVotesCount == $candidate->votes_count) {
-                    $winners[] = $candidate;
-                }
-            }
+            $winners[] = $candidates->where('position_id', '=', $position->id)
+                ->where('votes_count', '=', $maxVotesCount);
+
         }
 
         return $winners;

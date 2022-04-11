@@ -9,6 +9,7 @@ use App\Models\Election;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Vote;
+use App\Models\Winner;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -36,18 +37,17 @@ class DatabaseSeeder extends Seeder
             ]);
 
             Admin::factory()->create([
-                'email' => 'basic@example.com'
+                'email' => 'basic@example.com',
             ]);
 
             User::factory()->create([
                 'name' => 'Juan Dela Cruz',
-                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
+                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
 
-            Event::factory()->create();
+            $this->call(EventSeeder::class);
 
-            Event::factory()->includeActiveDsgElections()->create();
-            Event::factory()->includeEndedDsgElections()->create();
+            Winner::factory()->count(20)->create();
 
 //            Election::factory()
 //                ->count(7)

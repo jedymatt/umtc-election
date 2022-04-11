@@ -28,12 +28,13 @@ class CandidateFactory extends Factory
         ];
     }
 
-    public function configure(): CandidateFactory
+    public function configure(): self
     {
         return $this->afterMaking(function (Candidate $candidate) {
             if ($candidate->has('election')
                 && $candidate->election->election_type_id == ElectionType::TYPE_DSG) {
                 $candidate->user->department_id = $candidate->election->department_id;
+                $candidate->position_id = $candidate->election->electionType->positions->random()->id;
                 $candidate->user->save();
             }
         });

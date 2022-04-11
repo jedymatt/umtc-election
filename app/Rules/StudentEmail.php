@@ -16,15 +16,21 @@ class StudentEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!str_contains($value, '@')) return false;
+        if (! str_contains($value, '@')) {
+            return false;
+        }
 
         list($username, $domain) = explode('@', $value);
 
-        if ($domain != 'umindanao.edu.ph') return false;
+        if ($domain != 'umindanao.edu.ph') {
+            return false;
+        }
 
         $parsedUsername = explode('.', $username);
 
-        if (count($parsedUsername) != 4) return false;
+        if (count($parsedUsername) != 4) {
+            return false;
+        }
 
         $initialGivenName = $parsedUsername[0];
         $studentId = $parsedUsername[2];
@@ -34,7 +40,7 @@ class StudentEmail implements Rule
             return false;
         }
 
-        if (strlen($studentId) != 6 || !ctype_digit($studentId)) {
+        if (strlen($studentId) != 6 || ! ctype_digit($studentId)) {
             return false;
         }
 

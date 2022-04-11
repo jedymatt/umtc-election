@@ -27,7 +27,6 @@ class PositionSeeder extends Seeder
             ['name' => 'Business Manager'],
         ];
 
-
         \App\Models\Position::insert($positions);
     }
 }

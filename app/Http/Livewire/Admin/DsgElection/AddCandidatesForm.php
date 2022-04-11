@@ -13,6 +13,7 @@ use Livewire\Component;
 class AddCandidatesForm extends Component
 {
     public Collection $candidates;
+
     public Collection $positions;
 
     public int $selectedPosition;
@@ -45,7 +46,6 @@ class AddCandidatesForm extends Component
 
     public function addCandidate(User $user)
     {
-
         $this->candidates->prepend([
             'user_id' => $user->id,
             'user_name' => $user->name,

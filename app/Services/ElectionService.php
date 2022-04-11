@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class ElectionService
 {
@@ -44,6 +46,30 @@ class ElectionService
         $extension = '.xlsx';
 
         $dateString = Carbon::now()->format('M d, Y u');
+
         return $title . ' ' . $dateString . $extension;
+    }
+
+
+    public function calculateCandidateWinners(): Collection
+    {
+        $candidates = Candidate::ofElection($this->election)->withCount('votes')
+            ->orderBy('position_id')
+            ->orderBy('votes_count', 'desc')
+            ->get();
+
+        $positions = Position::ofElectionType($this->election->electionType)->get();
+
+        $winners = collect();
+
+        foreach ($positions as $position) {
+            $maxVotesCount = $candidates->where('position_id', $position->id)->max('votes_count');
+
+            $winners[] = $candidates->where('position_id', '=', $position->id)
+                ->where('votes_count', '=', $maxVotesCount);
+
+        }
+
+        return $winners;
     }
 }

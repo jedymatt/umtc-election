@@ -19,20 +19,17 @@ class EventController extends Controller
     {
         $events = Event::paginate();
 
-
         return view('admin.events.index', compact('events'));
     }
 
     public function show(Event $event)
     {
-
         $dsgElections = $event->dsgElections()
             ->orderBy(Department::select('name')
                 ->whereColumn('department_id', '=', 'id'))
             ->get();
 
         $cdsgElection = $event->cdsgElection()->get();
-
 
         return view('admin.events.show', compact(
             'event',
@@ -48,13 +45,12 @@ class EventController extends Controller
         return view('admin.events.create');
     }
 
-
     public function store(Request $request)
     {
         abort_unless(auth('admin')->user()->is_super_admin, 403);
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string'
+            'title' => 'required|string',
         ]);
 
         $event = Event::create($validator->validated());

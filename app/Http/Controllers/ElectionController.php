@@ -36,7 +36,6 @@ class ElectionController extends Controller
                 ->get();
         }
 
-
         return view('elections.index', compact('activeElections', 'endedElections'));
     }
 

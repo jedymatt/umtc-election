@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
@@ -24,7 +26,7 @@ class EventFactory extends Factory
         ];
     }
 
-    public function includeActiveDsgElections($totalDepartment = 7): EventFactory
+    public function includeActiveDsgElections($totalDepartment = 7): self
     {
         $sequence = Department::limit($totalDepartment)->inRandomOrder()->get()->map(function ($department) {
             return ['department_id' => $department->id];
@@ -34,7 +36,7 @@ class EventFactory extends Factory
             ->state(new Sequence(...$sequence->toArray())));
     }
 
-    public function includeEndedDsgElections($totalDepartment = 7): EventFactory
+    public function includeEndedDsgElections($totalDepartment = 7): self
     {
         $sequence = Department::limit($totalDepartment)->inRandomOrder()->get()->map(function ($department) {
             return ['department_id' => $department->id];
@@ -45,6 +47,10 @@ class EventFactory extends Factory
                 ->count($sequence->count())
                 ->ended()
                 ->state(new Sequence(...$sequence->toArray()))
+                ->has(Candidate::factory()
+                    ->count(20))
+                ->has(Vote::factory()
+                    ->count(100))
         );
     }
 }

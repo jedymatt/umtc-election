@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class ElectionService
 {
@@ -21,7 +22,7 @@ class ElectionService
 
     public function canVote(User $user): bool
     {
-        if (! $this->election->isActive()) {
+        if (!$this->election->isActive()) {
             return false;
         }
 
@@ -46,17 +47,36 @@ class ElectionService
 
         $dateString = Carbon::now()->format('M d, Y u');
 
-        return $title.' '.$dateString.$extension;
+        return $title . ' ' . $dateString . $extension;
     }
 
 
-    public function getCandidatesWithHighestVotesPerPosition()
+    public function calculateCandidateWinners(): Collection
     {
-        // TODO: Get candidates with its highest votes count per position
-        $candidates = $this->election->candidates()->withCount('votes')->get();
+        $candidates = Candidate::ofElection($this->election)->withCount('votes')
+            ->orderBy('position_id')
+            ->orderBy('votes_count', 'desc')
+            ->get();
 
-        foreach ($candidates as $candidate) {
+        $positions = Position::ofElectionType($this->election->electionType)->get();
 
+        $winners = collect();
+
+        foreach ($positions as $position) {
+            $maxVotesCount = 0;
+            foreach ($candidates->where('position_id', $position->id) as $candidate) {
+                if ($candidate->votes_count > $maxVotesCount) {
+                    $maxVotesCount = $candidate->votes_count;
+                }
+            }
+
+            foreach ($candidates->where('position_id', $position->id) as $candidate) {
+                if ($maxVotesCount == $candidate->votes_count) {
+                    $winners[] = $candidate;
+                }
+            }
         }
+
+        return $winners;
     }
 }

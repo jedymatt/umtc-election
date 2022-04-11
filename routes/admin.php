@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
+use App\Http\Controllers\Admin\MonitorElectionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -115,4 +116,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('/events', EventController::class)
         ->middleware('auth:admin')
         ->only(['index', 'show', 'create', 'store']);
+
+    Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
+        ->middleware('auth:admin')
+        ->name('monitor-election.show');
 });

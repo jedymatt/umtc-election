@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DsgElectionController;
 use App\Http\Controllers\Admin\ElectionController;
+use App\Http\Controllers\Admin\ElectionMonitorController;
 use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
@@ -117,7 +118,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->only(['index', 'show', 'create', 'store']);
 
-    Route::get('/monitor-elections/{election}', [MonitorElectionController::class, 'show'])
+    Route::get('/elections/{election}/monitor', [ElectionMonitorController::class, 'show'])
         ->middleware('auth:admin')
-        ->name('monitor-election.show');
+        ->name('elections.monitor');
 });

@@ -51,11 +51,10 @@ class ElectionService
     }
 
 
-    public function calculateCandidateWinners(): Collection
+    public function getCandidateWinners(): Collection
     {
         $candidates = Candidate::ofElection($this->election)->withCount('votes')
             ->orderBy('position_id')
-            ->orderBy('votes_count', 'desc') // FIXME: Tentative remove since it is of no effect
             ->get();
 
         $positions = Position::ofElectionType($this->election->electionType)->get();
@@ -71,5 +70,20 @@ class ElectionService
         }
 
         return $winners;
+    }
+
+    public function getWinnerConflicts(): Collection
+    {
+        $candidateWinners = $this->getCandidateWinners();
+
+        $conflicts = collect();
+
+        foreach ($candidateWinners as $candidates) {
+            if ($candidates->count() > 1) {
+                $conflicts[] = $candidates;
+            }
+        }
+
+        return $conflicts;
     }
 }

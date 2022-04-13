@@ -24,7 +24,7 @@ class MonitorElectionController extends Controller
         $calculatedWinners = $election->isEnded() ? (new ElectionService($election))->getCandidateWinners()
             : collect();
 
-        return view('admin.monitor-elections', compact(
+        return view('admin.monitor-election', compact(
             'election', 'positions', 'candidates', 'calculatedWinners'
         ));
     }

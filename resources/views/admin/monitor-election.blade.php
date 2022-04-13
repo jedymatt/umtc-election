@@ -18,7 +18,6 @@
                     </div>
 
                    @if($election->isEnded())
-                       @dump($calculatedWinners)
                         <div class="mt-4">
                             @foreach($calculatedWinners as $winners)
                                 @foreach($winners as $winner)

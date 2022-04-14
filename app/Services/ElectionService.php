@@ -51,7 +51,7 @@ class ElectionService
     }
 
 
-    public function getCandidateWinners(): Collection
+    public function getPreWinners(): Collection
     {
         $candidates = Candidate::ofElection($this->election)->withCount('votes')
             ->orderBy('position_id')
@@ -76,7 +76,7 @@ class ElectionService
     {
 
         // FIXME: Algorithm mismatch
-        $candidateWinners = $this->getCandidateWinners();
+        $candidateWinners = $this->getPreWinners();
 
         $conflicts = collect();
 

@@ -21,7 +21,7 @@ class MonitorElectionController extends Controller
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
-        $calculatedWinners = $election->isEnded() ? (new ElectionService($election))->getCandidateWinners()
+        $calculatedWinners = $election->isEnded() ? (new ElectionService($election))->getPreWinners()
             : collect();
 
         return view('admin.monitor-election', compact(

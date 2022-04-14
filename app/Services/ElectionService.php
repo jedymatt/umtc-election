@@ -69,11 +69,13 @@ class ElectionService
 
         }
 
-        return $winners;
+        return $winners->flatten();
     }
 
     public function getWinnerConflicts(): Collection
     {
+
+        // FIXME: Algorithm mismatch
         $candidateWinners = $this->getCandidateWinners();
 
         $conflicts = collect();

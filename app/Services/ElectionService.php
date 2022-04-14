@@ -72,6 +72,30 @@ class ElectionService
         return $winners->flatten();
     }
 
+    public function hasWinnersConflict(): bool
+    {
+        $candidates = Candidate::ofElection($this->election)->withCount('votes')
+            ->orderBy('position_id')
+            ->get();
+
+        $positions = Position::ofElectionType($this->election->electionType)->get();
+
+
+        foreach ($positions as $position) {
+            $maxVotesCount = $candidates->where('position_id', $position->id)->max('votes_count');
+
+            $winners = $candidates->where('position_id', '=', $position->id)
+                ->where('votes_count', '=', $maxVotesCount);
+
+            if ($winners->count() > 1 ) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
     public function getWinnerConflicts(): Collection
     {
 

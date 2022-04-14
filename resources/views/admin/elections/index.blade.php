@@ -23,10 +23,10 @@
                                         Status
                                     </th>
                                     <th class="text-left p-4 font-medium">
-                                        Department
+                                        Type
                                     </th>
                                     <th class="text-left p-4 font-medium">
-                                        Schedule
+                                        Department
                                     </th>
                                     <th class="text-left p-4 font-medium">
                                         Actions
@@ -41,19 +41,22 @@
                                             <span class="truncate">{{ $election->title }}</span>
                                         </td>
                                         <td class="p-4">
+                                            {{ $election->electionType->name }}
+                                        </td>
+                                        <td class="p-4">
                                             {{ $election->statusMessage() }}
                                         </td>
                                         <td class="p-4">
                                             {{ $election->department->name }}
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->start_at }} - {{ $election->end_at }}
-                                        </td>
-                                        <td class="p-4">
-                                            <a class="text-blue-700"
-                                                href="{{ route('admin.elections.show', $election) }}">Details</a>
-                                            <a class="text-blue-700"
-                                                href="{{ route('admin.monitor-election', $election) }}">Monitor</a>
+                                            <a class="text-primary hover:underline hover:text-primary-700 visited:text-primary-700"
+                                               href="{{ route('admin.elections.show', $election) }}">Details</a>
+                                            <div class="mt-2">
+                                                <a class="text-white bg-primary p-1 rounded-md hover:bg-primary-700 ring-primary-300 focus:ring-4 active:bg-primary-700"
+                                                   role="button"
+                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor</a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -61,9 +64,9 @@
                             </table>
                         </div>
                     </div>
-                        <div class="mt-4">
-                            {{ $elections->links() }}
-                        </div>
+                    <div class="mt-4">
+                        {{ $elections->links() }}
+                    </div>
                 </div>
             </div>
         </div>

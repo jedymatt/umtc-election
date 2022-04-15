@@ -88,14 +88,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->except('create')
         ->middleware('auth:admin');
 
-    Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
-        ->middleware('auth:admin')
-        ->name('elections.result.show');
-
-    Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('elections.result.export-excel');
-
     Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
         ->middleware('auth:admin')
         ->name('events.dsg-election.create');
@@ -119,4 +111,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
         ->middleware('auth:admin')
         ->name('monitor-election');
+
+    Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('elections.result.export-excel');
 });

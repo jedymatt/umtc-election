@@ -33,10 +33,6 @@
                             if ($election->event_id != null) {
                                 $links['Event'] = route('admin.events.show', $election->event_id);
                             }
-
-                            if ($election->ended()) {
-                                $links['Election Result'] = route('admin.elections.result.show', $election);
-                            }
                         @endphp
                         Related Links:
                         @forelse($links as $key => $link)

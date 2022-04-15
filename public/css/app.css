@@ -1295,6 +1295,10 @@ select {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(223 168 173 / var(--tw-ring-opacity));
 }
+.ring-primary-400 {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(199 102 112 / var(--tw-ring-opacity));
+}
 .ring-opacity-5 {
   --tw-ring-opacity: 0.05;
 }

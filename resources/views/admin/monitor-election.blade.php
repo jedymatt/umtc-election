@@ -9,7 +9,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-
                     <div>
                         <span class="text-xl font-medium">{{ $election->title }}</span>
                     </div>
@@ -17,52 +16,67 @@
                         {{ $election->statusMessage() }}
                     </div>
 
-                   @if($election->isEnded())
-                        <div class="mt-4">
-                            <!-- component -->
-                            <div class="bg-white">
-
-                                <div class="overflow-x-auto border-x border-t">
-                                    <table class="table-auto w-full">
-                                        <thead class="border-b">
-                                        <tr class="bg-gray-100">
-                                            <th class="text-left p-4 font-medium">
-                                                Name
-                                            </th>
-                                            <th class="text-left p-4 font-medium">
-                                                Email
-                                            </th>
-                                            <th class="text-left p-4 font-medium">
-                                                Role
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                </div>
+            </div>
+        </div>
+        @if($election->isEnded())
+            <div class="mt-6"></div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <span class="text-lg font-medium">Winners</span>
+                        <!-- component -->
+                        <div class="mt-1">
+                            <div class="overflow-x-auto border-x border-t">
+                                <table class="table-auto w-full">
+                                    <thead class="border-b">
+                                    <tr class="bg-gray-100">
+                                        <th class="text-left p-4 font-medium">
+                                            Name
+                                        </th>
+                                        <th class="text-left p-4 font-medium">
+                                            Position
+                                        </th>
+                                        <th class="text-left p-4 font-medium">
+                                            Department
+                                        </th>
+                                        <th class="text-left p-4 font-medium">
+                                            Votes
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($winners as $winner)
                                         <tr class="border-b hover:bg-gray-50">
                                             <td class="p-4">
-                                                Prof. Lucie Waters
+                                                {{ $winner->candidate->user->name }}
                                             </td>
                                             <td class="p-4">
-                                                basic@example.com
+                                                {{ $winner->candidate->position->name }}
                                             </td>
                                             <td class="p-4">
-                                                Administrator
+                                                {{ $winner->candidate->user->department->name }}
+                                            </td>
+                                            <td class="p-4">
+                                                {{ $winner->votes }}
                                             </td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            @foreach($calculatedWinners as $winners)
-                               <div>
-                                   {{ $winners }}
-                               </div>
-                            @endforeach
                         </div>
-                   @endif
+                    </div>
+                </div>
+            </div>
+        @endif
 
-                    <div class="mt-4">
-                        <!-- component -->
+        <div class="mt-6"></div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <span class="text-lg font-medium">Candidates</span>
+                    <div class="mt-1">
                         <div class="overflow-x-auto border-x border-t">
                             <table class="table-auto w-full">
                                 <thead class="border-b-2 border-b-gray-300">

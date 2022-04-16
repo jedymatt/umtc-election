@@ -3,6 +3,5 @@ updates:
   - package-ecosystem: "composer"
     # Raise pull requests to update vendored dependencies that are checked in to the repository
     vendor: true
-    directory: "/"
     schedule:
       interval: "weekly"

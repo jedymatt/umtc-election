@@ -16,24 +16,14 @@ class MonitorElectionController extends Controller
     {
         $positions = Position::ofElectionType($election->electionType)->get();
         $candidates = $election->candidates()
-            ->with(['position', 'user'])
+            ->with(['position', 'user', 'user.department'])
             ->withCount('votes')
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
-        // TODO: Replace calculated to conflicted winners
-        $calculatedWinners = $election->isEnded() ? (new ElectionService($election))->getPreWinners()
-            : collect();
-
-        $winners = $election->winners()
-            ->with(['candidate'])
-            ->orderBy(Candidate::select('position_id')
-                ->whereColumn('winners.candidate_id', '=', 'candidates.id'))
-            ->get();
-
         return view('admin.monitor-election', compact(
-            'election', 'positions', 'candidates', 'calculatedWinners', 'winners'
+            'election', 'positions', 'candidates',
         ));
     }
 }

@@ -47,7 +47,6 @@ class DatabaseSeeder extends Seeder
 
             $this->call(EventSeeder::class);
 
-            Winner::factory()->count(20)->create();
 
 //            Election::factory()
 //                ->count(7)

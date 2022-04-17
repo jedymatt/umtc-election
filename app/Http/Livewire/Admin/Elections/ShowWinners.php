@@ -8,21 +8,28 @@ use Livewire\Component;
 
 class ShowWinners extends Component
 {
+    public Election $election;
     public $winners;
-    public $hasWinnersConflict;
+    public bool $showWinners;
     public $winnersConflicts;
-
-    private $electionService;
 
     public function mount(Election $election)
     {
-        $this->electionService = new ElectionService($election);
+        $this->election = $election;
 
-        $this->winners = $election->winners;
+        $electionService = new ElectionService($election);
 
-        $this->hasWinnersConflict = $this->electionService->hasWinnersConflict();
+        $this->winners = $election->winners()->with([
+            'candidate',
+            'candidate.position',
+            'candidate.user',
+            'candidate.user.department',
+            'election',
+        ])->get();
 
-        $this->winnersConflicts = $this->hasWinnersConflict ? $this->electionService->getWinningCandidatesConflicts() : collect();
+        $this->showWinners = $electionService->hasWinnersConflict();
+
+        $this->winnersConflicts = $this->showWinners ? $electionService->getWinnersConflicts() : collect();
     }
 
     public function render()

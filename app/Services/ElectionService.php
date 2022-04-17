@@ -57,9 +57,7 @@ class ElectionService
      */
     public function getWinningCandidates(): Collection
     {
-        $this->election->loadMissing('candidates')->loadCount('votes');
-
-        $candidates = $this->election->candidates->orderBy('position_id')->get();
+        $candidates = $this->election->candidates()->withCount('votes')->orderBy('position_id')->get();
 
         $candidates = $candidates->groupBy('position_id');
 
@@ -67,10 +65,8 @@ class ElectionService
 
         foreach ($candidates as $positionCandidates) {
             $maxVotesCount = $positionCandidates->max('votes_count');
-
             $winningCandidates->push(...$positionCandidates->where('votes_count', '=', $maxVotesCount));
         }
-
 
         return $winningCandidates;
     }
@@ -84,7 +80,6 @@ class ElectionService
                 'votes' => $candidate->votes_count,
             ]);
         });
-
         $this->election->winners()->saveMany($winners);
     }
 

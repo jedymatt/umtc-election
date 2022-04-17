@@ -3,21 +3,33 @@
 namespace App\Http\Livewire\Admin\Elections;
 
 use App\Models\Election;
+use App\Models\Winner;
 use App\Services\ElectionService;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class ShowWinners extends Component
 {
+    private $electionService;
+
     public Election $election;
+
     public $winners;
-    public bool $showWinners;
+
     public $winnersConflicts;
+
+    /**
+     * @var array<Winner>
+     */
+    public array $selectedWinners = [];
+
+    public $showWinners;
 
     public function mount(Election $election)
     {
         $this->election = $election;
 
-        $electionService = new ElectionService($election);
+        $this->electionService = new ElectionService($election);
 
         $this->winners = $election->winners()->with([
             'candidate',
@@ -27,13 +39,43 @@ class ShowWinners extends Component
             'election',
         ])->get();
 
-        $this->showWinners = $electionService->hasWinnersConflict();
+        $this->showWinners = $this->electionService->hasWinnersConflict();
 
-        $this->winnersConflicts = $this->showWinners ? $electionService->getWinnersConflicts() : collect();
+        $this->winnersConflicts = $this->showWinners ? $this->electionService->getWinnersConflicts() : [];
     }
 
     public function render()
     {
         return view('livewire.admin.elections.show-winners');
+    }
+
+
+    public function resolveConflict()
+    {
+        // FIXME: Bug does not show winners when there is no more conflicts;
+        foreach ($this->selectedWinners as $positionId => $winnerId) {
+            $this->election->winners()
+                ->whereHas('candidate', function (Builder $query) use ($positionId, $winnerId) {
+                    $query->where('position_id', '=', $positionId);
+                })
+                ->where('id', '!=', $winnerId)->delete();
+        }
+
+        $electionService = new ElectionService($this->election);
+
+        $this->winnersConflicts = $electionService->getWinnersConflicts();
+        $this->showWinners = true;
+
+        if ($this->winnersConflicts->isEmpty()) {
+            $this->showWinners = true;
+        }
+
+        $this->winners = $this->election->winners()->with([
+            'candidate',
+            'candidate.position',
+            'candidate.user',
+            'candidate.user.department',
+            'election',
+        ])->get();
     }
 }

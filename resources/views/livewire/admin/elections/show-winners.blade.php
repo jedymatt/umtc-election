@@ -1,24 +1,35 @@
 <div>
     @if($showWinners)
-        @foreach($winnersConflicts as $positionName => $winners)
-            <div>
-                {{ $positionName }}
-                @foreach($winners as $winner)
-                    <div>
-                        {{ $winner->candidate->user->name }}
-                    </div>
-                @endforeach
-            </div>
-        @endforeach
-        <div class="mt-4 flex justify-end">
-            <button role="button"
-                    class="inline-flex items-center px-3 py-1 bg-primary-500 rounded-md text-white focus:ring ring-primary-300 active:bg-primary-700 hover:bg-primary-700 focus:outline-none ring-opacity-50">
-                Resolve
-            </button>
-        </div>
+        <div>
+            <span>  Resolve conflict by selecting the winners</span>
+            @foreach($winnersConflicts as $positionName => $winners)
+                <div class="mt-1">
 
+                    <span>{{ $positionName }}</span>
+
+                    @foreach($winners as $winner)
+                        <div wire:key="{{ $loop->index }}">
+                            <label>
+                                <input type="radio"
+                                       wire:model="selectedWinners.{{ $winner['candidate']['position_id'] }}"
+                                       name="winners[{{ $winner['candidate']['position_id'] }}]"
+                                       value="{{ $winner['id'] }}">
+                                {{ $winner['candidate']['user']['name'] }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
+
+            <div class="mt-4 flex justify-end">
+                <button role="button" wire:click.prevent="resolveConflict"
+                        class="inline-flex items-center px-3 py-1 bg-primary-500 rounded-md text-white focus:ring ring-primary-300 active:bg-primary-700 hover:bg-primary-700 focus:outline-none ring-opacity-50">
+                    Resolve
+                </button>
+            </div>
+        </div>
     @else
-        <div class="mt-1">
+        <div>
             <div class="overflow-x-auto border-x border-t">
                 <table class="table-auto w-full">
                     <thead class="border-b">
@@ -64,5 +75,4 @@
                href="{{ route('admin.elections.result.export-excel', $election) }}">Export as Excel</a>
         </div>
     @endif
-
 </div>

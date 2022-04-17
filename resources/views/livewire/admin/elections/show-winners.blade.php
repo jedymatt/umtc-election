@@ -1,11 +1,11 @@
 <div>
-    @if($hasWinnersConflict)
+    @if($showWinners)
         @foreach($winnersConflicts as $positionName => $winners)
             <div>
                 {{ $positionName }}
                 @foreach($winners as $winner)
                     <div>
-                        {{ $winner->user->name }}
+                        {{ $winner->candidate->user->name }}
                     </div>
                 @endforeach
             </div>

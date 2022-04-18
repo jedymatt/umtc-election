@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\CdsgElection;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Models\Event;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,8 +27,11 @@ class AddCandidatesForm extends Component
 
     public $selectedUserId = null;
 
-    public function mount()
+    public $event;
+
+    public function mount(Event $event)
     {
+        $this->event = $event;
         $this->positions = Position::Cdsgelection()->get();
         $this->selectedPositionId = $this->positions->first()->id;
         $this->candidates = collect();
@@ -42,14 +46,15 @@ class AddCandidatesForm extends Component
                     $users = $this->candidates->map(function ($candidate) {
                         return $candidate['user_id'];
                     });
-                    $query->whereNotIn('id', $users);
+                    $query->whereNotIn('id', $users)
+                        ->whereHas('winner.election.event', function (Builder $query) {
+                            $query->where('id', '=', $this->event->id);
+                        });
                 })
                 ->paginate(5);
         }
 
-        return view('livewire.admin.cdsg-election.add-candidates-form', [
-            'users' => $users,
-        ]);
+        return view('livewire.admin.cdsg-election.add-candidates-form', compact('users'));
     }
 
     public function addCandidate(User $user)

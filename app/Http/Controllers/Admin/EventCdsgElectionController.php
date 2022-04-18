@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
+use App\Services\ElectionService;
 use App\Services\EventService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +21,12 @@ class EventCdsgElectionController extends Controller
 
         abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
 
+        $dsgElections = $event->dsgElections;
+
+        foreach ($dsgElections as $election) {
+            abort_if((new ElectionService($election))->hasWinnersConflict(), 403, 'Detected Election Winners Conflict');
+        }
+
         return view('admin.events.cdsg-elections.create', compact('event'));
     }
 
@@ -29,6 +36,12 @@ class EventCdsgElectionController extends Controller
         $user = auth('admin')->user();
 
         abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
+
+        $dsgElections = $event->dsgElections;
+
+        foreach ($dsgElections as $election) {
+            abort_if((new ElectionService($election))->hasWinnersConflict(), 403, 'Detected Election Winners Conflict');
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

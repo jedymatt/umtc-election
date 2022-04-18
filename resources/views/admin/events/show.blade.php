@@ -121,7 +121,7 @@
                                         <td class="p-4">
                                             @if($dsgElectionsHasWinnersConflict[$election->id])
                                                 <div class="inline-flex items-center">
-                                                    <x-icon.warning class="inline-block text-yellow-600"/>
+                                                    <x-icon.warning class="inline-block text-yellow-500"/>
                                                     <a class="text-sm text-red-500 hover:underline hover:text-red-700"
                                                        href="{{ route('admin.monitor-election', $election) }}">
                                                         <span class="pl-1">Resolve Winners' Conflict</span>

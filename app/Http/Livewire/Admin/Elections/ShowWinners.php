@@ -52,7 +52,6 @@ class ShowWinners extends Component
 
     public function resolveConflict()
     {
-        // FIXME: Bug does not show winners when there is no more conflicts;
         foreach ($this->selectedWinners as $positionId => $winnerId) {
             $this->election->winners()
                 ->whereHas('candidate', function (Builder $query) use ($positionId, $winnerId) {
@@ -60,22 +59,8 @@ class ShowWinners extends Component
                 })
                 ->where('id', '!=', $winnerId)->delete();
         }
-
-        $electionService = new ElectionService($this->election);
-
-        $this->winnersConflicts = $electionService->getWinnersConflicts();
-        $this->showWinners = true;
-
-        if ($this->winnersConflicts->isEmpty()) {
-            $this->showWinners = true;
-        }
-
-        $this->winners = $this->election->winners()->with([
-            'candidate',
-            'candidate.position',
-            'candidate.user',
-            'candidate.user.department',
-            'election',
-        ])->get();
+        
+        // Temporary fix by refreshing the page
+        return redirect()->refresh();
     }
 }

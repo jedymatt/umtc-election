@@ -47,7 +47,7 @@
                         <div class="mt-4">
                             <span class="text-xl font-medium text-primary">Candidates</span>
                             <div class="my-2">
-                                <livewire:admin.cdsg-election.add-candidates-form/>
+                                <livewire:admin.cdsg-election.add-candidates-form :event="$event"/>
                             </div>
                         </div>
                         <div class="flex justify-end mt-4">

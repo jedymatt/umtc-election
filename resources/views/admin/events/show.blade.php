@@ -96,6 +96,9 @@
                                     <th class="text-left p-4 font-medium">
                                         Department
                                     </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Actions
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -114,6 +117,12 @@
                                         </td>
                                         <td class="p-4">
                                             {{ $election->department?->name }}
+                                        </td>
+                                        <td class="p-4">
+                                            @if($dsgElectionsHasWinnersConflict[$election->id])
+                                                <a href="{{ route('admin.monitor-election') }}">Resolve Winners
+                                                    Conflict</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

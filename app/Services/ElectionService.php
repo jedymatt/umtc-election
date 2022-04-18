@@ -8,6 +8,7 @@ use App\Models\ElectionType;
 use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
+use App\Models\Winner;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -51,65 +52,112 @@ class ElectionService
     }
 
 
-    public function getPreWinners(): Collection
+    /**
+     * @return Collection<Candidate>
+     */
+    public function getWinningCandidates(): Collection
     {
-        $candidates = Candidate::ofElection($this->election)->withCount('votes')
-            ->orderBy('position_id')
-            ->get();
+        $candidates = $this->election->candidates()->withCount('votes')->orderBy('position_id')->get();
 
-        $positions = Position::ofElectionType($this->election->electionType)->get();
+        $candidates = $candidates->groupBy('position_id');
 
-        $winners = collect();
+        $winningCandidates = collect();
 
-        foreach ($positions as $position) {
-            $maxVotesCount = $candidates->where('position_id', $position->id)->max('votes_count');
-
-            $winners[] = $candidates->where('position_id', '=', $position->id)
-                ->where('votes_count', '=', $maxVotesCount);
-
+        foreach ($candidates as $positionCandidates) {
+            $maxVotesCount = $positionCandidates->max('votes_count');
+            $winningCandidates->push(...$positionCandidates->where('votes_count', '=', $maxVotesCount));
         }
 
-        return $winners->flatten();
+        return $winningCandidates;
+    }
+
+    public function saveWinners(): void
+    {
+        $winners = $this->getWinningCandidates()->map(function ($candidate) {
+            return Winner::make([
+                'candidate_id' => $candidate->id,
+                'election_id' => $this->election->id,
+                'votes' => $candidate->votes_count,
+            ]);
+        });
+        $this->election->winners()->saveMany($winners);
     }
 
     public function hasWinnersConflict(): bool
     {
-        $candidates = Candidate::ofElection($this->election)->withCount('votes')
-            ->orderBy('position_id')
-            ->get();
-
-        $positions = Position::ofElectionType($this->election->electionType)->get();
-
-
-        foreach ($positions as $position) {
-            $maxVotesCount = $candidates->where('position_id', $position->id)->max('votes_count');
-
-            $winners = $candidates->where('position_id', '=', $position->id)
-                ->where('votes_count', '=', $maxVotesCount);
-
-            if ($winners->count() > 1 ) {
+        $positionWinners = $this->election->winners()->with(['candidate'])->get()
+            ->groupBy('candidate.position_id');
+        foreach ($positionWinners as $winners) {
+            if ($winners->count() > 1) {
                 return true;
             }
-
         }
 
         return false;
     }
 
-    public function getWinnerConflicts(): Collection
+    public function getWinnersConflicts(): Collection
     {
+        $this->election->winners->loadMissing(['candidate', 'candidate.position']);
 
-        // FIXME: Algorithm mismatch
-        $candidateWinners = $this->getPreWinners();
+        $positionWinners = $this->election->winners()->get()->groupBy('candidate.position.name');
 
-        $conflicts = collect();
+        $winnersConflicts = collect();
 
-        foreach ($candidateWinners as $candidates) {
-            if ($candidates->count() > 1) {
-                $conflicts[] = $candidates;
+        foreach ($positionWinners as $positionName => $winners) {
+            if ($winners->count() > 1) {
+                $winnersConflicts[$positionName] = $winners;
             }
         }
 
-        return $conflicts;
+        return $winnersConflicts;
+    }
+
+
+    public function hasWinningCandidatesConflict(): bool
+    {
+        $candidates = Candidate::ofElection($this->election)
+            ->withCount('votes')
+            ->orderBy('position_id')
+            ->get();
+
+        $candidates = $candidates->groupBy('position_id');
+
+        foreach ($candidates as $positionCandidates) {
+            $maxVotesCount = $positionCandidates->max('votes_count');
+
+            $winners = $positionCandidates->where('votes_count', '=', $maxVotesCount);
+
+            if ($winners->count() > 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getWinningCandidatesConflicts(): Collection
+    {
+        $candidates = Candidate::ofElection($this->election)
+            ->with('position')
+            ->withCount('votes')
+            ->orderBy('position_id')
+            ->get();
+
+        $candidates = $candidates->groupBy('position.name');
+
+        $winnersConflicts = collect();
+
+        foreach ($candidates as $positionName => $positionCandidates) {
+            $maxVotesCount = $positionCandidates->max('votes_count');
+
+            $winners = $positionCandidates->where('votes_count', '=', $maxVotesCount);
+
+            if ($winners->count() > 1) {
+                $winnersConflicts[$positionName] = $winners;
+            }
+        }
+
+        return $winnersConflicts;
     }
 }

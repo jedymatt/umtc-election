@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
+use App\Services\ElectionService;
 use App\Services\EventService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -31,10 +32,27 @@ class EventController extends Controller
 
         $cdsgElection = $event->cdsgElection()->get();
 
+
+        $dsgElectionsHasWinnersConflict = [];
+
+        $dsgElections->each(function ($election) use ($dsgElectionsHasWinnersConflict){
+            if (!$election->isEnded()) {
+                return $dsgElectionsHasWinnersConflict[$election->id] = false;
+            }
+
+            $electionService = new ElectionService($election);
+
+            if ($election->winners()->doesntExist()) {
+                $electionService->saveWinners();
+            }
+            return $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
+        });
+
         return view('admin.events.show', compact(
             'event',
             'dsgElections',
             'cdsgElection',
+            'dsgElectionsHasWinnersConflict'
         ));
     }
 

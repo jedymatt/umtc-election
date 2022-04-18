@@ -59,7 +59,7 @@ class ShowWinners extends Component
                 })
                 ->where('id', '!=', $winnerId)->delete();
         }
-        
+
         // Temporary fix by refreshing the page
         return redirect()->refresh();
     }

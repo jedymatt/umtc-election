@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JetBrains\PhpStorm\ArrayShape;
@@ -84,5 +85,10 @@ class User extends Authenticatable
             'name' => $this->name,
             'email' => $this->email,
         ];
+    }
+
+    public function winner(): HasOneThrough
+    {
+        return $this->hasOneThrough(Winner::class, Candidate::class);
     }
 }

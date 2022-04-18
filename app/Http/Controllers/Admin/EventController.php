@@ -34,10 +34,10 @@ class EventController extends Controller
 
 
         $dsgElectionsHasWinnersConflict = [];
-
-        $dsgElections->each(function ($election) use ($dsgElectionsHasWinnersConflict){
+        foreach ($dsgElections as $election) {
             if (!$election->isEnded()) {
-                return $dsgElectionsHasWinnersConflict[$election->id] = false;
+                $dsgElectionsHasWinnersConflict[$election->id] = false;
+                continue;
             }
 
             $electionService = new ElectionService($election);
@@ -45,8 +45,8 @@ class EventController extends Controller
             if ($election->winners()->doesntExist()) {
                 $electionService->saveWinners();
             }
-            return $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
-        });
+            $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
+        }
 
         return view('admin.events.show', compact(
             'event',

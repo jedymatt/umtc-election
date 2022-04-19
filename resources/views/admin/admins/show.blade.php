@@ -22,7 +22,7 @@
                     <div class="mt-4">
                         <x-label for="is_super_admin" value="Role"/>
                         <x-input id="is_super_admin" name="is_super_admin"
-                                 :value="$admin->role()" type="text"
+                                 :value="$admin->roleMessage()" type="text"
                                  disabled
                                  class="block mt-1 w-full"/>
                     </div>

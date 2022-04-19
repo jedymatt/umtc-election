@@ -47,7 +47,7 @@
                                             {{ $election->statusMessage() }}
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->department->name }}
+                                            {{ $election->department?->name }}
                                         </td>
                                         <td class="p-4">
                                             <a class="text-primary hover:underline hover:text-primary-700 visited:text-primary-700"
@@ -55,7 +55,7 @@
                                             <div class="mt-2">
                                                 <a class="text-white bg-primary px-2 py-1 rounded-md hover:bg-primary-700 focus:ring ring-primary-300 active:bg-primary-700 focus:outline-none"
                                                    role="button"
-                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor</a>
+                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor Election</a>
                                             </div>
                                         </td>
                                     </tr>

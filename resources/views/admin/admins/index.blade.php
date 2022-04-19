@@ -16,63 +16,45 @@
                                 Create Admin Account</a>
                         </div>
                     @endcan
-                    <div class="flex flex-col">
-                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Name
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Email
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Role
-                                            </th>
-                                            <th scope="col" class="relative px-6 py-3">
-                                                <span class="sr-only">View</span>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach($admins as $admin)
-                                            <tr class="{{ $admin->id == Auth::id() ? 'bg-gray-100' : '' }}">
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    @if ($admin->id == Auth::id())
-                                                        <div class="text-sm text-gray-900 font-bold">
-                                                            {{ $admin->name}}
-                                                            <span class="italic text-gray-400">(You)</span>
-                                                        </div>
-                                                    @else
-                                                        <div class="text-sm text-gray-900">
-                                                            {{ $admin->name }}
-                                                        </div>
-                                                    @endif
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-900"> {{ $admin->email }}
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $admin->is_super_admin ? 'Super Administrator' : 'Administrator' }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="{{ route('admin.admins.show', $admin) }}"
-                                                       class="text-indigo-600 hover:text-indigo-900">View</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                    <!-- component -->
+                    <div class="bg-white">
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        <div class="overflow-x-auto border-x border-t">
+                            <table class="table-auto w-full">
+                                <thead class="border-b">
+                                <tr class="bg-gray-100">
+                                    <th class="text-left p-4 font-medium">
+                                        Name
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Role
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Department
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($admins as $admin)
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-4">
+                                            <span class="{{ $admin->id == auth('admin')->id() ? 'font-medium': '' }}">
+                                                {{ $admin->name }}
+                                            </span>
+                                            <div>
+                                                <span class="font-light text-gray-500 text-sm">{{ $admin->email }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $admin->roleMessage() }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $admin->department?->name }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

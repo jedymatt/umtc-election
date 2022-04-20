@@ -72,7 +72,7 @@
         <div class="mt-4 flex justify-end">
             <a role="button"
                class="bg-primary focus:ring ring-primary-300 px-2 py-1 rounded-md text-white focus:outline-none"
-               href="{{ route('admin.elections.result.export-excel', $election) }}">Export as Excel</a>
+               href="{{ route('admin.elections.winners.export-excel', $election) }}">Export as Excel</a>
         </div>
     @endif
 </div>

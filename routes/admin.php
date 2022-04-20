@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
+use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
 use App\Http\Controllers\Admin\MonitorElectionController;
 use Illuminate\Support\Facades\Route;
 
@@ -115,4 +116,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
         ->middleware('auth:admin')
         ->name('elections.result.export-excel');
+
+    Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('elections.winners.export-excel');
 });

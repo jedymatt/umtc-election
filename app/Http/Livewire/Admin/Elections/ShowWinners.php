@@ -49,7 +49,6 @@ class ShowWinners extends Component
         return view('livewire.admin.elections.show-winners');
     }
 
-
     public function resolveConflict()
     {
         foreach ($this->selectedWinners as $positionId => $winnerId) {

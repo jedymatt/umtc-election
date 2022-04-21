@@ -47,7 +47,6 @@ class DatabaseSeeder extends Seeder
 
             $this->call(EventSeeder::class);
 
-
 //            Election::factory()
 //                ->count(7)
 //                ->has(

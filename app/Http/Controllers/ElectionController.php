@@ -21,7 +21,6 @@ class ElectionController extends Controller
         if ($user->department_id == null) {
             $activeElections = [];
             $endedElections = [];
-
         } else {
             $department = $user->department;
 
@@ -63,7 +62,6 @@ class ElectionController extends Controller
             $canVote = $election->whereRelation('votes', 'user_id', '=', auth()->id())->exists();
             $userCanVoteActiveElections[$election->id] = $canVote;
         }
-
 
         return view('elections.index', compact('activeElections', 'endedElections', 'isEmptyWinners', 'userCanVoteActiveElections'));
     }

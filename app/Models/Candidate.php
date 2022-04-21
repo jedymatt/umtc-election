@@ -45,7 +45,6 @@ class Candidate extends Model
         return $this->hasOne(Winner::class);
     }
 
-
     public function scopeOfElection(Builder $query, Election $election): Builder
     {
         return $query->where('election_id', $election->id);

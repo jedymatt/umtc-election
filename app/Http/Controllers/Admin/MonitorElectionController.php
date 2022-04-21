@@ -23,7 +23,6 @@ class MonitorElectionController extends Controller
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
-
         if ($election->isEnded() && $election->winners()->doesntExist()) {
             (new ElectionService($election))->saveWinners();
         }

@@ -12,11 +12,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionMonitorController;
 use App\Http\Controllers\Admin\ElectionResultController;
+use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
 use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
-use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
 use App\Http\Controllers\Admin\MonitorElectionController;
 use Illuminate\Support\Facades\Route;
 

@@ -10,7 +10,6 @@ class ElectionWinnerController extends Controller
 {
     public function show(Election $election)
     {
-
         abort_unless($election->isEnded(), 403);
 
         abort_if(($election->winners()->doesntExist()

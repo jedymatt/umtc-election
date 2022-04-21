@@ -32,10 +32,9 @@ class EventController extends Controller
 
         $cdsgElection = $event->cdsgElection()->get();
 
-
         $dsgElectionsHasWinnersConflict = [];
         foreach ($dsgElections as $election) {
-            if (!$election->isEnded()) {
+            if (! $election->isEnded()) {
                 $dsgElectionsHasWinnersConflict[$election->id] = false;
                 continue;
             }

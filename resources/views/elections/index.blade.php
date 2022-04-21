@@ -34,9 +34,11 @@
                                 </div>
                                 <div class="pt-4">
                                     @if($election->hasVotedByUser(auth()->user()))
-                                        <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote</x-primary.button>
+                                        <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote
+                                        </x-primary.button>
                                     @else
-                                        <x-primary.button-link href="{{ route('elections.vote.create', $election) }}">Vote
+                                        <x-primary.button-link href="{{ route('elections.vote.create', $election) }}">
+                                            Vote
                                         </x-primary.button-link>
                                     @endif
                                 </div>
@@ -67,10 +69,17 @@
                                     @endif
                                 </div>
                                 <div class="pt-4">
-                                    <a href="{{ route('elections.result', $election) }}"
-                                       class=" p-2 hover:underline decoration-1 text-primary">
-                                        View result
-                                    </a>
+                                    @if($isEmptyWinners[$election->id])
+                                        <span class="flex items-center text-yellow-500">
+                                            <x-icon.warning class="inline-block"/>
+                                            Pending results
+                                        </span>
+                                    @else
+                                        <a href="{{ route('elections.winners', $election) }}"
+                                           class="p-2 hover:underline decoration-1 text-primary">
+                                            View winners
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @empty

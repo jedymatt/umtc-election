@@ -33,7 +33,7 @@
                                     @endif
                                 </div>
                                 <div class="pt-4">
-                                    @if($election->hasVotedByUser(auth()->user()))
+                                    @if($userCanVoteActiveElections[$election->id])
                                         <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote
                                         </x-primary.button>
                                     @else

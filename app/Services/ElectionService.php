@@ -9,6 +9,7 @@ use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Winner;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -29,6 +30,13 @@ class ElectionService
 
         if ($this->election->election_type_id == ElectionType::TYPE_DSG
             && $this->election->department_id != $user->department_id) {
+            return false;
+        }
+
+        if ($this->election->election_type_id == ElectionType::TYPE_CDSG
+            && $this->election
+                ->whereRelation('event.elections.winners.candidate', 'user_id', '=', auth()->user()->id)
+                ->doesntExist()) {
             return false;
         }
 

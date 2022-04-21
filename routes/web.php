@@ -50,5 +50,6 @@ Route::get('/user/profile', [UserProfileController::class, 'show'])
 //    ->middleware('auth')
 //    ->name('user-profile');
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/student.php';
+require __DIR__ . '/admin.php';

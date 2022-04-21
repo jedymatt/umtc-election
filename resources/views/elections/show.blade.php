@@ -17,7 +17,7 @@
                             Type: {{ $election->electionType->name }}
                         </div>
                         <div class=" sm:inline-block sm:ml-2">
-                            Status: {{ $election->status }}
+                            Status: {{ $election->statusMessage() }}
                         </div>
                         <div class=" sm:inline-block sm:ml-2">
                             Deadline: {{ $election->end_at->toDayDateTimeString() }}
@@ -33,7 +33,7 @@
                     <div class="mt-10">
                         @if(!$election->hasVotedByUser(Auth::user()) and $election->isActive())
                             <a class="text-primary hover:underline decoration-1"
-                               href="{{ route('elections.vote', $election) }}">Go to vote page
+                               href="{{ route('elections.vote.create', $election) }}">Go to vote page
                                 <x-link-logo class="w-3.5 h-3.5 inline"/>
                             </a>
                         @endif

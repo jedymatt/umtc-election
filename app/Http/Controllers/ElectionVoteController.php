@@ -13,9 +13,9 @@ use function view;
 
 class ElectionVoteController extends Controller
 {
-    public function create(Request $request, Election $election)
+    public function create(Election $election)
     {
-        $canVote = (new ElectionService($election))->canVote($request->user());
+        $canVote = (new ElectionService($election))->canVote(auth()->user());
 
         abort_unless($canVote, 403);
 
@@ -37,7 +37,6 @@ class ElectionVoteController extends Controller
         $canVote = (new ElectionService($election))->canVote($request->user());
 
         abort_unless($canVote, 403);
-
 
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',

@@ -3,9 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Event;
 use App\Models\User;
+use App\Models\Vote;
+use App\Models\Winner;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,26 +37,41 @@ class DatabaseSeeder extends Seeder
             ]);
 
             Admin::factory()->create([
-                'email' => 'basic@example.com'
+                'email' => 'basic@example.com',
             ]);
 
             User::factory()->create([
                 'name' => 'Juan Dela Cruz',
-                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph'
+                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
 
-            $departments = Department::pluck('id');
-            $departmentsLength = count($departments);
+            $this->call(EventSeeder::class);
 
-            Election::factory()
-                ->count($departmentsLength * 2)
-                ->create();
-
-
-            Election::factory()
-                ->count(rand(1, 5))
-                ->ended()
-                ->create();
+//            Election::factory()
+//                ->count(7)
+//                ->has(
+//                    Candidate::factory()
+//                        ->count(20)
+//                )
+//                ->has(
+//                    Vote::factory()
+//                        ->count(20)
+//                )
+//                ->create();
+//
+//
+//            Election::factory()
+//                ->count(7)
+//                ->ended()
+//                ->has(
+//                    Candidate::factory()
+//                        ->count(20)
+//                )
+//                ->has(
+//                    Vote::factory()
+//                        ->count(20)
+//                )
+//                ->create();
         }
     }
 }

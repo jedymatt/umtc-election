@@ -15,10 +15,13 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.index')">
+                    <x-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
                         {{ __('Admins') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.index')">
+                    <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
+                        {{ __('Events') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.*')">
                         {{ __('Elections') }}
                     </x-nav-link>
                 </div>
@@ -72,10 +75,13 @@
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.index')">
+            <x-responsive-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
                 {{ __('Admins') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.index')">
+            <x-responsive-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
+                {{ __('Events') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.*')">
                 {{ __('Elections') }}
             </x-responsive-nav-link>
         </div>

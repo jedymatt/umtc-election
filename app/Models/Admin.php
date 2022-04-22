@@ -42,7 +42,7 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
@@ -52,8 +52,8 @@ class Admin extends Authenticatable
         return $this->is_super_admin;
     }
 
-    public function role()
+    public function roleMessage(): string
     {
-        return $this->isSuperAdmin() ? 'Super Administrator' : 'Administrator';
+        return $this->is_super_admin ? 'Super Administrator' : 'Administrator';
     }
 }

@@ -11,7 +11,7 @@ class ElectionResultController extends Controller
 {
     public function show(Election $election)
     {
-        abort_unless($election->hasEnded(), 403);
+        abort_unless($election->isEnded(), 403);
 
         $positions = Position::ofElectionType($election->electionType)->get();
         $candidates = $election->candidates()

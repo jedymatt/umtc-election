@@ -9,10 +9,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('admin.dsg-elections') }}" method="post">
+                    <form action="{{ route('admin.events.dsg-election.store', $event) }}" method="post">
                         @csrf
                         <div>
-                            <label for="title" class="block font-medium text-sm text-gray-700">Start At</label>
+                            <label for="title" class="block font-medium text-sm text-gray-700">Title</label>
                             <input type="text" id="title" name="title"
                                    class="w-full rounded-md" value="{{ old('title') }}"/>
                             @error('title')
@@ -20,8 +20,8 @@
                             @enderror
                         </div>
                         <div class="mt-4">
-                            <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="10"
+                            <label for="description" class="block font-medium text-sm text-gray-700">Description (Optional)</label>
+                            <textarea name="description" id="description"
                                       class="w-full rounded-md"
                             >{{ old('description') }}</textarea>
                         </div>

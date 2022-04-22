@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="mt-4 border-t sm:border-none">
-                            <form action="{{ route('elections.vote', $election) }}" method="post">
+                            <form action="{{ route('elections.vote.store', $election) }}" method="post">
                                 @csrf
                                 @foreach($positions as $position)
                                     <div class="px-4 sm:my-6 py-4 sm:rounded-md sm:border border-b">

@@ -20,7 +20,7 @@ class ElectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->unique()->words(3, true),
+            'title' => $this->faker->unique()->words(asText: true),
             'description' => $this->faker->text(),
             'start_at' => Carbon::now(),
             'end_at' => Carbon::now()->addDays(3),
@@ -48,27 +48,6 @@ class ElectionFactory extends Factory
                 'start_at' => $this->faker->dateTimeBetween(),
                 'end_at' => Carbon::now(),
             ];
-        });
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (Election $election) {
-            $positionIds = Position::pluck('id');
-
-            foreach ($positionIds as $positionId) {
-                Candidate::factory()
-                    ->count(rand(1, 5))
-                    ->hasAttached(Vote::factory()
-                        ->count(rand(1, 5))
-                        ->for(User::factory()
-                            ->state(new Sequence(['department_id' => $election->department_id]))))
-                    ->create([
-                        'election_id' => $election->id,
-                        'position_id' => $positionId,
-                    ]);
-            }
-
         });
     }
 }

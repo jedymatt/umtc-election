@@ -14,9 +14,10 @@ class ExportElectionResultController extends Controller
 {
     public function store(Election $election)
     {
-        abort_unless($election->hasEnded(), 403);
+        abort_unless($election->isEnded(), 403);
 
         $fileName = (new ElectionService($election))->generateFileName();
+
         return (new ExcelElectionResultExport($election))
             ->download($fileName);
     }

@@ -8,16 +8,19 @@ use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\CdsgElectionController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DsgElectionController;
 use App\Http\Controllers\Admin\ElectionController;
+use App\Http\Controllers\Admin\ElectionMonitorController;
 use App\Http\Controllers\Admin\ElectionResultController;
+use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
+use App\Http\Controllers\Admin\EventCdsgElectionController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
+use App\Http\Controllers\Admin\MonitorElectionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-
     Route::get('/', [DashboardController::class, 'index'])
         ->middleware('auth:admin');
 
@@ -82,30 +85,39 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->only(['index', 'show', 'create', 'store'])
         ->middleware('auth:admin');
 
-    Route::get('/dsg-elections', [DsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('dsg-elections');
-
-    Route::post('/dsg-elections', [DsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('dsg-elections');
-
-    Route::get('/cdsg-elections', [CdsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('cdsg-elections');
-
-    Route::post('/cdsg-elections', [CdsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('cdsg-elections');
-
     Route::resource('/elections', ElectionController::class)
         ->except('create')
         ->middleware('auth:admin');
 
-    Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
+    Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
         ->middleware('auth:admin')
-        ->name('elections.result.show');
+        ->name('events.dsg-election.create');
+
+    Route::post('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('events.dsg-election.store');
+
+    Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'create'])
+        ->middleware('auth:admin')
+        ->name('events.cdsg-election.create');
+
+    Route::post('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('events.cdsg-election.store');
+
+    Route::resource('/events', EventController::class)
+        ->middleware('auth:admin')
+        ->only(['index', 'show', 'create', 'store']);
+
+    Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
+        ->middleware('auth:admin')
+        ->name('monitor-election');
 
     Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
+        ->middleware('auth:admin')
         ->name('elections.result.export-excel');
+
+    Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
+        ->middleware('auth:admin')
+        ->name('elections.winners.export-excel');
 });

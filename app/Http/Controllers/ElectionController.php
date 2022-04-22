@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Services\ElectionService;
+use Illuminate\Database\Eloquent\Builder;
 use function view;
 
 class ElectionController extends Controller
@@ -12,32 +14,56 @@ class ElectionController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->department_id == null) {
-            $activeElections = Election::with(['department', 'electionType'])
-                ->active()
-                ->where('election_type_id', ElectionType::TYPE_CDSG)
-                ->get();
+        $activeElections = Election::with(['department', 'electionType']);
 
-            $endedElections = Election::ended()
-                ->orWhere('election_type_id', ElectionType::TYPE_CDSG)
-                ->get();
+        $endedElections = Election::query();
+
+        if ($user->department_id == null) {
+            $activeElections = [];
+            $endedElections = [];
         } else {
             $department = $user->department;
 
-            $activeElections = Election::with(['department', 'electionType'])
-                ->active()
-                ->ofDepartment($department)
-                ->orWhere('election_type_id', ElectionType::TYPE_CDSG)
+            $activeElections = $activeElections
+                ->orWhere(function (Builder $query) {
+                    $query->active()
+                        ->where('election_type_id', ElectionType::TYPE_DSG)
+                        ->where('department_id', auth()->user()->department_id);
+                })
+                ->orWhere(function (Builder $query) {
+                    $query->active()
+                        ->where('election_type_id', ElectionType::TYPE_CDSG)
+                        ->whereRelation('event.elections.winners.candidate', 'user_id', '=', auth()->id());
+                })
                 ->get();
 
-            $endedElections = Election::ended()
-                ->ofDepartment($department)
-                ->orWhere('election_type_id', ElectionType::TYPE_CDSG)
+            $endedElections = $endedElections
+                ->orWhere(function (Builder $query) {
+                    $query->ended()
+                        ->where('department_id', '=', auth()->user()->department_id);
+                })
+                ->orWhere(function (Builder $query) {
+                    $query->ended()
+                        ->where('election_type_id', ElectionType::TYPE_CDSG);
+                })
                 ->get();
         }
 
+        $isEmptyWinners = [];
 
-        return view('elections.index', compact('activeElections', 'endedElections'));
+        foreach ($endedElections as $election) {
+            $isEmptyWinners[$election->id] = $election->winners()->doesntExist()
+                || (new ElectionService($election))->hasWinnersConflict();
+        }
+
+        $userCanVoteActiveElections = [];
+
+        foreach ($activeElections as $election) {
+            $canVote = $election->whereRelation('votes', 'user_id', '=', auth()->id())->exists();
+            $userCanVoteActiveElections[$election->id] = $canVote;
+        }
+
+        return view('elections.index', compact('activeElections', 'endedElections', 'isEmptyWinners', 'userCanVoteActiveElections'));
     }
 
     public function show(Election $election)

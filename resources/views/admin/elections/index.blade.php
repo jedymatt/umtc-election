@@ -9,99 +9,64 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <!-- component -->
+                    <div class="bg-white">
 
-                    <div class="flex justify-end mb-4">
-                        <a href="{{ route('admin.dsg-elections') }}"
-                           class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Create DSG Election</a>
-                    </div>
-                  @if(request()->user('admin')->is_super_admin)
-                        <div class="flex justify-end mb-4">
-                            <a href="{{ route('admin.cdsg-elections') }}"
-                               class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                                Create CDSG Election</a>
-                        </div>
-                  @endif
-                    <div class="flex flex-col">
-                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Title
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Status
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Type
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Department
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Start At
-                                            </th>
-                                            <th scope="col"
-                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                End At
-                                            </th>
-                                            <th scope="col" class="relative px-6 py-3">
-                                                <span class="sr-only">View</span>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach($elections as $election)
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-900">
-                                                        {{ $election->title }}
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->status}}
-                                                </td>
+                        <div class="overflow-x-auto border-x border-t">
+                            <table class="table-auto w-full">
+                                <thead class="border-b">
+                                <tr class="bg-gray-100">
+                                    <th class="text-left p-4 font-medium">
+                                        Title
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Status
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Type
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Department
+                                    </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Actions
+                                    </th>
 
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->electionType->name }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->department->name ?? 'Not Applicable' }}
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->start_at }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {{ $election->end_at }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="{{ route('admin.elections.show', $election) }}"
-                                                       class="text-indigo-600 hover:text-indigo-900">View</a>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <a href="{{ route('admin.elections.result.show', $election) }}"
-                                                       class="text-indigo-600 hover:text-indigo-900">Result</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($elections as $election)
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-4">
+                                            <span class="truncate">{{ $election->title }}</span>
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $election->electionType->name }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $election->statusMessage() }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $election->department?->name }}
+                                        </td>
+                                        <td class="p-4">
+                                            <a class="text-primary hover:underline hover:text-primary-700 visited:text-primary-700"
+                                               href="{{ route('admin.elections.show', $election) }}">Details</a>
+                                            <div class="mt-2">
+                                                <a class="text-white bg-primary px-2 py-1 rounded-md hover:bg-primary-700 focus:ring ring-primary-300 active:bg-primary-700 focus:outline-none"
+                                                   role="button"
+                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor Election</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-                <div class="bg-gray-50 p-2 pt-6">
-                    {{ $elections->links() }}
+                    <div class="mt-4">
+                        {{ $elections->links() }}
+                    </div>
                 </div>
             </div>
         </div>

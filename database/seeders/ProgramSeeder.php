@@ -14,7 +14,7 @@ class ProgramSeeder extends Seeder
      */
     public function run()
     {
-        $programs=[
+        $programs = [
 
             ['name'=> 'Bacehlor of Science in Accountancy'],
             ['name'=> 'Bachelor of Science in Accounting Technology'],

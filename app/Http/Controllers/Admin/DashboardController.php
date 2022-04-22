@@ -14,8 +14,8 @@ class DashboardController extends Controller
         //$this->middleware('verified:admin.verification.notice');
     }
 
-
-    public function index(){
+    public function index()
+    {
         return view('admin.dashboard');
     }
 }

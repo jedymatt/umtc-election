@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -31,11 +31,11 @@ Route::resource('/elections', ElectionController::class)
 
 Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
     ->middleware('auth')
-    ->name('elections.vote');
+    ->name('elections.vote.create');
 
 Route::post('/elections/{election}/vote', [ElectionVoteController::class, 'store'])
     ->middleware('auth')
-    ->name('elections.vote');
+    ->name('elections.vote.store');
 
 Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
     ->middleware('auth')
@@ -45,9 +45,11 @@ Route::get('/user/profile', [UserProfileController::class, 'show'])
     ->middleware('auth')
     ->name('user-profile');
 
-Route::put('/user/profile', [UserProfileController::class, 'update'])
-    ->middleware('auth')
-    ->name('user-profile');
+// TODO: Route for updating profile or not by using livewire
+//Route::put('/user/profile', [UserProfileController::class, 'update'])
+//    ->middleware('auth')
+//    ->name('user-profile');
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/admin.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/student.php';
+require __DIR__.'/admin.php';

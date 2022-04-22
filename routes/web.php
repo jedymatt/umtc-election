@@ -45,10 +45,10 @@ Route::get('/user/profile', [UserProfileController::class, 'show'])
     ->middleware('auth')
     ->name('user-profile');
 
-// TODO: Route for updating profile or not by using livewire
-//Route::put('/user/profile', [UserProfileController::class, 'update'])
-//    ->middleware('auth')
-//    ->name('user-profile');
+
+Route::put('/user/profile', [UserProfileController::class, 'update'])
+    ->middleware('auth')
+    ->name('user-profile');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/student.php';

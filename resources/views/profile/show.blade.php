@@ -16,35 +16,37 @@
                             <x-label value="Full Name"/>
                             <x-input type="text" :value="old('name') ?? $user->name"
                                      id="name" name="name"
-                                     class="w-full mt-1" />
+                                     class="w-full mt-1"/>
                         </div>
                         <div class="mt-4">
                             <x-label value="Email Address"/>
                             <x-input type="email" :value="$user->email"
-                            class="w-full mt-1" disabled
+                                     class="select-none w-full mt-1 text-gray-600 hover:cursor-not-allowed" disabled
                             />
                         </div>
                         <div class="mt-4">
                             <x-label value="Department"/>
-                            <select name="department_id" id="department_id" class="w-full">
+                            <select name="department_id" id="department_id"
+                                    class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @foreach($departments as $department)
-                                    <option value="{{ $department  }}"> {{ $department->name }}</option>
+                                    <option
+                                        value="{{ $department->id  }}" @selected($department->id == $user->department_id)>
+                                        {{ $department->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mt-4">
-                            <x-label value="Year Level"/>
-                            <select name="year_level_id" id="year_level_id" class="w-full">
+                            <x-label for="year_level_id" value="Year Level"/>
+                            <select
+                                name="year_level_id"
+                                id="year_level_id"
+                                class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @foreach($yearLevels as $yearLevel)
-                                    <option value="{{ $yearLevel  }}"> {{ $yearLevel->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mt-4">
-                            <x-label value="Program"/>
-                            <select name="program_id" id="program_id" class="w-full">
-                                @foreach($programs as $program)
-                                    <option value="{{ $program  }}"> {{ $program->name }}</option>
+                                    <option
+                                        value="{{ $yearLevel->id }}" @selected($yearLevel->id == $user->year_level_id)>
+                                        {{ $yearLevel->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

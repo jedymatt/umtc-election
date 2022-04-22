@@ -16,11 +16,10 @@ class UserProfileController extends Controller
     {
         $user = $request->user();
         $departments = Department::orderBy('name')->get();
-        $programs = Program::orderBy('name')->get();
         $yearLevels = YearLevel::orderBy('name')->get();
 
         return view('profile.show', compact(
-            'user', 'departments', 'programs', 'yearLevels'
+            'user', 'departments', 'yearLevels'
         ));
     }
 
@@ -29,7 +28,6 @@ class UserProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'department_id' => 'required|integer',
-            'program_id' => 'required|integer',
             'year_level_id' => 'required|integer',
         ]);
 

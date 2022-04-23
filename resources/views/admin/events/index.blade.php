@@ -59,8 +59,7 @@
                                         </td>
                                         <td class="p-4">
                                             <a href="{{ route('admin.events.show', $event) }}"
-                                               class="hover:underline text-blue-500 hover:text-blue-800 focus:text-blue-800 visited:text-blue-800"
-                                            >
+                                               class="hover:underline text-blue-500 hover:text-blue-800 focus:text-blue-800 visited:text-blue-800">
                                                 View
                                             </a>
                                         </td>
@@ -68,7 +67,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
-
+                        </div>
+                        <div class="mt-4">
+                            {{ $events->links() }}
                         </div>
                     @endif
                 </div>

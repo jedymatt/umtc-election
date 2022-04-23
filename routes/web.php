@@ -3,6 +3,7 @@
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\ElectionResultController;
 use App\Http\Controllers\ElectionVoteController;
+use App\Http\Controllers\ElectionWinnerController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,11 +46,13 @@ Route::get('/user/profile', [UserProfileController::class, 'show'])
     ->middleware('auth')
     ->name('user-profile');
 
-
 Route::put('/user/profile', [UserProfileController::class, 'update'])
     ->middleware('auth')
     ->name('user-profile');
 
+Route::get('/elections/{election}/winners', [ElectionWinnerController::class, 'show'])
+    ->middleware('auth')
+    ->name('elections.winners');
+
 require __DIR__.'/auth.php';
-require __DIR__.'/student.php';
 require __DIR__.'/admin.php';

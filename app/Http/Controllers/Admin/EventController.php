@@ -30,11 +30,11 @@ class EventController extends Controller
                 ->whereColumn('department_id', '=', 'id'))
             ->get();
 
-        $cdsgElection = $event->cdsgElection()->get();
+        $cdsgElection = $event->cdsgElection()->first();
 
         $dsgElectionsHasWinnersConflict = [];
         foreach ($dsgElections as $election) {
-            if (! $election->isEnded()) {
+            if (!$election->isEnded()) {
                 $dsgElectionsHasWinnersConflict[$election->id] = false;
                 continue;
             }
@@ -47,11 +47,15 @@ class EventController extends Controller
             $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
         }
 
+        $cdsgElectionHasWinnersConflict = $cdsgElection != null
+            && (new ElectionService($cdsgElection))->hasWinnersConflict();
+
         return view('admin.events.show', compact(
             'event',
             'dsgElections',
             'cdsgElection',
-            'dsgElectionsHasWinnersConflict'
+            'dsgElectionsHasWinnersConflict',
+            'cdsgElectionHasWinnersConflict',
         ));
     }
 

@@ -70,4 +70,5 @@ Finally, visit <http://localhost:8000> to view the site.
 Go to <http://localhost:8000/admin/login>
 
 email: `admin@example.com`
+
 password: `password`

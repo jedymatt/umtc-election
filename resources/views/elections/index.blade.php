@@ -34,12 +34,13 @@
                                 </div>
                                 <div class="pt-4">
                                     @if($userCanVoteActiveElections[$election->id])
-                                        <x-primary.button type="button" class="hover:bg-primary" disabled>Done Vote
-                                        </x-primary.button>
-                                    @else
                                         <x-primary.button-link href="{{ route('elections.vote.create', $election) }}">
                                             Vote
                                         </x-primary.button-link>
+                                    @else
+                                        <x-primary.button type="button" class="hover:bg-primary" disabled>
+                                            Not Eligible to Vote
+                                        </x-primary.button>
                                     @endif
                                 </div>
                             </div>

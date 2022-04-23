@@ -14,7 +14,7 @@
                         DSG Elections: {{ $dsgElections->count()  }} / 7
                     </div>
                     <div>
-                        CDSG Election: {{ $cdsgElection->count()  }} / 1
+                        CDSG Election: {{ $cdsgElection != null ? '1' :'0'  }} / 1
                     </div>
                 </div>
             </div>
@@ -41,29 +41,47 @@
                                     <th class="text-left p-4 font-medium">
                                         Status
                                     </th>
+                                    <th class="text-left p-4 font-medium">
+                                        Actions
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                @forelse($cdsgElection as $election)
+                                @if($cdsgElection != null)
                                     <tr class="border-b hover:bg-gray-50">
                                         <td class="p-4">
-                                            <a href="{{ route('admin.elections.show', $election) }}"
+                                            <a href="{{ route('admin.elections.show', $cdsgElection) }}"
                                                class="hover:underline"
-                                            >{{ $election->title }}</a>
+                                            >{{ $cdsgElection->title }}</a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->statusMessage() }}
+                                            {{ $cdsgElection->statusMessage() }}
+                                        </td>
+                                        <td class="p-4">
+                                            @if($cdsgElectionHasWinnersConflict)
+                                                <div class="inline-flex items-center">
+                                                    <x-icon.warning class="inline-block text-yellow-500"/>
+                                                    <a class="text-sm text-red-500 hover:underline hover:text-red-700"
+                                                       href="{{ route('admin.monitor-election', $cdsgElection) }}">
+                                                        <span class="pl-1">Resolve Winners' Conflict</span>
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <a class="text-sm text-white bg-primary px-2 py-1 rounded-md hover:bg-primary-700 focus:ring ring-primary-300 active:bg-primary-700 focus:outline-none"
+                                                   role="button"
+                                                   href="{{ route('admin.monitor-election', $cdsgElection) }}">
+                                                    Monitor Election
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
-                                @empty
+                                @else
                                     <tr class="border-b">
                                         <td class="p-4" colspan="3">
                                             <span class="flex justify-center text-gray-400">No record!</span>
                                         </td>
                                     </tr>
-                                @endforelse
-
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -127,6 +145,13 @@
                                                         <span class="pl-1">Resolve Winners' Conflict</span>
                                                     </a>
                                                 </div>
+
+                                            @else
+                                                <a class="text-sm text-white bg-primary px-2 py-1 rounded-md hover:bg-primary-700 focus:ring ring-primary-300 active:bg-primary-700 focus:outline-none"
+                                                   role="button"
+                                                   href="{{ route('admin.monitor-election', $election) }}">
+                                                    Monitor Election
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>

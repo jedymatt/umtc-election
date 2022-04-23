@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Election;
 use App\Models\ElectionType;
+use App\Models\User;
 use App\Services\ElectionService;
 use Illuminate\Database\Eloquent\Builder;
 use function view;
@@ -12,6 +13,7 @@ class ElectionController extends Controller
 {
     public function index()
     {
+        /** @var User $user */
         $user = auth()->user();
 
         $activeElections = Election::with(['department', 'electionType']);
@@ -59,8 +61,7 @@ class ElectionController extends Controller
         $userCanVoteActiveElections = [];
 
         foreach ($activeElections as $election) {
-            $canVote = $election->whereRelation('votes', 'user_id', '=', auth()->id())->exists();
-            $userCanVoteActiveElections[$election->id] = $canVote;
+            $userCanVoteActiveElections[$election->id] = ElectionService::canVote($election, auth()->user());
         }
 
         return view('elections.index', compact('activeElections', 'endedElections', 'isEmptyWinners', 'userCanVoteActiveElections'));

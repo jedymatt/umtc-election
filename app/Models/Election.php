@@ -134,4 +134,14 @@ class Election extends Model
     {
         return $query->where('cdsg_id', null);
     }
+
+    public function isTypeCdsg(): bool
+    {
+        return $this->election_type_id == ElectionType::TYPE_CDSG;
+    }
+
+    public function isTypeDsg(): bool
+    {
+        return $this->election_type_id == ElectionType::TYPE_DSG;
+    }
 }

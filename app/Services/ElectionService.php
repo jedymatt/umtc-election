@@ -5,11 +5,8 @@ namespace App\Services;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
-use App\Models\Position;
 use App\Models\User;
-use App\Models\Vote;
 use App\Models\Winner;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -22,27 +19,40 @@ class ElectionService
         $this->election = $election;
     }
 
-    public function canVote(User $user): bool
+    public static function canVote(Election $election, User $user): bool
     {
-        if (! $this->election->isActive()) {
+        if (!$election->isActive()) {
             return false;
         }
 
-        if ($this->election->election_type_id == ElectionType::TYPE_DSG
-            && $this->election->department_id != $user->department_id) {
+        if ($election->isTypeDsg()
+            && $election->department_id != $user->department_id) {
+
             return false;
         }
 
-        if ($this->election->election_type_id == ElectionType::TYPE_CDSG
-            && $this->election
-                ->whereRelation('event.elections.winners.candidate', 'user_id', '=', auth()->user()->id)
-                ->doesntExist()) {
+        if ($election->isTypeDsg()
+            && Election::query()
+                ->where('election_type_id', ElectionType::TYPE_DSG)
+                ->where('event_id', $election->event_id)
+                ->whereRelation('event.elections.votes', 'user_id', $user->id)
+                ->exists()) {
+
             return false;
         }
 
-        if (Vote::where('election_id', '=', $this->election->id)
-            ->where('user_id', '=', $user->id)
-            ->exists()) {
+        if ($election->isTypeCdsg()
+            && (Election::query()
+                    ->where('election_type_id', ElectionType::TYPE_CDSG)
+                    ->where('event_id', $election->event_id)
+                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id)
+                    ->doesntExist()
+                || Election::query()
+                    ->where('election_type_id', ElectionType::TYPE_CDSG)
+                    ->where('id', $election->id)
+                    ->whereRelation('votes', 'user_id', $user->id)
+                    ->exists())) {
+
             return false;
         }
 
@@ -56,7 +66,7 @@ class ElectionService
 
         $dateString = Carbon::now()->format('M d, Y u');
 
-        return $title.' '.$dateString.$extension;
+        return $title . ' ' . $dateString . $extension;
     }
 
     /**

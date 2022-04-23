@@ -15,7 +15,7 @@ class ElectionVoteController extends Controller
 {
     public function create(Election $election)
     {
-        $canVote = (new ElectionService($election))->canVote(auth()->user());
+        $canVote = ElectionService::canVote($election, auth()->user());
 
         abort_unless($canVote, 403);
 
@@ -34,7 +34,7 @@ class ElectionVoteController extends Controller
 
     public function store(Request $request, Election $election)
     {
-        $canVote = (new ElectionService($election))->canVote($request->user());
+        $canVote = ElectionService::canVote($election, auth()->user());
 
         abort_unless($canVote, 403);
 

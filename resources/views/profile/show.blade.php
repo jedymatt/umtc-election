@@ -14,7 +14,7 @@
                         @csrf
                         <div>
                             <x-label value="Full Name"/>
-                            <x-input type="text" :value="old('name') ?? $user->name"
+                            <x-input type="text" :value="$user->name"
                                      id="name" name="name"
                                      class="w-full mt-1"/>
                         </div>

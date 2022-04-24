@@ -51,10 +51,10 @@ class ElectionController extends Controller
                 ->get();
         }
 
-        $isEmptyWinners = [];
+        $isPendingWinners = [];
 
         foreach ($endedElections as $election) {
-            $isEmptyWinners[$election->id] = $election->winners()->doesntExist()
+            $isPendingWinners[$election->id] = $election->winners()->doesntExist()
                 || (new ElectionService($election))->hasWinnersConflict();
         }
 
@@ -64,7 +64,7 @@ class ElectionController extends Controller
             $userCanVoteActiveElections[$election->id] = ElectionService::canVote($election, auth()->user());
         }
 
-        return view('elections.index', compact('activeElections', 'endedElections', 'isEmptyWinners', 'userCanVoteActiveElections'));
+        return view('elections.index', compact('activeElections', 'endedElections', 'isPendingWinners', 'userCanVoteActiveElections'));
     }
 
     public function show(Election $election)

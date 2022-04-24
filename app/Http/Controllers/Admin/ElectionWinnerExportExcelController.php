@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\WinnersExport;
+use App\Exports\ElectionWinnersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Election;
 use App\Services\ElectionService;
@@ -15,6 +15,6 @@ class ElectionWinnerExportExcelController extends Controller
     {
         $fileName = (new ElectionService($election))->generateFileName();
 
-        return Excel::download(new WinnersExport($election), $fileName);
+        return Excel::download(new ElectionWinnersExport($election), $fileName);
     }
 }

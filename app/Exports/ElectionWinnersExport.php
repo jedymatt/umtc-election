@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class WinnersExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
+class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
 {
     protected Election $election;
 

@@ -16,20 +16,20 @@ class EventDsgElectionController extends Controller
 {
     public function create(Event $event)
     {
-        /** @var Admin $user */
-        $user = auth('admin')->user();
+        /** @var Admin $admin */
+        $admin = auth('admin')->user();
 
-        abort_unless((new EventService($event))->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless(EventService::canCreateDsgElection($event, $admin), 403, 'Cannot create election');
 
         $occupiedDepartments = $event->dsgElections->map(function ($election) {
             return $election->department_id;
         })->filter();
 
-        if ($user->is_super_admin) {
+        if ($admin->is_super_admin) {
             $departments = Department::orderBy('name')
                 ->whereNotIn('id', $occupiedDepartments)->get();
         } else {
-            $departments = $occupiedDepartments->contains($user->department_id) ? collect() : collect([$user->department]);
+            $departments = $occupiedDepartments->contains($admin->department_id) ? collect() : collect([$admin->department]);
         }
 
         return view('admin.events.dsg-elections.create', compact('event', 'departments'));
@@ -37,10 +37,10 @@ class EventDsgElectionController extends Controller
 
     public function store(Request $request, Event $event)
     {
-        /** @var Admin $user */
-        $user = auth('admin')->user();
+        /** @var Admin $admin */
+        $admin = auth('admin')->user();
 
-        abort_unless((new EventService($event))->canCreateDsgElection($user), 403, 'Cannot create election');
+        abort_unless(EventService::canCreateDsgElection($event, $admin), 403, 'Cannot create election');
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

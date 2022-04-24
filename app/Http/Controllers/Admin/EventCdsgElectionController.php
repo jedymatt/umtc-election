@@ -16,10 +16,10 @@ class EventCdsgElectionController extends Controller
 {
     public function create(Event $event)
     {
-        /** @var Admin $user */
-        $user = auth('admin')->user();
+        /** @var Admin $admin */
+        $admin = auth('admin')->user();
 
-        abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
+        abort_unless(EventService::canCreateCdsgElection($event, $admin), 403, 'Cannot create election');
 
         $dsgElections = $event->dsgElections;
 
@@ -32,10 +32,10 @@ class EventCdsgElectionController extends Controller
 
     public function store(Request $request, Event $event)
     {
-        /** @var Admin $user */
-        $user = auth('admin')->user();
+        /** @var Admin $admin */
+        $admin = auth('admin')->user();
 
-        abort_unless((new EventService($event))->canCreateCdsgElection($user), 403, 'Cannot create election');
+        abort_unless(EventService::canCreateCdsgElection($event, $admin), 403, 'Cannot create election');
 
         $dsgElections = $event->dsgElections;
 

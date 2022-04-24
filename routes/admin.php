@@ -81,43 +81,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware('auth:admin')
         ->name('logout');
 
-    Route::resource('/admins', AdminController::class)
-        ->only(['index', 'create', 'store'])
-        ->middleware('auth:admin');
+    // Routes for authenticated admin
+    Route::middleware('auth:admin')->group(function () {
+        Route::resource('/admins', AdminController::class)
+            ->only(['index', 'create', 'store']);
 
-    Route::resource('/elections', ElectionController::class)
-        ->except('create')
-        ->middleware('auth:admin');
+        Route::resource('/elections', ElectionController::class)
+            ->only(['index', 'show']);
 
-    Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('events.dsg-election.create');
+        Route::resource('/events.dsg-elections', EventDsgElectionController::class)
+            ->only(['create', 'store']);
 
-    Route::post('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('events.dsg-election.store');
+        Route::resource('/events.cdsg-elections', EventCdsgElectionController::class)
+            ->only(['create', 'store']);
 
-    Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'create'])
-        ->middleware('auth:admin')
-        ->name('events.cdsg-election.create');
+        Route::resource('/events', EventController::class)
+            ->only(['index', 'show', 'create', 'store']);
 
-    Route::post('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('events.cdsg-election.store');
+        Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
+            ->name('monitor-election');
 
-    Route::resource('/events', EventController::class)
-        ->middleware('auth:admin')
-        ->only(['index', 'show', 'create', 'store']);
-
-    Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
-        ->middleware('auth:admin')
-        ->name('monitor-election');
-
-    Route::get('/elections/{election}/result/export-excel', [ExportElectionResultController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('elections.result.export-excel');
-
-    Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
-        ->middleware('auth:admin')
-        ->name('elections.winners.export-excel');
+        Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
+            ->name('elections.winners.export-excel');
+    });
 });

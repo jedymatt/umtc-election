@@ -25,7 +25,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <span class="text-lg font-medium text-primary">CDSG Election</span>
                     <div class="flex justify-end mt-4">
-                        <x-primary.button-link href="{{ route('admin.events.cdsg-election.create', $event) }}">
+                        <x-primary.button-link href="{{ route('admin.events.cdsg-elections.create', $event) }}">
                             Create CDSG Election
                         </x-primary.button-link>
                     </div>
@@ -95,7 +95,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <span class="text-lg font-medium text-primary">DSG Elections</span>
                     <div class="flex justify-end mt-4">
-                        <x-primary.button-link href="{{ route('admin.events.dsg-election.create', $event) }}">
+                        <x-primary.button-link href="{{ route('admin.events.dsg-elections.create', $event) }}">
                             Create DSG Election
                         </x-primary.button-link>
                     </div>

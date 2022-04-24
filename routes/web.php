@@ -26,33 +26,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('/elections', ElectionController::class)
-    ->only('index', 'show')
-    ->middleware('auth');
 
-Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
-    ->middleware('auth')
-    ->name('elections.vote.create');
+require __DIR__ . '/student.php';
 
-Route::post('/elections/{election}/vote', [ElectionVoteController::class, 'store'])
-    ->middleware('auth')
-    ->name('elections.vote.store');
-
-Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
-    ->middleware('auth')
-    ->name('elections.result');
-
-Route::get('/user/profile', [UserProfileController::class, 'show'])
-    ->middleware('auth')
-    ->name('user-profile');
-
-Route::put('/user/profile', [UserProfileController::class, 'update'])
-    ->middleware('auth')
-    ->name('user-profile');
-
-Route::get('/elections/{election}/winners', [ElectionWinnerController::class, 'show'])
-    ->middleware('auth')
-    ->name('elections.winners');
-
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

@@ -1,7 +1,8 @@
 <x-admin-guest-layout>
+
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+            <a href="{{ route('admin.') }}">
                 <x-application-logo class="w-32 h-32 fill-current text-gray-500" />
             </a>
         </x-slot>
@@ -48,7 +49,7 @@
                 @endif
 
                 <x-button class="ml-3">
-                    {{ __('Log in') }}
+                    {{ __('Log in as Admin') }}
                 </x-button>
             </div>
         </form>

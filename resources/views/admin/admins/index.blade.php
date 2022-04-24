@@ -41,9 +41,7 @@
                                             <span class="{{ $admin->id == auth('admin')->id() ? 'font-medium': '' }}">
                                                 {{ $admin->name }}
                                             </span>
-                                            <div>
-                                                <span class="font-light text-gray-500 text-sm">{{ $admin->email }}</span>
-                                            </div>
+                                            <span class="block font-light text-gray-500 text-sm">{{ $admin->email }}</span>
                                         </td>
                                         <td class="p-4">
                                             {{ $admin->roleMessage() }}

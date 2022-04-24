@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreAdminRequest;
-use App\Http\Requests\Admin\UpdateAdminRequest;
 use App\Models\Admin;
 use App\Models\Department;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -17,7 +17,9 @@ class AdminController extends Controller
 
     public function index()
     {
-        $admins = Admin::orderBy('name')->get();
+        $admins = Admin::query()
+            ->orderByDesc('is_super_admin')
+            ->orderBy('name')->get();
 
         return view('admin.admins.index', compact('admins'));
     }
@@ -31,15 +33,11 @@ class AdminController extends Controller
 
     public function store(StoreAdminRequest $request)
     {
-        $admin = Admin::create($request->validated());
-        $admin->department()->associate($request->input('department'));
-        $admin->save();
+        $hashedPassword = Hash::make($request->validated('password'));
+        $validated = array_merge($request->validated(), ['password' => $hashedPassword]);
+
+        Admin::create($validated);
 
         return redirect()->route('admin.admins.index');
-    }
-
-    public function show(Admin $admin)
-    {
-        return view('admin.admins.show', compact('admin'));
     }
 }

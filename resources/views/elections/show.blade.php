@@ -37,13 +37,6 @@
                                 <x-link-logo class="w-3.5 h-3.5 inline"/>
                             </a>
                         @endif
-                        @if($election->end_at < now())
-                            <a class="text-primary hover:underline decoration-1"
-                               href="{{ route('elections.result', $election) }}">Go to result page
-                                <x-link-logo class="w-3.5 h-3.5 inline"/>
-                            </a>
-                        @endif
-
                     </div>
                 </div>
             </div>

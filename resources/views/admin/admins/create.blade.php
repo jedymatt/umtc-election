@@ -47,13 +47,13 @@
                                      name="password_confirmation" required/>
                         </div>
                         <div class="mt-4">
-                            <x-label for="department" :value="__('Assign Department')"/>
+                            <x-label for="department" value="Assigned Department"/>
 
                             @foreach($departments as $id => $department)
                                 <div class="mt-1">
                                     <input type="radio" value="{{ $id }}"
-                                           id="department[{{ $id }}]" name="department"/>
-                                    <label for="department[{{ $id }}]">
+                                           id="department_id.{{ $id }}" name="department_id"/>
+                                    <label for="department_id.{{ $id }}">
                                         {{ $department }}
                                     </label>
                                 </div>

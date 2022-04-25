@@ -6,53 +6,40 @@ use App\Models\Admin;
 use App\Models\Department;
 use App\Models\ElectionType;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Builder;
 
 class EventService
 {
-    private Event $event;
-
-    public function __construct(Event $event)
+    public static function canCreateDsgElection(Event $event, Admin $admin): bool
     {
-        $this->event = $event;
-    }
+        $dsgElectionKeys = $event->dsgElections()->pluck('id');
 
-    public function canCreateDsgElection(Admin $user): bool
-    {
-        $occupiedDepartments = $this->event->dsgElections->map(function ($election) {
-            return $election->department_id;
-        })->filter();
-
-        $hasAvailableDepartments = Department::orderBy('name')
-            ->whereNotIn('id', $occupiedDepartments)
-            ->exists();
-
-        if (! $hasAvailableDepartments) {
+        if ($dsgElectionKeys->count() == Department::count()) {
             return false;
         }
 
-        if (! $user->is_super_admin && ! $occupiedDepartments->contains($user->department_id)) {
+        if (!$admin->is_super_admin && $dsgElectionKeys->contains($admin->department_id)) {
             return false;
         }
 
         return true;
     }
 
-    public function canCreateCdsgElection(Admin $user): bool
+    public static function canCreateCdsgElection(Event $event, Admin $admin): bool
     {
-        if (! $user->is_super_admin) {
+        if (!$admin->is_super_admin) {
             return false;
         }
 
-        $hasCdsgElection = $this->event->has('cdsgElection')->exists();
-
-        if ($hasCdsgElection) {
+        if ($event->cdsgElection()->exists()) {
             return false;
         }
 
-        $dsgElectionsCount = $this->event->dsgElections()
-            ->ended()->count();
+        $event->loadCount(['dsgElections' => function (Builder $query) {
+            $query->ended();
+        }]);
 
-        if ($dsgElectionsCount != 7) {
+        if ($event->dsg_elections_count != Department::count()) {
             return false;
         }
 

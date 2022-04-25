@@ -70,7 +70,7 @@
                                     @endif
                                 </div>
                                 <div class="pt-4">
-                                    @if($isEmptyWinners[$election->id])
+                                    @if($isPendingWinners[$election->id])
                                         <span class="flex items-center text-yellow-500">
                                             <x-icon.warning class="inline-block"/>
                                             Pending results

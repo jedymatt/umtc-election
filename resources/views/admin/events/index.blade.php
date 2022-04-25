@@ -39,7 +39,7 @@
                                         Title
                                     </th>
                                     <th class="text-left p-4 font-medium">
-                                        Last Modified
+                                        Created At
                                     </th>
                                     <th class="text-left p-4 font-medium">
                                         Actions
@@ -55,7 +55,7 @@
                                             >{{ $event->title }}</a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $event->updated_at }}
+                                            {{ $event->created_at }}
                                         </td>
                                         <td class="p-4">
                                             <a href="{{ route('admin.events.show', $event) }}"

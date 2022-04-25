@@ -36,14 +36,13 @@
                                 </thead>
                                 <tbody>
                                 @foreach($admins as $admin)
-                                    <tr class="border-b hover:bg-gray-50">
+                                    <tr class="border-b hover:bg-gray-50 {{ $admin->id == auth()->id() ? 'bg-gray-50' : '' }}">
                                         <td class="p-4">
                                             <span class="{{ $admin->id == auth('admin')->id() ? 'font-medium': '' }}">
                                                 {{ $admin->name }}
                                             </span>
-                                            <div>
-                                                <span class="font-light text-gray-500 text-sm">{{ $admin->email }}</span>
-                                            </div>
+                                            <span
+                                                class="block font-light text-gray-500 text-sm">{{ $admin->email }}</span>
                                         </td>
                                         <td class="p-4">
                                             {{ $admin->roleMessage() }}

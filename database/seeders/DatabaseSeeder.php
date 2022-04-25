@@ -40,12 +40,12 @@ class DatabaseSeeder extends Seeder
 //                'email' => 'basic@example.com',
 //            ]);
 //
-//            User::factory()->create([
-//                'name' => 'Juan Dela Cruz',
-//                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
-//            ]);
-//
-//            $this->call(EventSeeder::class);
+            User::factory()->create([
+                'name' => 'Juan Dela Cruz',
+                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
+            ]);
+
+            $this->call(EventSeeder::class);
 
 //            Election::factory()
 //                ->count(7)

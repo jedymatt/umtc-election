@@ -15,8 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/profile', [UserProfileController::class, 'show'])
         ->name('user-profile');
 
-    Route::put('/user/profile', [UserProfileController::class, 'update'])
-        ->name('user-profile');
+    Route::put('/user/profile', [UserProfileController::class, 'update']);
 
     Route::get('/elections/{election}/winners', [ElectionWinnerController::class, 'show'])
         ->name('elections.winners');

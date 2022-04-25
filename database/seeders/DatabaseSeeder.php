@@ -32,14 +32,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (config('app.debug')) {
-            Admin::factory()->superAdmin()->create([
-                'email' => 'admin@example.com',
-            ]);
 
-//            Admin::factory()->create([
-//                'email' => 'basic@example.com',
-//            ]);
-//
             User::factory()->create([
                 'name' => 'Juan Dela Cruz',
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',

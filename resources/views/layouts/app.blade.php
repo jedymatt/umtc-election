@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/app.css">
 
     <!-- Scripts -->
-    <script src="/css/app.css" defer></script>
+    <script src="/js/app.js" defer></script>
 
     @livewireStyles
 </head>

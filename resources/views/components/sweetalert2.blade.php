@@ -2,7 +2,7 @@
 <script>
     @if(session('success'))
     document.addEventListener('DOMContentLoaded', function () {
-        winndow.toast({
+        toast({
             icon: 'success',
             message: {{ Js::from(session('success')) }}
         });

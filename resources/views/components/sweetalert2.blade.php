@@ -1,8 +1,8 @@
+<!-- SweetAlert2 script -->
 <script>
-    <!-- SweetAlert2 script -->
     @if(session('success'))
     document.addEventListener('DOMContentLoaded', function () {
-        toast({
+        winndow.toast({
             icon: 'success',
             message: {{ Js::from(session('success')) }}
         });

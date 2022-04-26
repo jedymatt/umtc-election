@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="pt-4">
                                     @if ($userCanVoteActiveElections[$election->id])
-                                        <x-primary.button-link href="{{ route('elections.vote.create', $election) }}">
+                                        <x-primary.button-link href="{{ route('elections.vote', $election) }}">
                                             Vote
                                         </x-primary.button-link>
                                     @else

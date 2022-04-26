@@ -9,8 +9,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/elections', ElectionController::class)
         ->only(['index', 'show']);
 
-    Route::resource('/elections.vote', ElectionVoteController::class)
-        ->only(['create', 'store']);
+    Route::get('/elections/{election}/vote', [ElectionVoteController::class, 'create'])
+        ->name('elections.vote');
+
+    Route::post('/elections/{election}/vote', [ElectionVoteController::class, 'store']);
 
     Route::get('/user/profile', [UserProfileController::class, 'show'])
         ->name('user-profile');

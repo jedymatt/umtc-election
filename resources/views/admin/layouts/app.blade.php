@@ -33,18 +33,7 @@
     <main>
         {{ $slot }}
     </main>
-
-    <!-- SweetAlert2 -->
-    <script>
-        @if(session('success'))
-        document.addEventListener('DOMContentLoaded', function () {
-            toast({
-                icon: 'success',
-                message: {{ Js::from(session('success')) }}
-            });
-        });
-        @endif
-    </script>
+    <x-sweetalert2/>
     @livewireScripts
 </div>
 </body>

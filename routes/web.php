@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\ElectionController;
-use App\Http\Controllers\ElectionResultController;
-use App\Http\Controllers\ElectionVoteController;
-use App\Http\Controllers\ElectionWinnerController;
-use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*

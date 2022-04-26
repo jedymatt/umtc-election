@@ -27,7 +27,7 @@ class ElectionVoteController extends Controller
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
-        return view('elections.vote.create', compact(
+        return view('elections.vote', compact(
             'election', 'positions', 'candidates'
         ));
     }

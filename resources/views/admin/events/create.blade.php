@@ -21,7 +21,7 @@
                                 name="title"
                                 value="{{ old('title') }}"/>
                             @error('title')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mt-4 flex justify-end">

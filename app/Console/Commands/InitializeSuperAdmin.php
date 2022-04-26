@@ -37,7 +37,7 @@ class InitializeSuperAdmin extends Command
 
         $credentials['email'] = $this->ask('Email address');
         $credentials['name'] = $this->ask('Name', 'Super Administrator');
-        $credentials['password'] = $this->secret('New password');
+        $credentials['password'] = $this->secret('Password');
         $credentials['password_confirmation'] = $this->secret('Confirm password');
 
         $validator = Validator::make($credentials, [

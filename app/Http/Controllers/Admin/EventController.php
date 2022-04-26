@@ -71,7 +71,7 @@ class EventController extends Controller
         abort_unless(auth('admin')->user()->is_super_admin, 403);
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
+            'title' => 'required|string|unique:events',
         ]);
 
         $event = Event::create($validator->validated());

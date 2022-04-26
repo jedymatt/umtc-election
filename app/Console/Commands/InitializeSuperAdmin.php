@@ -32,6 +32,7 @@ class InitializeSuperAdmin extends Command
     {
         if (Admin::where('is_super_admin')->exists()) {
             $this->error('Super Admin already exists');
+
             return 1;
         }
 
@@ -65,6 +66,7 @@ class InitializeSuperAdmin extends Command
         Admin::create($adminCredentials);
 
         $this->info('Super admin successfully created.');
+        
         return 0;
     }
 }

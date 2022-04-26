@@ -13,38 +13,35 @@
                         @method('put')
                         @csrf
                         <div>
-                            <x-label value="Full Name"/>
-                            <x-input type="text" :value="$user->name"
-                                     id="name" name="name"
-                                     class="w-full mt-1"/>
+                            <x-label value="Full Name" />
+                            <x-input type="text" :value="$user->name" id="name" name="name" class="w-full mt-1"
+                                required />
+                            @error('name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-4">
-                            <x-label value="Email Address"/>
+                            <x-label value="Email Address" />
                             <x-input type="email" :value="$user->email"
-                                     class="select-none w-full mt-1 text-gray-600 hover:cursor-not-allowed" disabled
-                            />
+                                class="select-none w-full mt-1 text-gray-600 hover:cursor-not-allowed" disabled />
                         </div>
                         <div class="mt-4">
-                            <x-label value="Department"/>
+                            <x-label value="Department" />
                             <select name="department_id" id="department_id"
-                                    class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @foreach($departments as $department)
-                                    <option
-                                        value="{{ $department->id  }}" @selected($department->id == $user->department_id)>
+                                class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" @selected($department->id == $user->department_id)>
                                         {{ $department->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mt-4">
-                            <x-label for="year_level_id" value="Year Level"/>
-                            <select
-                                name="year_level_id"
-                                id="year_level_id"
+                            <x-label for="year_level_id" value="Year Level" />
+                            <select name="year_level_id" id="year_level_id"
                                 class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                @foreach($yearLevels as $yearLevel)
-                                    <option
-                                        value="{{ $yearLevel->id }}" @selected($yearLevel->id == $user->year_level_id)>
+                                @foreach ($yearLevels as $yearLevel)
+                                    <option value="{{ $yearLevel->id }}" @selected($yearLevel->id == $user->year_level_id)>
                                         {{ $yearLevel->name }}
                                     </option>
                                 @endforeach

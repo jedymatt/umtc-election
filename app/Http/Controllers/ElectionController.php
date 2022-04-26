@@ -64,7 +64,19 @@ class ElectionController extends Controller
             $userCanVoteActiveElections[$election->id] = ElectionService::canVote($election, auth()->user());
         }
 
-        return view('elections.index', compact('activeElections', 'endedElections', 'isPendingWinners', 'userCanVoteActiveElections'));
+        $showUpdateProfileBanner = false;
+
+        if ($user->department_id == null) {
+            $showUpdateProfileBanner = true;
+        }
+
+        return view('elections.index', compact(
+            'activeElections', 
+            'endedElections', 
+            'isPendingWinners', 
+            'userCanVoteActiveElections',
+            'showUpdateProfileBanner',
+        ));
     }
 
     public function show(Election $election)

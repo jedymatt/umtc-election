@@ -63,6 +63,7 @@ class EventDsgElectionController extends Controller
             $election->candidates()->createMany($validated['candidates']);
         }
 
-        return redirect()->route('admin.events.show', $event);
+        return redirect()->route('admin.events.show', $event)
+            ->with('success', 'DSG election successfully created!');
     }
 }

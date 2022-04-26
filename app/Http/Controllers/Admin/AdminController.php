@@ -38,6 +38,7 @@ class AdminController extends Controller
 
         Admin::create($validated);
 
-        return redirect()->route('admin.admins.index');
+        return redirect()->route('admin.admins.index')
+            ->with('success', 'Admin account successfully created!');
     }
 }

@@ -53,6 +53,7 @@ class ElectionVoteController extends Controller
             $vote->candidates()->sync($validated['candidates']);
         }
 
-        return redirect()->route('elections.index');
+        return redirect()->route('elections.index')
+            ->with('success', 'Vote submitted successfully');
     }
 }

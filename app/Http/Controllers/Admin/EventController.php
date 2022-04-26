@@ -76,6 +76,7 @@ class EventController extends Controller
 
         $event = Event::create($validator->validated());
 
-        return redirect()->route('admin.events.show', $event);
+        return redirect()->route('admin.events.show', $event)
+            ->with('success', 'Event successfully created!');
     }
 }

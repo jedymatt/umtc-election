@@ -33,6 +33,7 @@ class UserProfileController extends Controller
 
         $request->user()->update($validator->validated());
 
-        return redirect()->route('user-profile');
+        return redirect()->route('user-profile')
+            ->with('success', 'Profile updated successfully!');
     }
 }

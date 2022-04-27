@@ -6,6 +6,6 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
-// window.Swal = Swal;
+window.Swal = Swal;

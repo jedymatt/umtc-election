@@ -687,6 +687,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.bg-gray-50{
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}.bg-yellow-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 204 21 / var(--tw-bg-opacity));
+}.bg-yellow-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 249 195 / var(--tw-bg-opacity));
 }.fill-current{
   fill: currentColor;
 }.p-6{
@@ -712,6 +718,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.py-6{
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}.px-6{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }.py-4{
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -721,9 +730,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.py-1{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}.px-6{
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
 }.px-3{
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -782,10 +788,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-weight: 500;
 }.font-semibold{
   font-weight: 600;
-}.font-bold{
-  font-weight: 700;
 }.font-light{
   font-weight: 300;
+}.font-bold{
+  font-weight: 700;
 }.uppercase{
   text-transform: uppercase;
 }.italic{
@@ -832,6 +838,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.text-indigo-700{
   --tw-text-opacity: 1;
   color: rgb(67 56 202 / var(--tw-text-opacity));
+}.text-red-500{
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }.text-yellow-500{
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity));
@@ -841,9 +850,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.text-primary{
   --tw-text-opacity: 1;
   color: rgb(175 37 50 / var(--tw-text-opacity));
-}.text-red-500{
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
 }.text-indigo-600{
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
@@ -965,12 +971,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.hover\:text-red-700:hover{
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity));
-}.hover\:text-gray-900:hover{
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
 }.hover\:text-primary-700:hover{
   --tw-text-opacity: 1;
   color: rgb(131 28 38 / var(--tw-text-opacity));
+}.hover\:text-gray-900:hover{
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
 }.hover\:underline:hover{
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
@@ -1078,22 +1084,22 @@ Ensure the default browser behavior of the `hidden` attribute.
 }@media (min-width: 640px){.sm\:-my-px{
     margin-top: -1px;
     margin-bottom: -1px;
-  }.sm\:my-6{
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
   }.sm\:-mx-6{
     margin-left: -1.5rem;
     margin-right: -1.5rem;
+  }.sm\:my-6{
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
   }.sm\:ml-10{
     margin-left: 2.5rem;
   }.sm\:ml-6{
     margin-left: 1.5rem;
+  }.sm\:mt-0{
+    margin-top: 0px;
   }.sm\:ml-0{
     margin-left: 0px;
   }.sm\:ml-2{
     margin-left: 0.5rem;
-  }.sm\:mt-0{
-    margin-top: 0px;
   }.sm\:block{
     display: block;
   }.sm\:inline-block{

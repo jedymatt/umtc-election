@@ -1,7 +1,6 @@
 <!-- SweetAlert2 script -->
 <script>
     @if(session()->has('success'))
-    document.addEventListener('DOMContentLoaded', function () {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -15,6 +14,5 @@
             icon: 'success',
             title: {{ Js::from(session('success'))}},
         });
-    });
     @endif
 </script>

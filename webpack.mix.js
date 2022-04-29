@@ -17,4 +17,7 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     require('autoprefixer'),
 ]);
 
+
+mix.js('resources/js/sweetalert2.js', 'public/js');
+
 mix.disableSuccessNotifications();

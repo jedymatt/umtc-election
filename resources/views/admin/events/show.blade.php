@@ -34,14 +34,14 @@
                         <div class="overflow-x-auto border-x border-t">
                             <table class="table-auto w-full">
                                 <thead class="border-b">
-                                <tr class="bg-gray-100">
-                                    <th class="text-left p-4 font-medium">
+                                <tr class="bg-gray-100 uppercase font-medium">
+                                    <th class="text-left p-4">
                                         Title
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left p-4">
                                         Status
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left p-4">
                                         Actions
                                     </th>
                                 </tr>
@@ -55,7 +55,13 @@
                                             >{{ $cdsgElection->title }}</a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $cdsgElection->statusMessage() }}
+                                             <span  @class([
+                                                'inline-block text-sm lowercase rounded-full border p-1 px-2',
+                                                'border-green-500 bg-green-100 text-green-800' => $election->isActive(),
+                                                'border-red-500 bg-red-100 text-red-800' => !$election->isActive(),
+                                            ])>
+                                            {{ $election->statusMessage() }}
+                                            </span>
                                         </td>
                                         <td class="p-4">
                                             @if($cdsgElectionHasWinnersConflict)
@@ -104,17 +110,17 @@
                         <div class="overflow-x-auto border-x border-t">
                             <table class="table-auto w-full">
                                 <thead class="border-b">
-                                <tr class="bg-gray-100">
-                                    <th class="text-left p-4 font-medium">
+                                <tr class="bg-gray-100 uppercase font-medium">
+                                    <th class="text-left p-4">
                                         Title
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left p-4">
                                         Status
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left p-4">
                                         Department
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left p-4">
                                         Actions
                                     </th>
                                 </tr>
@@ -131,7 +137,11 @@
                                             </a>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->statusMessage() }}
+                                             <span  @class([
+                                                'inline-block text-sm lowercase rounded-full border p-1 px-2',
+                                                'border-green-500 bg-green-100 text-green-800' => $election->isActive(),
+                                                'border-red-500 bg-red-100 text-red-800' => !$election->isActive(),
+                                            ])>{{ $election->statusMessage() }}</span>
                                         </td>
                                         <td class="p-4">
                                             {{ $election->department?->name }}

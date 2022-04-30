@@ -16,38 +16,53 @@
                                 Create Admin Account</a>
                         </div>
                     @endcan
-                    <!-- component -->
-                    <div class="bg-white">
-
                         <div class="overflow-x-auto border-x border-t">
                             <table class="table-auto w-full">
-                                <thead class="border-b">
-                                <tr class="bg-gray-100">
-                                    <th class="text-left p-4 font-medium">
+                                <thead class="border-b uppercase font-medium">
+                                <tr class="b">
+                                    <th class="text-left py-2 px-4">
                                         Name
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left py-2 px-4">
                                         Role
                                     </th>
-                                    <th class="text-left p-4 font-medium">
+                                    <th class="text-left py-2 px-4">
                                         Department
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($admins as $admin)
-                                    <tr class="border-b hover:bg-gray-50 {{ $admin->id == auth()->id() ? 'bg-gray-50' : '' }}">
-                                        <td class="p-4">
-                                            <span class="{{ $admin->id == auth('admin')->id() ? 'font-medium': '' }}">
-                                                {{ $admin->name }}
-                                            </span>
+                                @foreach ($admins as $admin)
+                                    <tr
+                                        class="border-b hover:bg-gray-50">
+                                        <td class="py-2 px-4">
+                                                <span @class([
+                                                    'font-medium' => $admin->id == auth('admin')->id(),
+                                                ])>
+                                                    {{ $admin->name }}
+                                                </span>
+                                            @if (auth()->id() == $admin->id)
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     class="h-6 w-6 inline-block text-green-500"
+                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                     stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"/>
+                                                </svg>
+                                            @endif
                                             <span
                                                 class="block font-light text-gray-500 text-sm">{{ $admin->email }}</span>
                                         </td>
-                                        <td class="p-4">
-                                            {{ $admin->roleMessage() }}
+                                        <td class="py-2 px-4">
+                                                <span @class([
+                                                    'inline-block text-sm lowercase rounded-full border p-1 px-2',
+                                                    'border-yellow-500 bg-yellow-100 text-yellow-800' => $admin->is_super_admin,
+                                                    'border-red-500 bg-red-100 text-red-800' => !$admin->is_super_admin,
+                                                ])>
+                                                    {{ $admin->roleMessage() }}
+                                                </span>
                                         </td>
-                                        <td class="p-4">
+                                        <td class="py-2 px-4">
                                             {{ $admin->department?->name }}
                                         </td>
                                     </tr>
@@ -55,7 +70,9 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                        <div class="mt-4">
+                            {{ $admins->links() }}
+                        </div>
                 </div>
             </div>
         </div>

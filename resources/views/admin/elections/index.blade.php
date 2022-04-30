@@ -41,10 +41,16 @@
                                             <span class="truncate">{{ $election->title }}</span>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->electionType->name }}
+                                            <span  @class([
+                                                'inline-block text-sm lowercase rounded-full border p-1 px-2',
+                                                'border-green-500 bg-green-100 text-green-800' => $election->isActive(),
+                                                'border-red-500 bg-red-100 text-red-800' => !$election->isActive(),
+                                            ])>
+                                            {{ $election->statusMessage() }}
+                                            </span>
                                         </td>
                                         <td class="p-4">
-                                            {{ $election->statusMessage() }}
+                                            {{ $election->electionType->name }}
                                         </td>
                                         <td class="p-4">
                                             {{ $election->department?->name }}
@@ -55,7 +61,8 @@
                                             <div class="mt-2">
                                                 <a class="text-white bg-primary px-2 py-1 rounded-md hover:bg-primary-700 focus:ring ring-primary-300 active:bg-primary-700 focus:outline-none"
                                                    role="button"
-                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor Election</a>
+                                                   href="{{ route('admin.monitor-election', $election) }}">Monitor
+                                                    Election</a>
                                             </div>
                                         </td>
                                     </tr>

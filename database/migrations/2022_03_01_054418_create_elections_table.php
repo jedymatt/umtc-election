@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->dateTime('end_at');
             $table->foreignId('election_type_id')->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
-            $table->foreignId('cdsg_id')->nullable()->constrained('elections');
             $table->timestamps();
         });
     }

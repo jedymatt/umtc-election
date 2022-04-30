@@ -33,6 +33,8 @@
                             if ($election->event_id != null) {
                                 $links['Event'] = route('admin.events.show', $election->event_id);
                             }
+
+                            $links['Monitor Election'] = route('admin.monitor-election', $election);
                         @endphp
                         Related Links:
                         @forelse($links as $key => $link)

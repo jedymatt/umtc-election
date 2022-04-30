@@ -19,7 +19,8 @@ class AdminController extends Controller
     {
         $admins = Admin::query()
             ->orderByDesc('is_super_admin')
-            ->orderBy('name')->get();
+            ->orderBy('name')
+            ->paginate(10);
 
         return view('admin.admins.index', compact('admins'));
     }

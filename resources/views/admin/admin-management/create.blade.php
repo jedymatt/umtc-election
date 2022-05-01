@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-auth-validation-errors class="mb-4" :errors="$errors"/>
-                    <form action="{{ route('admin.admins.store') }}" method="post">
+                    <form action="{{ route('admin.admin-management.store') }}" method="post">
                     @csrf
                     <!-- Name -->
                         <div>

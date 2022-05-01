@@ -15,8 +15,8 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
-                        {{ __('Admins') }}
+                    <x-nav-link :href="route('admin.admin-management.index')" :active="request()->routeIs('admin.admin-management')">
+                        {{ __('Admin Management') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
                         {{ __('Events') }}
@@ -75,8 +75,8 @@
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
-                {{ __('Admins') }}
+            <x-responsive-nav-link :href="route('admin.admin-management.index')" :active="request()->routeIs('admin.admin-management.*')">
+                {{ __('Admin Management') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
                 {{ __('Events') }}

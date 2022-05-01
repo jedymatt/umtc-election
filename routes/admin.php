@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -83,7 +84,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Routes for authenticated admin
     Route::middleware('auth:admin')->group(function () {
-        Route::resource('/admins', AdminController::class)
+        Route::resource('/admin-management', AdminManagementController::class)
             ->only(['index', 'create', 'store']);
 
         Route::resource('/elections', ElectionController::class)

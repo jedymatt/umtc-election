@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreAdminRequest;
+use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Department;
+use App\Http\Requests\Admin\StoreAdminRequest;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller
+class AdminManagementController extends Controller
 {
     public function __construct()
     {
@@ -22,14 +23,14 @@ class AdminController extends Controller
             ->orderBy('name')
             ->paginate(10);
 
-        return view('admin.admins.index', compact('admins'));
+        return view('admin.admin-management.index', compact('admins'));
     }
 
     public function create()
     {
         $departments = Department::orderBy('name')->pluck('name', 'id');
 
-        return view('admin.admins.create', compact('departments'));
+        return view('admin.admin-management.create', compact('departments'));
     }
 
     public function store(StoreAdminRequest $request)
@@ -39,7 +40,7 @@ class AdminController extends Controller
 
         Admin::create($validated);
 
-        return redirect()->route('admin.admins.index')
+        return redirect()->route('admin.admin-management.index')
             ->with('success', 'Admin account successfully created!');
     }
 }

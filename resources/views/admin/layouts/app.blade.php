@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,28 +13,30 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/sweetalert2.js') }}"></script>
 
     @livewireStyles
 </head>
+
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100">
-    @include('admin.layouts.navigation')
+    <div class="min-h-screen bg-gray-100">
+        @include('admin.layouts.navigation')
 
-    <!-- Page Heading -->
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            {{ $header }}
-        </div>
-    </header>
+        <!-- Page Heading -->
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
 
-    <!-- Page Content -->
-    <main>
-        {{ $slot }}
-    </main>
-</div>
+        <!-- Page Content -->
+        <main>
+            {{ $slot }}
+        </main>
+    </div>
 
-<x-sweetalert2/>
-@livewireScripts
+    @livewireScripts
+    <script src="{{ asset('js/sweetalert2.js') }}"></script>
+    <x-sweetalert2 />
 </body>
+
 </html>

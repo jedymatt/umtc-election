@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class InitializeSuperAdmin extends Command
 {
@@ -14,7 +15,7 @@ class InitializeSuperAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'superadmin:init';
+    protected $signature = 'superadmin:init {--generate-password : Generates a random password}';
 
     /**
      * The console command description.
@@ -36,10 +37,12 @@ class InitializeSuperAdmin extends Command
             return 1;
         }
 
+        $generatedPassword = $this->option('generate-password') ? Str::random(10) : null;
+
         $credentials['email'] = $this->ask('Email address');
         $credentials['name'] = $this->ask('Name', 'Super Administrator');
-        $credentials['password'] = $this->secret('Password');
-        $credentials['password_confirmation'] = $this->secret('Confirm password');
+        $credentials['password'] = is_null($generatedPassword) ? $this->secret('Password') : $generatedPassword;
+        $credentials['password_confirmation'] = is_null($generatedPassword) ? $this->secret('Confirm password') : $generatedPassword;
 
         $validator = Validator::make($credentials, [
             'email' => 'required|string|email|unique:admins',
@@ -56,6 +59,7 @@ class InitializeSuperAdmin extends Command
             return 1;
         }
 
+
         $validated = $validator->validated();
 
         $adminCredentials = array_merge($validated, [
@@ -65,8 +69,10 @@ class InitializeSuperAdmin extends Command
 
         Admin::create($adminCredentials);
 
+        $this->alert('Generated Password: '.$generatedPassword);
+
         $this->info('Super admin successfully created.');
-        
+
         return 0;
     }
 }

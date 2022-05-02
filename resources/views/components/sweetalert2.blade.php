@@ -1,6 +1,7 @@
 <!-- SweetAlert2 script -->
-<script>
-    @if(session()->has('success'))
+@if(session()->has('success'))
+    <script src="{{ asset('js/sweetalert2.js') }}"></script>
+    <script>
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -14,5 +15,5 @@
             icon: 'success',
             title: {{ Js::from(session('success'))}},
         });
-    @endif
-</script>
+    </script>
+@endif

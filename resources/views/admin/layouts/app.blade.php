@@ -18,25 +18,25 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('admin.layouts.navigation')
+<div class="min-h-screen bg-gray-100">
+    @include('admin.layouts.navigation')
 
-        <!-- Page Heading -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
+    <!-- Page Heading -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            {{ $header }}
+        </div>
+    </header>
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
+    <!-- Page Content -->
+    <main>
+        {{ $slot }}
+    </main>
+</div>
 
-    @livewireScripts
-    <script src="{{ asset('js/sweetalert2.js') }}"></script>
-    <x-sweetalert2 />
+@livewireScripts
+
+<x-sweetalert2/>
 </body>
 
 </html>

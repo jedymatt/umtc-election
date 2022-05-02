@@ -69,7 +69,10 @@ class InitializeSuperAdmin extends Command
 
         Admin::create($adminCredentials);
 
-        $this->alert('Generated Password: '.$generatedPassword);
+        if (!is_null($generatedPassword)) {
+            $this->alert('Generated Password: ' . $generatedPassword);
+        }
+
 
         $this->info('Super admin successfully created.');
 

@@ -31,7 +31,7 @@ class InitializeSuperAdmin extends Command
      */
     public function handle()
     {
-        if (Admin::where('is_super_admin')->exists()) {
+        if (Admin::where('is_super_admin', 1)->exists()) {
             $this->error('Super Admin already exists');
 
             return 1;

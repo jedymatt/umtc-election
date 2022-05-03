@@ -1,12 +1,10 @@
 #!/bin/bash
 
+su - larasail
+
+cd /var/www/laravel
+
 sudo apt install php8.1-xml php8.1-gd php8.1-zip php8.1-mysql -y
-
-cd /var/www/laravel && composer install --optimize-autoloader --no-dev
-
-php artisan key:generate --force
-
-php artisan optimize
 
 sudo apt-get install supervisor -y
 
@@ -31,6 +29,18 @@ sudo supervisorctl reread
 sudo supervisorctl update
 
 sudo supervisorctl start laravel-worker:*
+
+composer install --optimize-autoloader --no-dev
+
+cp .env.production .env
+
+php artisan key:generate --force
+
+larasail database init --user larasail --db umtc_election
+
+php artisan migrate --seed
+
+php artisan optimize
 
 echo 'Run `crontab -e` and append this line:'
 echo "* * * * * cd /var/www/laravel && php artisan schedule:run >> /dev/null 2>&1"

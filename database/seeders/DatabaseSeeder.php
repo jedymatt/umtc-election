@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             YearLevelSeeder::class,
         ]);
 
-        if (config('app.debug')) {
+        if (config('app.env') === 'local') {
             Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
             ]);

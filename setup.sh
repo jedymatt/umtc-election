@@ -1,8 +1,6 @@
 #!/bin/bash
 
 {
-    larasail enter
-
     sudo apt install php8.1-xml php8.1-gd php8.1-zip php8.1-mysql
 
     cd /var/www/laravel && composer install --optimize-autoloader --no-dev

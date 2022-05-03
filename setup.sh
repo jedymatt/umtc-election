@@ -4,7 +4,11 @@ su - larasail
 
 cd /var/www/laravel
 
+# Install important php dependencies
+
 sudo apt install php8.1-xml php8.1-gd php8.1-zip php8.1-mysql -y
+
+# setup for laravel queue
 
 sudo apt-get install supervisor -y
 
@@ -29,6 +33,8 @@ sudo supervisorctl reread
 sudo supervisorctl update
 
 sudo supervisorctl start laravel-worker:*
+
+# end of setup queue
 
 composer install --optimize-autoloader --no-dev
 

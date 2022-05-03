@@ -32,5 +32,6 @@ sudo supervisorctl update
 
 sudo supervisorctl start laravel-worker:*
 
-echo "\nRun 'crontab -e' and append this line:"
+
+echo 'Run \\''crontab -e\\'' and append this line:'
 echo "* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1"

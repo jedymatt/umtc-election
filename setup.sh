@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install php8.1-xml php8.1-gd php8.1-zip php8.1-mysql
+sudo apt install php8.1-xml php8.1-gd php8.1-zip php8.1-mysql -y
 
 cd /var/www/laravel && composer install --optimize-autoloader --no-dev
 
@@ -8,7 +8,7 @@ php artisan key:generate --force
 
 php artisan optimize
 
-sudo apt-get install supervisor
+sudo apt-get install supervisor -y
 
 sudo bash -c '
 cat << EOF >/etc/supervisor/conf.d/laravel-worker.conf

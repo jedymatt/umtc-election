@@ -10,7 +10,8 @@ php artisan optimize
 
 sudo apt-get install supervisor
 
-worker_file_content='
+sudo bash -c '
+cat << EOF >/etc/supervisor/conf.d/laravel-worker.conf
 [program:laravel-worker]
 process_name=%(program_name)s_%(process_num)02d
 command=php /var/www/laravel/artisan queue:work --sleep=3 --tries=3 --max-time=3600
@@ -23,13 +24,7 @@ numprocs=1
 redirect_stderr=true
 stdout_logfile=/var/www/laravel/storage/logs/worker.log
 stopwaitsecs=3600
-'
-
-# sudo bash -c 'cat << EOF >/etc/supervisor/conf.d/laravel-worker.conf
-# $worker_file_content
-# EOF'
-sudo bash -c '"$worker_file_content" >> /etc/supervisor/conf.d/laravel-worker.conf'
-
+EOF'
 
 sudo supervisorctl reread
 
@@ -37,5 +32,5 @@ sudo supervisorctl update
 
 sudo supervisorctl start laravel-worker:*
 
-echo "Run 'crontab -e' and append this line:"
+echo "\nRun 'crontab -e' and append this line:"
 echo "* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1"

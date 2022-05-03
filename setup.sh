@@ -40,6 +40,8 @@ composer install --optimize-autoloader --no-dev
 
 cp .env.production .env
 
+npm install && npm run prod
+
 php artisan key:generate --force
 
 larasail database init --user larasail --db umtc_election

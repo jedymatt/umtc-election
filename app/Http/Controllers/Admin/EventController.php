@@ -41,9 +41,6 @@ class EventController extends Controller
 
             $electionService = new ElectionService($election);
 
-            if ($election->winners()->doesntExist()) {
-                $electionService->saveWinners();
-            }
             $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
         }
 

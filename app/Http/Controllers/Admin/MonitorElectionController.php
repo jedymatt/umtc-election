@@ -16,10 +16,6 @@ class MonitorElectionController extends Controller
     {
         $election->loadMissing('electionType', 'electionType.positions');
 
-        if ($election->isEnded() && $election->winners()->doesntExist()) {
-            (new ElectionService($election))->saveWinners();
-        }
-
         return view('admin.monitor-election', compact(
             'election',
         ));

@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('election:save-winners')->everyFiveMinutes();
         $schedule->command('queue:work --stop-when-empty')->everyFifteenMinutes();
+        $schedule->command('queue:restart')->hourly();
     }
 
     /**

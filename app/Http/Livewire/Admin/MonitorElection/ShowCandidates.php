@@ -9,14 +9,11 @@ use Livewire\Component;
 class ShowCandidates extends Component
 {
     public $election;
-    public $positions;
     public $candidates;
 
     public function mount(Election $election)
     {
-        $this->election->loadMissing('electionType', 'electionType.positions');
         $this->election = $election;
-        $this->positions = $election->electionType->positions;
         $this->candidates = $this->queryCandidates();
     }
 
@@ -33,11 +30,14 @@ class ShowCandidates extends Component
     public function queryCandidates()
     {
         return $this->election->candidates()
-            ->select('position_id', 'user_id')
-            ->with(['user:id,department_id,name', 'user.department:id,name'])
+            ->select(['position_id', 'user_id'])
+            ->with(['user:id,department_id,name', 'user.department:id,name', 'position:id,name'])
             ->withCount('votes')
+            ->orderBy('position_id')
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))
-            ->get();
+            ->get()
+            ->groupBy('position.name')
+            ->toBase();
     }
 }

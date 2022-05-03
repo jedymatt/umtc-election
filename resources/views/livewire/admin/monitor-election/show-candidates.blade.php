@@ -16,13 +16,13 @@
             </thead>
             @if($election->isActive())
                 <tbody wire:poll="refreshCandidates">
-                @foreach ($positions as $position)
+                @foreach ($candidates as $positionName => $positionCandidates)
                     <tr class="border-b border-l-8 border-l-primary ">
                         <td class="p-4" colspan="3">
-                            <span class="font-medium text-primary">{{ $position->name }}</span>
+                            <span class="font-medium text-primary">{{ $positionName }}</span>
                         </td>
                     </tr>
-                    @forelse ($candidates->where('position_id', $position->id) as $candidate)
+                    @forelse ($positionCandidates as $candidate)
                         <tr class="border-b hover:bg-gray-50">
                             <td class="p-4">
                                 {{ $candidate->user->name }}
@@ -46,13 +46,13 @@
                 </tbody>
             @else
                 <tbody>
-                @foreach ($positions as $position)
+                    @foreach ($candidates as $positionName => $positionCandidates)
                     <tr class="border-b border-l-8 border-l-primary ">
                         <td class="p-4" colspan="3">
-                            <span class="font-medium text-primary">{{ $position->name }}</span>
+                            <span class="font-medium text-primary">{{ $positionName }}</span>
                         </td>
                     </tr>
-                    @forelse ($candidates->where('position_id', $position->id) as $candidate)
+                    @forelse ($positionCandidates as $candidate)
                         <tr class="border-b hover:bg-gray-50">
                             <td class="p-4">
                                 {{ $candidate->user->name }}

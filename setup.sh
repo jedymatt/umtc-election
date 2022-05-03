@@ -28,7 +28,7 @@ stopwaitsecs=3600
 # sudo bash -c 'cat << EOF >/etc/supervisor/conf.d/laravel-worker.conf
 # $worker_file_content
 # EOF'
-sudo bash -c '"$worker_file_content" >> /etc/supervisor/donf.d/laravel-worker.conf'
+sudo bash -c '"$worker_file_content" >> /etc/supervisor/conf.d/laravel-worker.conf'
 
 
 sudo supervisorctl reread

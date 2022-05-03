@@ -19,10 +19,11 @@ class ElectionVoteController extends Controller
 
         abort_unless($canVote, 403);
 
-        $positions = $election->electionType->positions;
+        $positions = $election->electionType->positions()->orderBy('id')->get();
 
         $candidates = $election->candidates()
             ->with(['election', 'position', 'user'])
+            ->orderBy('position_id')
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();

@@ -4,7 +4,7 @@
     <script>
         fireToast({
             icon: 'success',
-            message: {{ Js::from(session('success')) }},
+            message: @js(session('success')),
         });
     </script>
 @endif

@@ -2,19 +2,19 @@
     <div class="overflow-x-auto border-x border-t">
         <table class="table-auto w-full">
             <thead class="border-b-2 border-b-gray-300">
-            <tr class="bg-gray-100">
-                <th class="text-left p-4 font-medium">
-                    Name
-                </th>
-                <th class="text-left p-4 font-medium">
-                    Department
-                </th>
-                <th class="text-left p-4 font-medium">
-                    Votes
-                </th>
-            </tr>
+                <tr class="bg-gray-100">
+                    <th class="text-left p-4 font-medium">
+                        Name
+                    </th>
+                    <th class="text-left p-4 font-medium">
+                        Department
+                    </th>
+                    <th class="text-left p-4 font-medium">
+                        Votes
+                    </th>
+                </tr>
             </thead>
-                <tbody @if ($election->isActive())  wire:poll="refreshCandidates" @endif>
+            <tbody>
                 @foreach ($candidates as $positionName => $positionCandidates)
                     <tr class="border-b border-l-8 border-l-primary ">
                         <td class="p-4" colspan="3">
@@ -42,7 +42,18 @@
                         </tr>
                     @endforelse
                 @endforeach
-                </tbody>
+            </tbody>
         </table>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Echo.channel('{{ 'election.' . $election->id }}')
+                .listen('vote-submitted', function() {
+                    console.log('vote-submitted');
+                });
+            Livewire.on('election.{{ $election->id }},vote-submitted', function() {
+                alert('vote submitted');
+            })
+        });
+    </script>
 </div>

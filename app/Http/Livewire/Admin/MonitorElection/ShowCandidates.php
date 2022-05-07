@@ -27,6 +27,13 @@ class ShowCandidates extends Component
         $this->candidates = $this->queryCandidates();
     }
 
+    public function getListeners()
+    {
+        return [
+            "echo-private:election.{$this->election->id},VoteSubmitted" => 'refreshCandidates',
+        ];
+    }
+
     public function queryCandidates()
     {
         return $this->election->candidates()

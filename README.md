@@ -5,11 +5,11 @@ University of Mindanao Tagum College Election System
 ## Prerequisites
 
 * Php 8.0.2 or up
-* Node and Npm
+* Node.js and Npm
 * composer
 * MySQL
-* XAMPP (Optional)
-* Docker (Optional)
+* XAMPP (Optional) or Docker (Optional)
+* [Pusher app credentials](https://pusher.com/)
 
 ## Run Locally
 

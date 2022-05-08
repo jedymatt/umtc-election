@@ -34,34 +34,37 @@
                                 </form>
                             </div>
                         @endif
-                        @if(!empty($conflictedWinners))
+                        @if(!$isPendingResult && !empty($conflictedWinners))
                             <span class="font-semibold">Resolve conflict by selecting the final winners:</span>
-                            @foreach($conflictedWinners as $positionName => $winners)
-                                <div class="mt-1">
-                                    <span class="font-medium">{{ $positionName }}</span>
 
-                                    @foreach($winners as $winner)
-                                        <div wire:key="{{ $loop->index }}">
-                                            <label>
-                                                <input type="radio"
-                                                       wire:model="selectedWinners.{{ $winner['candidate']['position_id'] }}"
-                                                       name="winners[{{ $winner['candidate']['position_id'] }}]"
-                                                       value="{{ $winner['id'] }}">
-                                                {{ $winner['candidate']['user']['name'] }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                            <form action="{{ route('admin.elections.finalize-winners', $election) }}" method="post">
+                                @csrf
+                                @foreach($conflictedWinners as $positionName => $winners)
+                                    <div class="mt-1">
+                                        <span class="font-medium">{{ $positionName }}</span>
+                                        @foreach($winners as $winner)
+                                            <div>
+                                                <label>
+                                                    <input type="radio"
+                                                           id="winners.{{ $winner->candidate->position_id }}.{{ $winner->id }}"
+                                                           name="winners[{{ $winner->candidate->position_id}}]"
+                                                           value="{{ $winner->id }}">
+                                                    {{ $winner->candidate->user->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+
+                                <div class="mt-4 flex justify-end">
+                                    <button role="button" type="submit"
+                                            class="inline-flex items-center px-3 py-1 bg-primary-500 rounded-md text-white focus:ring ring-primary-300 active:bg-primary-700 hover:bg-primary-700 focus:outline-none ring-opacity-50">
+                                        Resolve
+                                    </button>
                                 </div>
-                            @endforeach
-
-                            <div class="mt-4 flex justify-end">
-                                <button role="button" wire:click.prevent="resolveConflict"
-                                        class="inline-flex items-center px-3 py-1 bg-primary-500 rounded-md text-white focus:ring ring-primary-300 active:bg-primary-700 hover:bg-primary-700 focus:outline-none ring-opacity-50">
-                                    Resolve
-                                </button>
-                            </div>
+                            </form>
                         @endif
-                        @if(empty($conflictedWinners))
+                        @if(!$isPendingResult && empty($conflictedWinners))
                             <span class="font-semibold text-xl">Final Winners</span>
                             <div class="overflow-x-auto border-x border-t">
                                 <table class="table-auto w-full">

@@ -17,6 +17,6 @@ class ElectionResultController extends Controller
 
         $winners = $election->winners;
 
-        return view('elections.winners', compact('winners'));
+        return view('elections.result', compact('winners'));
     }
 }

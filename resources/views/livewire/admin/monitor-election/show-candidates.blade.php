@@ -45,16 +45,4 @@
             </tbody>
         </table>
     </div>
-{{--    Todo Remove--}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Echo.channel('{{ 'election.' . $election->id }}')
-                .listen('vote-submitted', function() {
-                    console.log('vote-submitted');
-                });
-            Livewire.on('election.{{ $election->id }},vote-submitted', function() {
-                alert('vote submitted');
-            })
-        });
-    </script>
 </div>

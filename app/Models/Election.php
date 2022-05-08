@@ -143,4 +143,17 @@ class Election extends Model
     {
         return $this->election_type_id == ElectionType::TYPE_DSG;
     }
+
+    public function hasConflictedWinners(): bool
+    {
+        $positionIdWinners = $this->winners()->with(['candidate'])->get()
+            ->groupBy('candidate.position_id');
+        foreach ($positionIdWinners as $positionId => $winners) {
+            if ($winners->count() > 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -30,6 +30,7 @@ class EventController extends Controller
                 ->whereColumn('department_id', '=', 'id'))
             ->get();
 
+        /** @var Election $cdsgElection */
         $cdsgElection = $event->cdsgElection()->first();
 
         $dsgElectionsHasWinnersConflict = [];
@@ -39,13 +40,11 @@ class EventController extends Controller
                 continue;
             }
 
-            $electionService = new ElectionService($election);
-
-            $dsgElectionsHasWinnersConflict[$election->id] = $electionService->hasWinnersConflict();
+            $dsgElectionsHasWinnersConflict[$election->id] = $election->hasConflictedWinners();
         }
 
         $cdsgElectionHasWinnersConflict = $cdsgElection != null
-            && (new ElectionService($cdsgElection))->hasWinnersConflict();
+            && $cdsgElection->hasConflictedWinners();
 
         return view('admin.events.show', compact(
             'event',
@@ -58,14 +57,14 @@ class EventController extends Controller
 
     public function create()
     {
-        abort_unless(auth('admin')->user()->is_super_admin, 403);
+        abort_if(!auth('admin')->user()->is_super_admin, 403);
 
         return view('admin.events.create');
     }
 
     public function store(Request $request)
     {
-        abort_unless(auth('admin')->user()->is_super_admin, 403);
+        abort_if(!auth('admin')->user()->is_super_admin, 403);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|unique:events',

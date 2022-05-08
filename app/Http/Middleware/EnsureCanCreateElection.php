@@ -27,8 +27,8 @@ class EnsureCanCreateElection
             /** @var Admin $admin */
             $admin = $request->user();
 
-            $failureMessage = EventService::failedToCreateDsgElectionFailureMessage($event, $admin);
-            
+            $failureMessage = EventService::createDsgElectionFailureMessage($event, $admin);
+
             if (!empty($failureMessage)) {
                 return back()->with('warning', $failureMessage . '!');
             }
@@ -41,7 +41,7 @@ class EnsureCanCreateElection
             /** @var Admin $admin */
             $admin = $request->user();
 
-            $failureMessage = EventService::failedToCreateCdsgElectionFailureMessage($event, $admin);
+            $failureMessage = EventService::createCdsgElectionFailureMessage($event, $admin);
 
             if (!empty($failureMessage)) {
                 return back()->with('warning', $failureMessage . '!');

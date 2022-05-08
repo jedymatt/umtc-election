@@ -39,7 +39,7 @@ class ShowWinners extends Component
             'election',
         ])->get();
 
-        $this->showWinners = $this->electionService->hasWinnersConflict();
+        $this->showWinners = $election->hasConflictedWinners();
 
         $this->winnersConflicts = $this->showWinners ? $this->electionService->getWinnersConflicts() : [];
     }

@@ -41,9 +41,9 @@
                             <a href="{{ $link }}"
                                class="underline text-primary"
                             >{{ $key }}</a>
-                            @unless($loop->last)
+                            @if(!$loop->last)
                                 |
-                            @endunless
+                            @endif
                         @empty
                             <span>No related links :<</span>
                         @endforelse

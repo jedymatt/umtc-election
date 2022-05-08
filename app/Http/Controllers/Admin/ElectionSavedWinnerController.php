@@ -7,7 +7,7 @@ use App\Models\Election;
 use App\Services\ElectionService;
 use Illuminate\Http\Request;
 
-class ProcessedElectionWinnerController extends Controller
+class ElectionSavedWinnerController extends Controller
 {
     public function store(Request $request, Election $election)
     {

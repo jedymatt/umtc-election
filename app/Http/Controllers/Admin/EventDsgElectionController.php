@@ -19,7 +19,7 @@ class EventDsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_unless(EventService::canCreateDsgElection($event, $admin), 403, 'Cannot create election');
+        abort_if(!empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         $occupiedDepartments = $event->dsgElections->map(function ($election) {
             return $election->department_id;
@@ -40,7 +40,7 @@ class EventDsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_unless(EventService::canCreateDsgElection($event, $admin), 403, 'Cannot create election');
+        abort_if(!empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',

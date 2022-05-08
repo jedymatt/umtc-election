@@ -18,7 +18,7 @@ class ElectionVoteController extends Controller
     {
         $canVote = ElectionService::canVote($election, auth()->user());
 
-        abort_unless($canVote, 403);
+        abort_if(!$canVote, 403);
 
         $positions = $election->electionType->positions()->orderBy('id')->get();
 
@@ -38,7 +38,7 @@ class ElectionVoteController extends Controller
     {
         $canVote = ElectionService::canVote($election, auth()->user());
 
-        abort_unless($canVote, 403);
+        abort_if(!$canVote, 403);
 
         $validator = Validator::make($request->all(), [
             'candidates.*' => 'required|integer',

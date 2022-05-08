@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDsgElectionController;
 use App\Http\Controllers\Admin\ExportElectionResultController;
 use App\Http\Controllers\Admin\MonitorElectionController;
+use App\Http\Controllers\Admin\ProcessedElectionWinnerController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -112,5 +113,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
             ->name('elections.winners.export-excel');
+
+        Route::post('/elections/{election}/save-winners', [ProcessedElectionWinnerController::class, 'store'])
+            ->name('elections.save-winners');
     });
 });

@@ -465,10 +465,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 0.5rem;
 }.mt-2{
   margin-top: 0.5rem;
-}.mt-10{
-  margin-top: 2.5rem;
 }.mt-6{
   margin-top: 1.5rem;
+}.mt-10{
+  margin-top: 2.5rem;
 }.mr-2{
   margin-right: 0.5rem;
 }.ml-4{
@@ -728,12 +728,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.px-2{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-}.py-1{
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }.py-12{
   padding-top: 3rem;
   padding-bottom: 3rem;
+}.py-1{
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }.py-6{
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -818,10 +818,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.25rem;
 }.leading-tight{
   line-height: 1.25;
-}.leading-7{
-  line-height: 1.75rem;
 }.leading-normal{
   line-height: 1.5;
+}.leading-7{
+  line-height: 1.75rem;
 }.tracking-widest{
   letter-spacing: 0.1em;
 }.tracking-wider{

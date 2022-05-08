@@ -16,8 +16,24 @@ class MonitorElectionController extends Controller
     {
         $election->loadMissing('electionType', 'electionType.positions');
 
-        return view('admin.monitor-election', compact(
+        $isPendingResult = $election->isEnded()
+            && $election->candidates()->exists()
+            && $election->winners()->doesntExist();
+
+        $winners = $election->winners()->with([
+            'candidate',
+            'candidate.position',
+            'candidate.user',
+            'candidate.user.department',
             'election',
+        ])->get();
+
+        $conflictedWinners = $election->hasConflictedWinners() ?
+            (new ElectionService($election))->getWinnersConflicts()
+            : [];
+
+        return view('admin.monitor-election', compact(
+            'election', 'isPendingResult', 'conflictedWinners', 'winners'
         ));
     }
 }

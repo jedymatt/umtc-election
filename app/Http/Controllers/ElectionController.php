@@ -55,7 +55,7 @@ class ElectionController extends Controller
 
         foreach ($endedElections as $election) {
             $isPendingWinners[$election->id] = $election->winners()->doesntExist()
-                || (new ElectionService($election))->hasWinnersConflict();
+                || $election->hasConflictedWinners();
         }
 
         $userCanVoteActiveElections = [];
@@ -71,9 +71,9 @@ class ElectionController extends Controller
         }
 
         return view('elections.index', compact(
-            'activeElections', 
-            'endedElections', 
-            'isPendingWinners', 
+            'activeElections',
+            'endedElections',
+            'isPendingWinners',
             'userCanVoteActiveElections',
             'showUpdateProfileBanner',
         ));

@@ -90,11 +90,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('/elections', ElectionController::class)
             ->only(['index', 'show']);
 
-        Route::resource('/events.dsg-elections', EventDsgElectionController::class)
-            ->only(['create', 'store']);
+        Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
+            ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
+            ->name('events.dsg-elections.create');
 
-        Route::resource('/events.cdsg-elections', EventCdsgElectionController::class)
-            ->only(['create', 'store']);
+        Route::post('/events/{event}/dsg-elections', [EventDsgElectionController::class, 'store'])
+            ->name('events.dsg-elections.store');
+
+        Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'create'])
+            ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
+            ->name('events.cdsg-elections.create');
+
+        Route::post('/events/{event}/cdsg-elections', [EventCdsgElectionController::class, 'store'])
+            ->name('events.cdsg-elections.store');
 
         Route::resource('/events', EventController::class)
             ->only(['index', 'show', 'create', 'store']);

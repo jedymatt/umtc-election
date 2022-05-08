@@ -24,11 +24,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <span class="text-lg font-medium text-primary">CDSG Election</span>
-                    <div class="flex justify-end mt-4">
-                        <x-primary.button-link href="{{ route('admin.events.cdsg-elections.create', $event) }}">
-                            Create CDSG Election
-                        </x-primary.button-link>
-                    </div>
+                   @if(auth()->user()->is_super_admin)
+                        <div class="flex justify-end mt-4">
+                            <x-primary.button-link href="{{ route('admin.events.cdsg-elections.create', $event) }}">
+                                Create CDSG Election
+                            </x-primary.button-link>
+                        </div>
+                   @endif
                     <div class="mt-4">
                         <!-- component -->
                         <div class="overflow-x-auto border-x border-t">
@@ -167,7 +169,7 @@
                                         </tr>
                                     @empty
                                         <tr class="border-b">
-                                            <td class="p-4" colspan="3">
+                                            <td class="p-4" colspan="4">
                                                 <span class="flex justify-center text-gray-400">No records!</span>
                                             </td>
                                         </tr>

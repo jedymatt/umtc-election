@@ -19,13 +19,7 @@ class EventCdsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_unless(EventService::canCreateCdsgElection($event, $admin), 403, 'Cannot create election');
-
-        $dsgElections = $event->dsgElections;
-
-        foreach ($dsgElections as $election) {
-            abort_if((new ElectionService($election))->hasWinnersConflict(), 403, 'Detected Election Winners Conflict');
-        }
+        abort_if(!empty(EventService::createCdsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         return view('admin.events.cdsg-elections.create', compact('event'));
     }
@@ -35,12 +29,12 @@ class EventCdsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_unless(EventService::canCreateCdsgElection($event, $admin), 403, 'Cannot create election');
+        abort_if(!empty(EventService::createCdsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         $dsgElections = $event->dsgElections;
 
         foreach ($dsgElections as $election) {
-            abort_if((new ElectionService($election))->hasWinnersConflict(), 403, 'Detected Election Winners Conflict');
+            abort_if($election->hasConflictedWinners(), 403, 'Detected Election Winners Conflict');
         }
 
         $validator = Validator::make($request->all(), [

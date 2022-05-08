@@ -10,39 +10,48 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EventService
 {
-    public static function canCreateDsgElection(Event $event, Admin $admin): bool
+    public static function failedToCreateDsgElectionFailureMessage(Event $event, Admin $admin): string
     {
         $dsgElectionKeys = $event->dsgElections()->pluck('id');
 
         if ($dsgElectionKeys->count() == Department::count()) {
-            return false;
+            return 'Reached max number of DSG Elections';
         }
 
         if (!$admin->is_super_admin && $dsgElectionKeys->contains($admin->department_id)) {
-            return false;
+            return 'Election with ' . $admin->department->name . ' already exists';
         }
 
-        return true;
+        return '';
     }
 
-    public static function canCreateCdsgElection(Event $event, Admin $admin): bool
+    public static function failedToCreateCdsgElectionFailureMessage(Event $event, Admin $admin): string
     {
         if (!$admin->is_super_admin) {
-            return false;
+            return 'Unauthorized';
         }
 
         if ($event->cdsgElection()->exists()) {
-            return false;
+            return 'CDSG election already exists';
         }
 
-        $event->loadCount(['dsgElections' => function (Builder $query) {
-            $query->ended();
-        }]);
+        $dsgElections = $event->dsgElections();
 
-        if ($event->dsg_elections_count != Department::count()) {
-            return false;
+        if ($dsgElections->count() < Department::count()) {
+            return 'Incomplete number of DSG elections';
         }
 
-        return true;
+        $activeDsgElections = $dsgElections->active();
+
+        $activeDsgElectionsCount = $activeDsgElections->count();
+        if ($activeDsgElectionsCount > 0) {
+            return 'Found '. $activeDsgElectionsCount . ' active DSG elections';
+        }
+
+        if ($event->hasConflictedElections()) {
+            return 'Found unresolved DSG winners';
+        }
+
+        return '';
     }
 }

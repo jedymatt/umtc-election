@@ -6,7 +6,7 @@ use App\Models\Election;
 use App\Services\ElectionService;
 use Illuminate\Http\Request;
 
-class ElectionWinnerController extends Controller
+class ElectionResultController extends Controller
 {
     public function show(Election $election)
     {

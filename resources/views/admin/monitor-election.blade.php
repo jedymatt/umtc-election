@@ -25,13 +25,7 @@
                     <div class="p-6 bg-white border-b border-gray-200">
                         @if($isPendingResult)
                             <div class="flex justify-between">
-                                Pending result! Result has yet to be processed.
-                                <form action="{{ route('admin.elections.save-winners', $election) }}" method="post">
-                                    @csrf
-                                    <button class="px-1 border rounded-md text-sm uppercase bg-gray-50">Process Result
-                                        Now
-                                    </button>
-                                </form>
+                                Pending result! Result has yet to be processed. Wait for at least 5 minutes...
                             </div>
                         @endif
                         @if(!$isPendingResult && !empty($conflictedWinners))

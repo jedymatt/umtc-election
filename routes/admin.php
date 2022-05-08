@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
@@ -12,15 +11,11 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionFinalizedWinnerController;
-use App\Http\Controllers\Admin\ElectionMonitorController;
-use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
 use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\EventDsgElectionController;
-use App\Http\Controllers\Admin\ExportElectionResultController;
 use App\Http\Controllers\Admin\MonitorElectionController;
-use App\Http\Controllers\Admin\ElectionSavedWinnerController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -114,9 +109,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
             ->name('elections.winners.export-excel');
-
-        Route::post('/elections/{election}/save-winners', [ElectionSavedWinnerController::class, 'store'])
-            ->name('elections.save-winners');
 
         Route::post('/elections/{election}/finalize-winners', [ElectionFinalizedWinnerController::class, 'store'])
             ->name('elections.finalize-winners');

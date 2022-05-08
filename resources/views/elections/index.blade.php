@@ -92,12 +92,12 @@
                                     @if ($isPendingWinners[$election->id])
                                         <span class="flex items-center text-yellow-500">
                                             <x-icon.warning class="inline-block" />
-                                            Pending results
+                                            Pending result
                                         </span>
                                     @else
-                                        <a href="{{ route('elections.winners', $election) }}"
+                                        <a href="{{ route('elections.result', $election) }}"
                                             class="p-2 hover:underline decoration-1 text-primary">
-                                            View winners
+                                            View result
                                         </a>
                                     @endif
                                 </div>

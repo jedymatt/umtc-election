@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EventService
 {
-    public static function failedToCreateDsgElectionFailureMessage(Event $event, Admin $admin): string
+    public static function createDsgElectionFailureMessage(Event $event, Admin $admin): string
     {
         $dsgElectionKeys = $event->dsgElections()->pluck('id');
 
@@ -25,7 +25,7 @@ class EventService
         return '';
     }
 
-    public static function failedToCreateCdsgElectionFailureMessage(Event $event, Admin $admin): string
+    public static function createCdsgElectionFailureMessage(Event $event, Admin $admin): string
     {
         if (!$admin->is_super_admin) {
             return 'Unauthorized';

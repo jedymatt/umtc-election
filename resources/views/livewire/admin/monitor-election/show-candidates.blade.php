@@ -45,6 +45,7 @@
             </tbody>
         </table>
     </div>
+{{--    Todo Remove--}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             Echo.channel('{{ 'election.' . $election->id }}')

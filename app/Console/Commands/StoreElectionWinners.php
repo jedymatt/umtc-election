@@ -31,13 +31,15 @@ class StoreElectionWinners extends Command
     {
         $elections = Election::query()
             ->ended()
+            ->whereHas('candidates')
             ->whereDoesntHave('winners')
             ->get();
 
         if ($elections->isEmpty()) {
             $this->info('No elections to save winners!');
             info('No elections to save winners!');
-            return 0;
+
+            return 1;
         }
 
         foreach ($elections as $election) {
@@ -46,6 +48,7 @@ class StoreElectionWinners extends Command
 
         $this->info('Winners of each elections saved successfully!');
         info('Winners of each elections saved successfully!');
+
         return 0;
     }
 }

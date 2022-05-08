@@ -59,7 +59,7 @@ class ShowWinners extends Component
                 ->where('id', '!=', $winnerId)->delete();
         }
 
-        // Temporary fix by redirecting to the same route
-        return redirect()->route('admin.monitor-election', $this->election);
+//        // Temporary fix by redirecting to the same route
+//        return redirect()->route('admin.monitor-election', $this->election);
     }
 }

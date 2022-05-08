@@ -97,20 +97,8 @@ class ElectionService
                 'votes' => $candidate->votes_count,
             ]);
         });
+
         $this->election->winners()->saveMany($winners);
-    }
-
-    public function hasWinnersConflict(): bool
-    {
-        $positionWinners = $this->election->winners()->with(['candidate'])->get()
-            ->groupBy('candidate.position_id');
-        foreach ($positionWinners as $winners) {
-            if ($winners->count() > 1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function getWinnersConflicts(): Collection

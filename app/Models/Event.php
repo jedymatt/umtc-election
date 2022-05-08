@@ -31,4 +31,15 @@ class Event extends Model
         return $this->hasOne(Election::class)
             ->where('election_type_id', '=', ElectionType::TYPE_CDSG);
     }
+
+    public function hasConflictedElections(): bool
+    {
+        foreach ($this->elections as $election) {
+            if ($election->hasConflictedWinners()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

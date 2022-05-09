@@ -38,17 +38,8 @@ class InitializeSuperAdmin extends Command
         }
 
         $generatedPassword = $this->option('generate-password') ? Str::random(10) : null;
-
-        $credentials['email'] = $this->ask('Email address');
-        $credentials['name'] = $this->ask('Name', 'Super Administrator');
-        $credentials['password'] = is_null($generatedPassword) ? $this->secret('Password') : $generatedPassword;
-        $credentials['password_confirmation'] = is_null($generatedPassword) ? $this->secret('Confirm password') : $generatedPassword;
-
-        $validator = Validator::make($credentials, [
-            'email' => 'required|string|email|unique:admins',
-            'name' => 'required|string|max:255',
-            'password' => 'required|confirmed',
-        ]);
+        $credentials = $this->getCredentials($generatedPassword);
+        $validator = $this->validator($credentials);
 
         if ($validator->fails()) {
             $this->info('Super admin could not be created. See error messages below:');
@@ -59,23 +50,55 @@ class InitializeSuperAdmin extends Command
             return 1;
         }
 
-
-        $validated = $validator->validated();
-
-        $adminCredentials = array_merge($validated, [
-            'is_super_admin' => 1,
-            'password' => Hash::make($validated['password']),
-        ]);
-
-        Admin::create($adminCredentials);
+        $this->createSuperAdminAccount($validator);
 
         if (!is_null($generatedPassword)) {
             $this->alert('Generated Password: ' . $generatedPassword);
         }
 
-
         $this->info('Super admin successfully created.');
 
         return 0;
+    }
+
+    /**
+     * @param array $credentials
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    private function validator(array $credentials): \Illuminate\Validation\Validator|\Illuminate\Contracts\Validation\Validator
+    {
+        return Validator::make($credentials, [
+            'email' => 'required|string|email|unique:admins',
+            'name' => 'required|string|max:255',
+            'password' => 'required|confirmed',
+        ]);
+    }
+
+    /**
+     * @param $validator
+     * @return void
+     */
+    public function createSuperAdminAccount($validator): void
+    {
+        $adminCredentials = $validator->safe()->merge([
+            'is_super_admin' => 1,
+            'password' => Hash::make($validator->safe()->offsetGet('password')),
+        ])->all();
+
+        Admin::create($adminCredentials);
+    }
+
+    /**
+     * @param string|null $generatedPassword
+     * @return array
+     */
+    public function getCredentials(?string $generatedPassword): array
+    {
+        $credentials['email'] = $this->ask('Email address');
+        $credentials['name'] = $this->ask('Name', 'Super Administrator');
+        $credentials['password'] = is_null($generatedPassword) ? $this->secret('Password') : $generatedPassword;
+        $credentials['password_confirmation'] = is_null($generatedPassword) ? $this->secret('Confirm password') : $generatedPassword;
+
+        return $credentials;
     }
 }

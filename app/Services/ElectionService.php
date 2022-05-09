@@ -170,15 +170,14 @@ class ElectionService
     {
         return Election::with(['department', 'electionType'])
             ->orWhere(function (Builder $query) use ($user) {
-                $query->active()
-                    ->where('election_type_id', ElectionType::TYPE_DSG)
+                $query->where('election_type_id', ElectionType::TYPE_DSG)
                     ->where('department_id', $user->department_id);
             })
             ->orWhere(function (Builder $query) use ($user) {
-                $query->active()
-                    ->where('election_type_id', ElectionType::TYPE_CDSG)
+                $query->where('election_type_id', ElectionType::TYPE_CDSG)
                     ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
             })
+            ->active()
             ->get();
     }
 
@@ -186,13 +185,12 @@ class ElectionService
     {
         return Election::query()
             ->orWhere(function (Builder $query) use ($user) {
-                $query->ended()
-                    ->where('department_id', '=', $user->department_id);
+                $query->where('department_id', '=', $user->department_id);
             })
             ->orWhere(function (Builder $query) {
-                $query->ended()
-                    ->where('election_type_id', ElectionType::TYPE_CDSG);
+                $query->where('election_type_id', ElectionType::TYPE_CDSG);
             })
+            ->ended()
             ->get();
     }
 }

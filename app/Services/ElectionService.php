@@ -20,44 +20,62 @@ class ElectionService
         $this->election = $election;
     }
 
-    public static function canVote(Election $election, User $user): bool
+    public static function canVoteDsgElection(Election $election, User $user): bool
     {
+        if (!$election->isTypeDsg()) {
+            return false;
+        }
+
         if (!$election->isActive()) {
             return false;
         }
 
-        if ($election->isTypeDsg()
-            && $election->department_id != $user->department_id) {
-
-            return false;
-        }
-
-        if ($election->isTypeDsg()
-            && Election::query()
-                ->where('election_type_id', ElectionType::TYPE_DSG)
-                ->where('event_id', $election->event_id)
-                ->whereRelation('event.elections.votes', 'user_id', $user->id)
-                ->exists()) {
-
-            return false;
-        }
-
-        if ($election->isTypeCdsg()
-            && (Election::query()
-                    ->where('election_type_id', ElectionType::TYPE_CDSG)
-                    ->where('event_id', $election->event_id)
-                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id)
-                    ->doesntExist()
-                || Election::query()
-                    ->where('election_type_id', ElectionType::TYPE_CDSG)
-                    ->where('id', $election->id)
-                    ->whereRelation('votes', 'user_id', $user->id)
-                    ->exists())) {
-
+        // User's vote exist
+        if (Election::query()
+            ->where('election_type_id', ElectionType::TYPE_DSG)
+            ->where('event_id', $election->event_id)
+            ->whereRelation('event.elections.votes', 'user_id', $user->id)
+            ->exists()) {
             return false;
         }
 
         return true;
+    }
+
+    public static function canVoteCDSGElection(Election $election, User $user): bool
+    {
+        if (!$election->isTypeCdsg()) {
+            return false;
+        }
+
+        if (!$election->isActive()) {
+            return false;
+        }
+
+        // User's vote exist
+        if (Election::query()
+            ->where('election_type_id', ElectionType::TYPE_CDSG)
+            ->where('id', $election->id)
+            ->whereRelation('votes', 'user_id', $user->id)
+            ->exists()) {
+            return false;
+        }
+
+        // User is not a DSG candidate winner
+        if (Election::query()
+            ->where('election_type_id', ElectionType::TYPE_CDSG)
+            ->where('event_id', $election->event_id)
+            ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id)
+            ->doesntExist()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function canVote(Election $election, User $user): bool
+    {
+        return static::canVoteDsgElection($election, $user) || static::canVoteCDSGElection($election, $user);
     }
 
     public function generateFileName(): string

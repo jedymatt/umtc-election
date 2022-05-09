@@ -65,7 +65,7 @@ class InitializeSuperAdmin extends Command
      * @param array $credentials
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
-    private function validator(array $credentials): \Illuminate\Validation\Validator|\Illuminate\Contracts\Validation\Validator
+    public function validator(array $credentials): \Illuminate\Validation\Validator|\Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($credentials, [
             'email' => 'required|string|email|unique:admins',

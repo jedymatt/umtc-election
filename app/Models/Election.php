@@ -20,6 +20,8 @@ class Election extends Model
 
     public const STATUS_ENDED = 3;
 
+    public const STATUS_EXPIRED = 3;
+
     protected $fillable = [
         'title',
         'description',
@@ -117,6 +119,11 @@ class Election extends Model
         return $this->status() === static::STATUS_ENDED;
     }
 
+    public function isExpired(): bool
+    {
+        return $this->status() === static::STATUS_EXPIRED;
+    }
+
     public function latestActive(): self
     {
         return $this->where('start_at', '<=', now())
@@ -156,4 +163,5 @@ class Election extends Model
 
         return false;
     }
+
 }

@@ -20,32 +20,24 @@ class EnsureCanCreateElection
      */
     public function handle(Request $request, Closure $next)
     {
+        $failureMessage = '';
+
+        /** @var Event $event */
+        $event = $request->route('event');
+
+        /** @var Admin $admin */
+        $admin = $request->user();
+
         if ($request->routeIs('admin.events.dsg-elections.create')) {
-            /** @var Event $event */
-            $event = $request->route('event');
-
-            /** @var Admin $admin */
-            $admin = $request->user();
-
             $failureMessage = EventService::createDsgElectionFailureMessage($event, $admin);
-
-            if (!empty($failureMessage)) {
-                return back()->with('warning', $failureMessage . '!');
-            }
         }
 
         if ($request->routeIs('admin.events.cdsg-elections.create')) {
-            /** @var Event $event */
-            $event = $request->route('event');
-
-            /** @var Admin $admin */
-            $admin = $request->user();
-
             $failureMessage = EventService::createCdsgElectionFailureMessage($event, $admin);
+        }
 
-            if (!empty($failureMessage)) {
-                return back()->with('warning', $failureMessage . '!');
-            }
+        if (!empty($failureMessage)) {
+            return back()->with('warning', $failureMessage . '!');
         }
 
         return $next($request);

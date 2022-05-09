@@ -7,7 +7,6 @@ use App\Models\ElectionType;
 use App\Models\User;
 use App\Services\ElectionService;
 use Illuminate\Database\Eloquent\Builder;
-use function view;
 
 class ElectionController extends Controller
 {
@@ -16,44 +15,14 @@ class ElectionController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $activeElections = Election::with(['department', 'electionType']);
+        $isCompleteUserInfo = $user->department_id != null;
 
-        $endedElections = Election::query();
-
-        if ($user->department_id == null) {
-            $activeElections = [];
-            $endedElections = [];
-        } else {
-            $department = $user->department;
-
-            $activeElections = $activeElections
-                ->orWhere(function (Builder $query) {
-                    $query->active()
-                        ->where('election_type_id', ElectionType::TYPE_DSG)
-                        ->where('department_id', auth()->user()->department_id);
-                })
-                ->orWhere(function (Builder $query) {
-                    $query->active()
-                        ->where('election_type_id', ElectionType::TYPE_CDSG)
-                        ->whereRelation('event.elections.winners.candidate', 'user_id', '=', auth()->id());
-                })
-                ->get();
-
-            $endedElections = $endedElections
-                ->orWhere(function (Builder $query) {
-                    $query->ended()
-                        ->where('department_id', '=', auth()->user()->department_id);
-                })
-                ->orWhere(function (Builder $query) {
-                    $query->ended()
-                        ->where('election_type_id', ElectionType::TYPE_CDSG);
-                })
-                ->get();
-        }
+        $activeElections = $isCompleteUserInfo ? ElectionService::activeElectionsByUser($user) : [];
+        $pastElections = $isCompleteUserInfo ? ElectionService::pastElectionsByUser($user) : [];
 
         $isPendingWinners = [];
 
-        foreach ($endedElections as $election) {
+        foreach ($pastElections as $election) {
             $isPendingWinners[$election->id] = $election->winners()->doesntExist()
                 || $election->hasConflictedWinners();
         }
@@ -64,18 +33,12 @@ class ElectionController extends Controller
             $userCanVoteActiveElections[$election->id] = ElectionService::canVote($election, auth()->user());
         }
 
-        $showUpdateProfileBanner = false;
-
-        if ($user->department_id == null) {
-            $showUpdateProfileBanner = true;
-        }
-
         return view('elections.index', compact(
             'activeElections',
-            'endedElections',
+            'pastElections',
             'isPendingWinners',
             'userCanVoteActiveElections',
-            'showUpdateProfileBanner',
+            'isCompleteUserInfo',
         ));
     }
 

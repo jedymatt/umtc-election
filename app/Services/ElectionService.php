@@ -7,6 +7,7 @@ use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Winner;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -163,5 +164,33 @@ class ElectionService
         }
 
         return $winnersConflicts;
+    }
+
+    public static function activeElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return Election::with(['department', 'electionType'])
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('election_type_id', ElectionType::TYPE_DSG)
+                    ->where('department_id', $user->department_id);
+            })
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('election_type_id', ElectionType::TYPE_CDSG)
+                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
+            })
+            ->active()
+            ->get();
+    }
+
+    public static function pastElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return Election::query()
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('department_id', '=', $user->department_id);
+            })
+            ->orWhere(function (Builder $query) {
+                $query->where('election_type_id', ElectionType::TYPE_CDSG);
+            })
+            ->ended()
+            ->get();
     }
 }

@@ -29,23 +29,39 @@
                             <x-label value="Department" />
                             <select name="department_id" id="department_id"
                                 class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                @if ($user->department_id == null)
+                                    <option selected disabled>
+                                        -- Choose department --
+                                    </option>
+                                @endif
                                 @foreach ($departments as $department)
                                     <option value="{{ $department->id }}" @selected($department->id == $user->department_id)>
                                         {{ $department->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            @error('department_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mt-4">
                             <x-label for="year_level_id" value="Year Level" />
                             <select name="year_level_id" id="year_level_id"
                                 class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                @if ($user->year_level_id == null)
+                                    <option selected disabled>
+                                        -- Choose year level --
+                                    </option>
+                                @endif
                                 @foreach ($yearLevels as $yearLevel)
                                     <option value="{{ $yearLevel->id }}" @selected($yearLevel->id == $user->year_level_id)>
                                         {{ $yearLevel->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            @error('year_level_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="flex justify-end items-center mt-4">
                             <x-button>Save</x-button>

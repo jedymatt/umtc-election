@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\VoteSubmitted;
+use App\Http\Requests\StoreElectionVoteRequest;
 use App\Models\Election;
 use App\Models\User;
 use App\Models\Vote;
@@ -30,22 +31,15 @@ class ElectionVoteController extends Controller
             ->get();
 
         return view('elections.vote', compact(
-            'election', 'positions', 'candidates'
+            'election',
+            'positions',
+            'candidates'
         ));
     }
 
-    public function store(Request $request, Election $election)
+    public function store(StoreElectionVoteRequest $request, Election $election)
     {
-        $canVote = ElectionService::canVote($election, auth()->user());
-
-        abort_if(!$canVote, 403);
-
-        $validator = Validator::make($request->all(), [
-            'candidates.*' => 'required|integer',
-        ]);
-
-        $validated = $validator->validated();
-
+        $validated = $request->validated();
         $vote = Vote::create([
             'user_id' => $request->user()->id,
             'election_id' => $election->id,

@@ -18,7 +18,7 @@ class DepartmentSeeder extends Seeder
             ['name' => 'Department of Arts and Sciences Education'],
             ['name' => 'Department of Accounting Education'],
             ['name' => 'Department of Business Administration Education'],
-            ['name' => 'Department of Teachers Education'],
+            ['name' => 'Department of Teacher Education'],
             ['name' => 'Department of Engineering Education'],
             ['name' => 'Department of Criminal Justice Education'],
             ['name' => 'Hospitality Management and Tourism Management'],

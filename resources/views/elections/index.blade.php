@@ -62,7 +62,7 @@
                                         </x-primary.button-link>
                                     @else
                                         <x-primary.button type="button" class="hover:bg-primary" disabled>
-                                            Not Eligible to Vote
+                                            Done Vote
                                         </x-primary.button>
                                     @endif
                                 </div>

@@ -31,7 +31,7 @@
                                 class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @if ($user->department_id == null)
                                     <option selected disabled>
-                                        -- Choose department --
+                                        -- Select department --
                                     </option>
                                 @endif
                                 @foreach ($departments as $department)
@@ -50,7 +50,7 @@
                                 class="mt-1 w-full sm:w-1/2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @if ($user->year_level_id == null)
                                     <option selected disabled>
-                                        -- Choose year level --
+                                        -- Select year level --
                                     </option>
                                 @endif
                                 @foreach ($yearLevels as $yearLevel)

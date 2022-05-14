@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\Department;
 use App\Models\Program;
 use App\Models\YearLevel;
@@ -19,19 +20,15 @@ class UserProfileController extends Controller
         $yearLevels = YearLevel::orderBy('name')->get();
 
         return view('profile.show', compact(
-            'user', 'departments', 'yearLevels'
+            'user',
+            'departments',
+            'yearLevels'
         ));
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserProfileRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'department_id' => 'required|integer',
-            'year_level_id' => 'required|integer',
-        ]);
-
-        $request->user()->update($validator->validated());
+        $request->user()->update($request->validated());
 
         return redirect()->route('user-profile')
             ->with('success', 'Profile updated successfully!');

@@ -36,42 +36,42 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@example.com',
             ]);
 
-//            Admin::factory()->create([
-//                'email' => 'basic@example.com',
-//            ]);
-//
-            User::factory()->create([
-                'name' => 'Juan Dela Cruz',
-                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
-            ]);
+            //            Admin::factory()->create([
+            //                'email' => 'basic@example.com',
+            //            ]);
+            //
+            // User::factory()->create([
+            //     'name' => 'Juan Dela Cruz',
+            //     'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
+            // ]);
 
-            $this->call(EventSeeder::class);
+            // $this->call(EventSeeder::class);
 
-//            Election::factory()
-//                ->count(7)
-//                ->has(
-//                    Candidate::factory()
-//                        ->count(20)
-//                )
-//                ->has(
-//                    Vote::factory()
-//                        ->count(20)
-//                )
-//                ->create();
-//
-//
-//            Election::factory()
-//                ->count(7)
-//                ->ended()
-//                ->has(
-//                    Candidate::factory()
-//                        ->count(20)
-//                )
-//                ->has(
-//                    Vote::factory()
-//                        ->count(20)
-//                )
-//                ->create();
+            // Election::factory()
+            //     ->count(7)
+            //     ->has(
+            //         Candidate::factory()
+            //             ->count(20)
+            //     )
+            //     ->has(
+            //         Vote::factory()
+            //             ->count(20)
+            //     )
+            //     ->create();
+
+
+            // Election::factory()
+            //     ->count(7)
+            //     ->ended()
+            //     ->has(
+            //         Candidate::factory()
+            //             ->count(20)
+            //     )
+            //     ->has(
+            //         Vote::factory()
+            //             ->count(20)
+            //     )
+            //     ->create();
         }
     }
 }

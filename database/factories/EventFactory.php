@@ -49,8 +49,6 @@ class EventFactory extends Factory
             return ['department_id' => $department->id];
         });
 
-        $user = User::where('email', 'j.delacruz.123456.tc@umindanao.edu.ph')->first();
-
         return $this->has(
             Election::factory()
                 ->count($sequence->count())
@@ -58,9 +56,7 @@ class EventFactory extends Factory
                 ->state(new Sequence(...$sequence->toArray()))
                 ->has(Candidate::factory()
                     ->count(20))
-                ->has(Candidate::factory()->state([
-                    'user_id' => $user->id,
-                ])->has(Vote::factory()->count(100)))
+                ->has(Candidate::factory()->has(Vote::factory()->count(100)))
                 ->has(Vote::factory()
                     ->count(100))
         );

@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('winners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('election_id')->constrained();
-            $table->foreignId('candidate_id')->constrained();
+            $table->foreignId('election_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('candidate_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('votes');
             $table->timestamps();
         });

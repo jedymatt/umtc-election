@@ -20,6 +20,8 @@ class Election extends Model
 
     public const STATUS_ENDED = 3;
 
+    public const STATUS_PENDING = 1;
+
     public const STATUS_EXPIRED = 3;
 
     protected $fillable = [
@@ -104,8 +106,8 @@ class Election extends Model
 
         return match ($status) {
             static::STATUS_ACTIVE => 'Active',
-            static::STATUS_ENDED => 'Ended',
-            default => 'Not Yet Started',
+            static::STATUS_EXPIRED => 'Expired',
+            default => 'Pending',
         };
     }
 

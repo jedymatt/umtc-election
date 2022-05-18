@@ -28,13 +28,12 @@ class StudentEmail implements Rule
 
         $parsedUsername = explode('.', $username);
 
-        if (count($parsedUsername) != 4) {
+        if (count($parsedUsername) != 4 && count($parsedUsername) != 3) {
             return false;
         }
 
         $initialGivenName = $parsedUsername[0];
         $studentId = $parsedUsername[2];
-        $postfix = $parsedUsername[3];
 
         if (strlen($initialGivenName) != 1) {
             return false;
@@ -44,7 +43,7 @@ class StudentEmail implements Rule
             return false;
         }
 
-        if ($postfix != 'tc') {
+        if (count($parsedUsername) == 4 && $parsedUsername[3] != 'tc') {
             return false;
         }
 

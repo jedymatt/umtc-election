@@ -89,15 +89,15 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_valid_um_main_email()
+    public function test_incomplete_username()
     {
-        $this->assertTrue((new StudentEmail)->passes(
+        $this->assertFalse((new StudentEmail)->passes(
             'email',
             'f.lastname.123456@umindanao.edu.ph'
         ));
     }
 
-    public function test_valid_um_tagum_email()
+    public function test_valid_um_email()
     {
         $this->assertTrue((new StudentEmail)->passes(
             'email',

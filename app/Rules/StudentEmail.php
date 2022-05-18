@@ -16,7 +16,7 @@ class StudentEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (! str_contains($value, '@')) {
+        if (!str_contains($value, '@')) {
             return false;
         }
 
@@ -28,7 +28,7 @@ class StudentEmail implements Rule
 
         $parsedUsername = explode('.', $username);
 
-        if (count($parsedUsername) != 4 && count($parsedUsername) != 3) {
+        if (count($parsedUsername) != 4) {
             return false;
         }
 
@@ -39,11 +39,13 @@ class StudentEmail implements Rule
             return false;
         }
 
-        if (strlen($studentId) != 6 || ! ctype_digit($studentId)) {
+        if (strlen($studentId) != 6 || !ctype_digit($studentId)) {
             return false;
         }
 
-        if (count($parsedUsername) == 4 && $parsedUsername[3] != 'tc') {
+        $postfix = $parsedUsername[3];
+
+        if ($postfix != 'tc') {
             return false;
         }
 

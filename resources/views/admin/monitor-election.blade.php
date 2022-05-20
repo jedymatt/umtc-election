@@ -88,7 +88,7 @@
                                                 {{ $winner->candidate->position->name }}
                                             </td>
                                             <td class="p-4">
-                                                {{ $winner->candidate->user->department->name }}
+                                                {{ $winner->candidate->user->department?->name }}
                                             </td>
                                             <td class="p-4">
                                                 {{ $winner->votes }}

@@ -27,7 +27,7 @@
                                 {{ $candidate->user->name }}
                             </td>
                             <td class="p-4">
-                                {{ $candidate->user->department->name }}
+                                {{ $candidate->user->department?->name }}
                             </td>
                             <td class="p-4">
                                 {{ $candidate->votes_count }}

@@ -10,7 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@tailwindcss/forms": "^0.5.0",
+        "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^0.25",
@@ -20,9 +20,7 @@
         "postcss": "^8.4.6",
         "postcss-import": "^14.0.2",
         "pusher-js": "^7.1.0-beta",
-        "tailwindcss": "^3.0.18"
-    },
-    "dependencies": {
-        "sweetalert2": "^11.4.10"
+        "sweetalert2": "^11.4.14",
+        "tailwindcss": "^3.0.24"
     }
 }

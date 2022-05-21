@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\ElectionFinalizedWinnerController;
+use App\Http\Controllers\Admin\ElectionResultController;
 use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
 use App\Http\Controllers\Admin\EventCdsgElectionController;
 use App\Http\Controllers\Admin\EventController;
@@ -112,5 +113,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/elections/{election}/finalize-winners', [ElectionFinalizedWinnerController::class, 'store'])
             ->name('elections.finalize-winners');
+
+        Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
+            ->name('elections.result');
     });
 });

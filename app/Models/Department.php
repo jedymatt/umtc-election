@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Department extends Model
 {
@@ -19,5 +20,10 @@ class Department extends Model
     public function elections(): HasMany
     {
         return $this->hasMany(Election::class);
+    }
+
+    public function getAcronymName(): string
+    {
+        return preg_replace('/\b([A-Z])|./', '$1', $this->name);
     }
 }

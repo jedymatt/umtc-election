@@ -70,6 +70,10 @@
                                            class="font-medium text-blue-600 hover:underline">View</a> |
                                         <a href="{{ route('admin.monitor-election', $election) }}"
                                            class="font-medium text-blue-600 hover:underline">Monitor</a>
+                                        @if($election->isExpired())
+                                            | <a href="{{ route('admin.elections.result', $election) }}"
+                                               class="font-medium text-blue-600 hover:underline">Result</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

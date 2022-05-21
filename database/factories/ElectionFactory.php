@@ -50,4 +50,34 @@ class ElectionFactory extends Factory
             ];
         });
     }
+
+    public function expired()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'start_at' => $this->faker->dateTimeBetween(),
+                'end_at' => Carbon::now(),
+            ];
+        });
+    }
+
+    public function pending()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'start_at' => Carbon::now()->addDay(),
+                'end_at' => Carbon::now()->addDays(4),
+            ];
+        });
+    }
+
+    public function ongoing()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'start_at' => Carbon::now()->addDay(),
+                'end_at' => Carbon::now()->addDays(4),
+            ];
+        });
+    }
 }

@@ -8,19 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 class Election extends Model
 {
     use HasFactory;
 
-    public const STATUS_NOT_STARTED = 1;
+    public const STATUS_PENDING = 1;
 
     public const STATUS_ACTIVE = 2;
 
-    public const STATUS_ENDED = 3;
+    public const STATUS_ONGOING = 2;
 
-    public const STATUS_PENDING = 1;
+    public const STATUS_ENDED = 3;
 
     public const STATUS_EXPIRED = 3;
 
@@ -94,10 +93,10 @@ class Election extends Model
         }
 
         if ($now >= $this->start_at) {
-            return static::STATUS_ACTIVE;
+            return static::STATUS_ONGOING;
         }
 
-        return static::STATUS_NOT_STARTED;
+        return static::STATUS_PENDING;
     }
 
     public function statusMessage(): string
@@ -105,7 +104,7 @@ class Election extends Model
         $status = $this->status();
 
         return match ($status) {
-            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_ONGOING => 'Ongoing',
             static::STATUS_EXPIRED => 'Expired',
             default => 'Pending',
         };
@@ -119,6 +118,16 @@ class Election extends Model
     public function isEnded(): bool
     {
         return $this->status() === static::STATUS_ENDED;
+    }
+
+    public function isOngoing(): bool
+    {
+        return $this->status() === static::STATUS_ONGOING;
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status() === static::STATUS_PENDING;
     }
 
     public function isExpired(): bool
@@ -145,12 +154,12 @@ class Election extends Model
 
     public function isTypeCdsg(): bool
     {
-        return $this->election_type_id == ElectionType::TYPE_CDSG;
+        return $this->election_type_id === ElectionType::TYPE_CDSG;
     }
 
     public function isTypeDsg(): bool
     {
-        return $this->election_type_id == ElectionType::TYPE_DSG;
+        return $this->election_type_id === ElectionType::TYPE_DSG;
     }
 
     public function hasConflictedWinners(): bool
@@ -165,5 +174,4 @@ class Election extends Model
 
         return false;
     }
-
 }

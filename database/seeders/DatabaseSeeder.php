@@ -32,18 +32,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (config('app.env') === 'local') {
+
             Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
+            ]);
+
+            User::factory()->create([
+                'name' => 'Juan Dela Cruz',
+                'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
 
             //            Admin::factory()->create([
             //                'email' => 'basic@example.com',
             //            ]);
             //
-            // User::factory()->create([
-            //     'name' => 'Juan Dela Cruz',
-            //     'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
-            // ]);
 
             // $this->call(EventSeeder::class);
 

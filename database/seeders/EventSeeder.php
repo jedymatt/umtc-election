@@ -23,6 +23,7 @@ class EventSeeder extends Seeder
             'title' => 'School Year 2022-2023'
         ]);
 
+
         $departments = Department::all();
         $positions = ElectionType::find(ElectionType::TYPE_DSG)->positions;
 
@@ -43,5 +44,7 @@ class EventSeeder extends Seeder
                 ]);
             }
         }
+
+        Event::factory()->includeEndedDsgElections()->create();
     }
 }

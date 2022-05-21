@@ -89,7 +89,7 @@
                                             {{ $candidate->position->name }}
                                         </td>
                                         <td class="p-4">
-                                            {{ $candidate->user->department->name }}
+                                            {{ $candidate->user->department?->name }}
                                         </td>
                                     </tr>
                                 @endforeach

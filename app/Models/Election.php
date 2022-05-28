@@ -30,6 +30,7 @@ class Election extends Model
         'end_at',
         'election_type_id',
         'department_id',
+        'event_id',
     ];
 
     protected $casts = [

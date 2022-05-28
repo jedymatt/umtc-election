@@ -3,17 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreDsgElectionRequest;
 use App\Models\Admin;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
+use App\Services\ElectionService;
 use App\Services\EventService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class EventDsgElectionController extends Controller
 {
+    protected $electionService;
+
+    function __construct(ElectionService $electionService)
+    {
+        $this->electionService = $electionService;
+    }
+
     public function create(Event $event)
     {
         /** @var Admin $admin */
@@ -35,33 +44,20 @@ class EventDsgElectionController extends Controller
         return view('admin.events.dsg-elections.create', compact('event', 'departments'));
     }
 
-    public function store(Request $request, Event $event)
+    public function store(StoreDsgElectionRequest $request, Event $event)
     {
-        /** @var Admin $admin */
-        $admin = auth('admin')->user();
+        $validated = $request->validated();
 
-        abort_if(!empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string',
-            'description' => 'nullable|string',
-            'start_at' => 'required|date|before_or_equal:end_at',
-            'end_at' => 'required|date|after:start_at',
-            'department_id' => 'required|integer',
-            'candidates.*.user_id' => 'integer',
-            'candidates.*.position_id' => 'integer',
+        $election = $this->electionService->createDsgElection([
+            'event_id' => $event->id,
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'start_at' => $validated['start_at'],
+            'end_at' => $validated['end_at'],
+            'department_id' => $validated['department_id'],
         ]);
 
-        $validated = $validator->validated();
-
-        $election = Election::make($validated);
-        $election->election_type_id = ElectionType::TYPE_DSG;
-        $election->event_id = $event->id;
-        $election->save();
-
-        if (array_key_exists('candidates', $validated)) {
-            $election->candidates()->createMany($validated['candidates']);
-        }
+        $election->candidates()->createMany($validated['candidates'] ?? []);
 
         return redirect()->route('admin.events.show', $event)
             ->with('success', 'DSG election successfully created!');

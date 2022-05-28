@@ -234,7 +234,6 @@ class ElectionService
             'title' => $data['title'],
             'description' => $data['description'],
             'election_type_id' => ElectionType::TYPE_CDSG,
-            'department_id' => $data['department_id'],
             'event_id' => $data['event_id'],
             'start_at' => $data['start_at'],
             'end_at' => $data['end_at'],

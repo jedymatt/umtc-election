@@ -35,7 +35,8 @@ class ElectionService
             ->where('election_type_id', ElectionType::TYPE_DSG)
             ->where('event_id', $election->event_id)
             ->whereRelation('event.elections.votes', 'user_id', $user->id)
-            ->exists()) {
+            ->exists()
+        ) {
             return false;
         }
 
@@ -57,7 +58,8 @@ class ElectionService
             ->where('election_type_id', ElectionType::TYPE_CDSG)
             ->where('id', $election->id)
             ->whereRelation('votes', 'user_id', $user->id)
-            ->exists()) {
+            ->exists()
+        ) {
             return false;
         }
 
@@ -66,7 +68,8 @@ class ElectionService
             ->where('election_type_id', ElectionType::TYPE_CDSG)
             ->where('event_id', $election->event_id)
             ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id)
-            ->doesntExist()) {
+            ->doesntExist()
+        ) {
             return false;
         }
 
@@ -210,5 +213,31 @@ class ElectionService
             })
             ->ended()
             ->get();
+    }
+
+    public function createDsgElection(array $data): Election
+    {
+        return  Election::create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'election_type_id' => ElectionType::TYPE_DSG,
+            'department_id' => $data['department_id'],
+            'event_id' => $data['event_id'],
+            'start_at' => $data['start_at'],
+            'end_at' => $data['end_at'],
+        ]);
+    }
+
+    public function createCdsgElection(array $data)
+    {
+        return Election::create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'election_type_id' => ElectionType::TYPE_CDSG,
+            'department_id' => $data['department_id'],
+            'event_id' => $data['event_id'],
+            'start_at' => $data['start_at'],
+            'end_at' => $data['end_at'],
+        ]);
     }
 }

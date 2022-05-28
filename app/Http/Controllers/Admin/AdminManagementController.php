@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminManagementController extends Controller
 {
+    private $adminService;
+
     public function __construct()
     {
         $this->authorizeResource(Admin::class, 'admin');
+        $this->adminService = app()->make('App\Services\AdminService');
     }
 
     public function index()
@@ -35,10 +38,12 @@ class AdminManagementController extends Controller
 
     public function store(StoreAdminRequest $request)
     {
-        $hashedPassword = Hash::make($request->validated('password'));
-        $validated = array_merge($request->validated(), ['password' => $hashedPassword]);
-
-        Admin::create($validated);
+        $this->adminService->createAdmin([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'department_id' => $request->department_id,
+        ]);
 
         return redirect()->route('admin.admin-management.index')
             ->with('success', 'Admin account successfully created!');

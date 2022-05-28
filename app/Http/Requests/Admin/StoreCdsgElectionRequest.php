@@ -15,7 +15,6 @@ class StoreCdsgElectionRequest extends FormRequest
      */
     public function authorize()
     {
-        /** @var Event event */
         $event = $this->route('event');
 
         $admin = $this->user('admin');
@@ -31,7 +30,7 @@ class StoreCdsgElectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'title' => 'required|string|unique:elections',
             'description' => 'nullable|string',
             'start_at' => 'required|date|before:end_at',
             'end_at' => 'required|date|after:start_at',

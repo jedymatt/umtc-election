@@ -58,10 +58,10 @@
                                             <td class="p-4">
                                                 <span @class([
                                                     'inline-block text-sm lowercase rounded-full border p-1 px-2',
-                                                    'border-green-500 bg-green-100 text-green-800' => $election->isActive(),
-                                                    'border-red-500 bg-red-100 text-red-800' => !$election->isActive(),
+                                                    'border-green-500 bg-green-100 text-green-800' => $cdsgElection->isActive(),
+                                                    'border-red-500 bg-red-100 text-red-800' => !$cdsgElection->isActive(),
                                                 ])>
-                                                    {{ $election->statusMessage() }}
+                                                    {{ $cdsgElection->statusMessage() }}
                                                 </span>
                                             </td>
                                             <td class="p-4">

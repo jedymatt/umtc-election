@@ -5134,7 +5134,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "977de0de47837a9f9a38",
+  key: "",
   cluster: "ap1",
   forceTLS: true
 });
@@ -28972,7 +28972,7 @@ runtime.setup(pusher_Pusher);
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v11.4.15
+* sweetalert2 v11.4.17
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -29221,6 +29221,11 @@ runtime.setup(pusher_Pusher);
   };
 
   const swalPrefix = 'swal2-';
+  /**
+   * @param {string[]} items
+   * @returns {object}
+   */
+
   const prefix = items => {
     const result = {};
 
@@ -29846,7 +29851,6 @@ runtime.setup(pusher_Pusher);
   /**
    * @param {HTMLElement} container
    * @param {SweetAlertOptions} params
-   * @returns
    */
 
   const noWarMessageForRussians = (container, params) => {
@@ -29884,9 +29888,6 @@ runtime.setup(pusher_Pusher);
     }, {
       text: 'Полковник ФСБ СТРЕЛКОВ <br> об успехах РОССИИ в спецоперации',
       youtubeId: 'saK5UTKroDA'
-    }, {
-      text: 'СКОБЕЕВА и ПЕРВЫЙ КАНАЛ <br> о контрнаступлении ВСУ на КРЫМ',
-      youtubeId: 'rnnUCSKZ-SM'
     }]); // The message will only be shown to Russian users visiting Russian sites
 
     if (navigator.language === 'ru' && location.host.match(/\.(ru|su|xn--p1ai)$/)) {
@@ -30527,12 +30528,14 @@ runtime.setup(pusher_Pusher);
     }
 
     if (!params.icon && !params.iconHtml) {
-      return hide(icon);
+      hide(icon);
+      return;
     }
 
     if (params.icon && Object.keys(iconTypes).indexOf(params.icon) === -1) {
       error("Unknown icon! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.icon, "\""));
-      return hide(icon);
+      hide(icon);
+      return;
     }
 
     show(icon); // Custom or default content
@@ -30584,21 +30587,27 @@ runtime.setup(pusher_Pusher);
    */
 
   const setContent = (icon, params) => {
-    icon.textContent = '';
+    let oldContent = icon.innerHTML;
+    let newContent;
 
     if (params.iconHtml) {
-      setInnerHtml(icon, iconContent(params.iconHtml));
+      newContent = iconContent(params.iconHtml);
     } else if (params.icon === 'success') {
-      setInnerHtml(icon, successIconHtml);
+      newContent = successIconHtml;
+      oldContent = oldContent.replace(/ style=".*?"/g, ''); // undo adjustSuccessIconBackgroundColor()
     } else if (params.icon === 'error') {
-      setInnerHtml(icon, errorIconHtml);
+      newContent = errorIconHtml;
     } else {
       const defaultIconHtml = {
         question: '?',
         warning: '!',
         info: 'i'
       };
-      setInnerHtml(icon, iconContent(defaultIconHtml[params.icon]));
+      newContent = iconContent(defaultIconHtml[params.icon]);
+    }
+
+    if (oldContent.trim() !== newContent.trim()) {
+      setInnerHtml(icon, newContent);
     }
   };
   /**
@@ -30623,6 +30632,7 @@ runtime.setup(pusher_Pusher);
   };
   /**
    * @param {string} content
+   * @returns {string}
    */
 
 
@@ -31071,14 +31081,29 @@ runtime.setup(pusher_Pusher);
   };
 
   var defaultInputValidators = {
+    /**
+     * @param {string} string
+     * @param {string} validationMessage
+     * @returns {Promise<void | string>}
+     */
     email: (string, validationMessage) => {
       return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
     },
+
+    /**
+     * @param {string} string
+     * @param {string} validationMessage
+     * @returns {Promise<void | string>}
+     */
     url: (string, validationMessage) => {
       // taken from https://stackoverflow.com/a/3809435 with a small change from #1306 and #2013
       return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid URL');
     }
   };
+
+  /**
+   * @param {SweetAlertOptions} params
+   */
 
   function setDefaultInputValidators(params) {
     // Use default `inputValidator` for supported input types if not provided
@@ -31090,6 +31115,10 @@ runtime.setup(pusher_Pusher);
       });
     }
   }
+  /**
+   * @param {SweetAlertOptions} params
+   */
+
 
   function validateCustomTargetElement(params) {
     // Determine if the custom target element is valid
@@ -31101,7 +31130,7 @@ runtime.setup(pusher_Pusher);
   /**
    * Set type, text and actions on popup
    *
-   * @param params
+   * @param {SweetAlertOptions} params
    */
 
 
@@ -32901,7 +32930,7 @@ runtime.setup(pusher_Pusher);
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.4.15';
+  SweetAlert.version = '11.4.17';
 
   const Swal = SweetAlert; // @ts-ignore
 

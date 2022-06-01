@@ -21,7 +21,6 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
-        "postcss-import": "^14.0.2",
         "pusher-js": "^7.1.0-beta",
         "sweetalert2": "^11.4.15",
         "tailwindcss": "^3.0.24"

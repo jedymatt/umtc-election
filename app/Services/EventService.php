@@ -45,7 +45,7 @@ class EventService
 
         $activeDsgElectionsCount = $activeDsgElections->count();
         if ($activeDsgElectionsCount > 0) {
-            return 'Found '. $activeDsgElectionsCount . ' active DSG elections';
+            return 'Found ' . $activeDsgElectionsCount . ' active DSG elections';
         }
 
         if ($event->hasConflictedElections()) {
@@ -53,5 +53,12 @@ class EventService
         }
 
         return '';
+    }
+
+    public function createEvent(array $data): Event
+    {
+        return Event::create([
+            'name' => $data['name'],
+        ]);
     }
 }

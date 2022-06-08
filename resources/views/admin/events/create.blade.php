@@ -25,7 +25,7 @@
                             @enderror
                         </div>
                         <div class="mt-4 flex justify-end">
-                            <x-primary.button class="bg-primary">Submit</x-primary.button>
+                            <x-btn.primary class="uppercase">Submit</x-btn.primary>
                         </div>
                     </form>
                 </div>

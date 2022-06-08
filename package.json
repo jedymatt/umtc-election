@@ -22,7 +22,7 @@
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
         "pusher-js": "^7.1.0-beta",
-        "sweetalert2": "^11.4.15",
+        "sweetalert2": "^11.4.17",
         "tailwindcss": "^3.0.24"
     }
 }

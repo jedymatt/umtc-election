@@ -28,7 +28,7 @@
                         <div class="flex justify-end">
                             <button x-cloak x-on:click="open = !open" class="flex items-center bg-primary-500 uppercase text-white text-sm font-medium py-1 px-2 rounded-md hover:bg-primary-700"><span x-text="open ? 'Cancel' : 'Create Event'" x-transition.scale></span></button>
                         </div>
-                        <div x-cloak x-show="open" x-collapse class="mt-4">
+                        <div x-cloak x-show="open" x-collapse class="mt-4" x-trap="open">
                             <form action="{{ route('admin.events.store') }}" method="post">
                                 @csrf
 

@@ -22,5 +22,8 @@
         "pusher-js": "^7.1.0-beta",
         "sweetalert2": "^11.4.17",
         "tailwindcss": "^3.0.24"
+    },
+    "dependencies": {
+        "@alpinejs/focus": "^3.10.2"
     }
 }

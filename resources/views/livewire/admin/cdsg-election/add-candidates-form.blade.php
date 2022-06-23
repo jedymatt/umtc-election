@@ -1,9 +1,7 @@
 <div>
-    <div>
-        <div class="sm:flex gap-4">
-            <input wire:model.debounce.500ms="searchText" type="search" placeholder="Search using name or email"
-                class="rounded-md w-full inline-block">
-            <select wire:model="selectedPositionId" class="rounded-md inline-block w-full mt-1 sm:mt-0">
+    <div x-data="{ show: false }" class="inline-flex flex-row w-full gap-1 items-baseline">
+        <div class="w-1/3">
+            <select wire:model="selectedPosition" class="rounded-md inline-block w-full mt-1 sm:mt-0">
                 @foreach ($positions as $position)
                     <option value="{{ $position->id }}">
                         {{ $position->name }}
@@ -11,29 +9,40 @@
                 @endforeach
             </select>
         </div>
-        <div class="mt-1">
-            <ul>
-                @foreach ($users as $user)
-                    <li class="border-b">
-                        <a href="#" wire:click.prevent="addCandidate({{ $user->id }})"
-                            class="block hover:bg-gray-100 w-full px-4 py-2">
-                            {{ $user->name }}
-                            <span class="block text-sm text-gray-800">
-                                {{ $user->email }}
-                            </span>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-            <div class="text-gray-600 text-sm px-4 border-b py-2">
+        <div class="relative w-full sm:w-2/3">
+            <div class="sm:flex gap-4">
+                <input x-on:click="show = true" x-on:click.away="show=false" wire:model="search" type="search"
+                    placeholder="Search using name or email" class="rounded-md w-full inline-block">
 
-                @if ($users->isNotEmpty())
-                    Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }} users
-                @elseif($searchText != '')
-                    No results
-                @endif
+            </div>
+            <div x-show="show && $wire.search.length !== 0" class="my-2 absolute bg-white overflow-y-auto h-40 w-full">
+                <div class="border rounded-md shadom-sm">
+                    <ul>
+                        @foreach ($users as $user)
+                            <li class="border-b">
+                                <a href="#" wire:click.prevent="addCandidate({{ $user->id }})"
+                                    class="block hover:bg-gray-100 w-full px-4 py-2">
+                                    {{ $user->name }}
+                                    <span class="block text-xs text-gray-800">
+                                        {{ $user->email }}
+                                    </span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <div class="text-gray-600 text-sm px-4 border-b py-2">
+
+                        @if ($users->isNotEmpty())
+                            Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }}
+                            users
+                        @elseif($search != '')
+                            No results
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <div>
         <div class="flex flex-col">

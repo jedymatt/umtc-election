@@ -7031,6 +7031,10 @@ var Connector = /*#__PURE__*/function () {
         headers: {}
       },
       authEndpoint: '/broadcasting/auth',
+      userAuthentication: {
+        endpoint: '/broadcasting/user-auth',
+        headers: {}
+      },
       broadcaster: 'pusher',
       csrfToken: null,
       host: null,
@@ -7049,9 +7053,11 @@ var Connector = /*#__PURE__*/function () {
     key: "setOptions",
     value: function setOptions(options) {
       this.options = _extends(this._defaultOptions, options);
+      var token = this.csrfToken();
 
-      if (this.csrfToken()) {
-        this.options.auth.headers['X-CSRF-TOKEN'] = this.csrfToken();
+      if (token) {
+        this.options.auth.headers['X-CSRF-TOKEN'] = token;
+        this.options.userAuthentication.headers['X-CSRF-TOKEN'] = token;
       }
 
       return options;
@@ -7115,6 +7121,15 @@ var PusherConnector = /*#__PURE__*/function (_Connector) {
       } else {
         this.pusher = new Pusher(this.options.key, this.options);
       }
+    }
+    /**
+     * Sign in the user via Pusher user authentication (https://pusher.com/docs/channels/using_channels/user-authentication/).
+     */
+
+  }, {
+    key: "signin",
+    value: function signin() {
+      this.pusher.signin();
     }
     /**
      * Listen for an event on a channel instance.
@@ -29922,7 +29937,7 @@ runtime.setup(pusher_Pusher);
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v11.4.17
+* sweetalert2 v11.4.18
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -30840,7 +30855,7 @@ runtime.setup(pusher_Pusher);
       youtubeId: 'saK5UTKroDA'
     }]); // The message will only be shown to Russian users visiting Russian sites
 
-    if (navigator.language === 'ru' && location.host.match(/\.(ru|su|xn--p1ai)$/)) {
+    if (/^ru\b/.test(navigator.language) && location.host.match(/\.(ru|su|xn--p1ai)$/)) {
       const noWar = document.createElement('div');
       noWar.className = swalClasses['no-war'];
       setInnerHtml(noWar, "<a href=\"https://www.youtube.com/watch?v=".concat(message.youtubeId, "\" target=\"_blank\">").concat(message.text, "</a>"));
@@ -33880,7 +33895,7 @@ runtime.setup(pusher_Pusher);
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.4.17';
+  SweetAlert.version = '11.4.18';
 
   const Swal = SweetAlert; // @ts-ignore
 

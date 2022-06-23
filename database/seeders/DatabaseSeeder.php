@@ -41,39 +41,6 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Juan Dela Cruz',
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
-
-            //            Admin::factory()->create([
-            //                'email' => 'basic@example.com',
-            //            ]);
-            //
-
-            // $this->call(EventSeeder::class);
-
-            // Election::factory()
-            //     ->count(7)
-            //     ->has(
-            //         Candidate::factory()
-            //             ->count(20)
-            //     )
-            //     ->has(
-            //         Vote::factory()
-            //             ->count(20)
-            //     )
-            //     ->create();
-
-
-            // Election::factory()
-            //     ->count(7)
-            //     ->ended()
-            //     ->has(
-            //         Candidate::factory()
-            //             ->count(20)
-            //     )
-            //     ->has(
-            //         Vote::factory()
-            //             ->count(20)
-            //     )
-            //     ->create();
         }
     }
 }

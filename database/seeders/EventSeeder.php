@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
+use App\Models\Position;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -23,7 +24,7 @@ class EventSeeder extends Seeder
         ]);
 
         $departments = Department::all();
-        $positions = ElectionType::find(ElectionType::TYPE_DSG)->positions;
+        $positions = Position::all();
 
         foreach ($departments as $department) {
             $election = Election::create([

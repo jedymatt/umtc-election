@@ -26,7 +26,6 @@ class UpdateUserProfileRequest extends FormRequest
         return [
             'name' => 'required|string',
             'department_id' => 'required|integer|exists:departments,id',
-            'year_level_id' => 'required|integer|exists:year_levels,id',
         ];
     }
 
@@ -34,7 +33,6 @@ class UpdateUserProfileRequest extends FormRequest
     {
         return [
             'department_id' => 'department',
-            'year_level_id' => 'year level',
         ];
     }
 }

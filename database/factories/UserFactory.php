@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Department;
-use App\Models\Program;
-use App\Models\YearLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -35,8 +33,6 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
 
             'department_id' => fake()->randomElement(Department::all()),
-            'program_id' => fake()->randomElement(Program::all()),
-            'year_level_id' => fake()->randomElement(YearLevel::all()),
         ];
     }
 

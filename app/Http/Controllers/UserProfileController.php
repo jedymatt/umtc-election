@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\Department;
-use App\Models\YearLevel;
 use Illuminate\Http\Request;
 use function redirect;
 use function view;
@@ -15,12 +14,10 @@ class UserProfileController extends Controller
     {
         $user = $request->user();
         $departments = Department::orderBy('name')->get();
-        $yearLevels = YearLevel::orderBy('name')->get();
 
         return view('profile.show', compact(
             'user',
             'departments',
-            'yearLevels'
         ));
     }
 

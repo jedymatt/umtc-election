@@ -4,7 +4,6 @@ namespace App\Http\Requests\Admin;
 
 use App\Services\EventService;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Event;
 
 class StoreCdsgElectionRequest extends FormRequest
 {
@@ -19,7 +18,7 @@ class StoreCdsgElectionRequest extends FormRequest
 
         $admin = $this->user('admin');
 
-        return empty(EventService::createCdsgElectionFailureMessage($event, $admin)) || !$event->hasConflictedElections();
+        return empty(EventService::createCdsgElectionFailureMessage($event, $admin)) || ! $event->hasConflictedElections();
     }
 
     /**

@@ -22,11 +22,11 @@ class ElectionService
 
     public static function canVoteDsgElection(Election $election, User $user): bool
     {
-        if (!$election->isTypeDsg()) {
+        if (! $election->isTypeDsg()) {
             return false;
         }
 
-        if (!$election->isActive()) {
+        if (! $election->isActive()) {
             return false;
         }
 
@@ -45,11 +45,11 @@ class ElectionService
 
     public static function canVoteCDSGElection(Election $election, User $user): bool
     {
-        if (!$election->isTypeCdsg()) {
+        if (! $election->isTypeCdsg()) {
             return false;
         }
 
-        if (!$election->isActive()) {
+        if (! $election->isActive()) {
             return false;
         }
 
@@ -88,7 +88,7 @@ class ElectionService
 
         $dateString = Carbon::now()->format('M d, Y u');
 
-        return $title . ' ' . $dateString . $extension;
+        return $title.' '.$dateString.$extension;
     }
 
     /**

@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Sanctum\HasApiTokens;
-use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
@@ -28,8 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'department_id',
-        'year_level_id',
-        'program_id',
     ];
 
     /**

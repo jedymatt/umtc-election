@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\ElectionType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PositionSeeder extends Seeder

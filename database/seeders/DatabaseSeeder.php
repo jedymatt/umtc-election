@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             ElectionTypeSeeder::class,
             PositionSeeder::class,
             ElectionTypePositionSeeder::class,
-            ProgramSeeder::class,
-            YearLevelSeeder::class,
         ]);
 
         if (config('app.env') === 'local') {

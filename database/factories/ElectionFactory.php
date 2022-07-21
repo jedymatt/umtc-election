@@ -2,15 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
-use App\Models\Position;
-use App\Models\User;
-use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Carbon;
 
 class ElectionFactory extends Factory

@@ -8,8 +8,6 @@ use App\Models\Election;
 use App\Models\User;
 use App\Models\Vote;
 use App\Services\ElectionService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use function redirect;
 use function view;
 
@@ -19,7 +17,7 @@ class ElectionVoteController extends Controller
     {
         $canVote = ElectionService::canVote($election, auth()->user());
 
-        abort_if(!$canVote, 403);
+        abort_if(! $canVote, 403);
 
         $positions = $election->electionType->positions()->orderBy('id')->get();
 

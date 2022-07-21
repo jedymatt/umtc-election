@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use App\Models\Department;
 use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\Event;
-use App\Services\ElectionService;
-use App\Services\EventService;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,7 +30,7 @@ class EventController extends Controller
 
         $dsgElectionsHasWinnersConflict = [];
         foreach ($dsgElections as $election) {
-            if (!$election->isEnded()) {
+            if (! $election->isEnded()) {
                 $dsgElectionsHasWinnersConflict[$election->id] = false;
                 continue;
             }
@@ -57,14 +52,14 @@ class EventController extends Controller
 
     public function create()
     {
-        abort_if(!auth('admin')->user()->is_super_admin, 403);
+        abort_if(! auth('admin')->user()->is_super_admin, 403);
 
         return view('admin.events.create');
     }
 
     public function store(Request $request)
     {
-        abort_if(!auth('admin')->user()->is_super_admin, 403);
+        abort_if(! auth('admin')->user()->is_super_admin, 403);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|unique:events',

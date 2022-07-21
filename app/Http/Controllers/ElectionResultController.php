@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Election;
-use App\Services\ElectionService;
-use Illuminate\Http\Request;
 
 class ElectionResultController extends Controller
 {

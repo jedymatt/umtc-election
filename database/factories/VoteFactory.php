@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;

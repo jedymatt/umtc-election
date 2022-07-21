@@ -6,7 +6,6 @@ use App\Exports\ElectionWinnersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Election;
 use App\Services\ElectionService;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ElectionWinnerExportExcelController extends Controller

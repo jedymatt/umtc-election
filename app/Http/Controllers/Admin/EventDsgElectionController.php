@@ -6,19 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDsgElectionRequest;
 use App\Models\Admin;
 use App\Models\Department;
-use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\Event;
 use App\Services\ElectionService;
 use App\Services\EventService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class EventDsgElectionController extends Controller
 {
     protected $electionService;
 
-    function __construct(ElectionService $electionService)
+    public function __construct(ElectionService $electionService)
     {
         $this->electionService = $electionService;
     }
@@ -28,7 +24,7 @@ class EventDsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_if(!empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
+        abort_if(! empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         $occupiedDepartments = $event->dsgElections->map(function ($election) {
             return $election->department_id;

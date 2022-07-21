@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 
 class StudentEmail implements Rule
@@ -10,8 +9,8 @@ class StudentEmail implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute
-     * @param mixed $value
+     * @param  string  $attribute
+     * @param  mixed  $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -28,7 +27,7 @@ class StudentEmail implements Rule
 
     private function isValidUsername($username)
     {
-        list($initialName, $lastName, $studentId, $postfix) = explode('.', $username);
+        [$initialName, $lastName, $studentId, $postfix] = explode('.', $username);
 
         return strlen($initialName) == 1
             && strlen($lastName) > 0

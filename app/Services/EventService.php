@@ -4,9 +4,7 @@ namespace App\Services;
 
 use App\Models\Admin;
 use App\Models\Department;
-use App\Models\ElectionType;
 use App\Models\Event;
-use Illuminate\Database\Eloquent\Builder;
 
 class EventService
 {
@@ -18,8 +16,8 @@ class EventService
             return 'Reached max number of DSG Elections';
         }
 
-        if (!$admin->is_super_admin && $dsgElectionKeys->contains($admin->department_id)) {
-            return 'Election with ' . $admin->department->name . ' already exists';
+        if (! $admin->is_super_admin && $dsgElectionKeys->contains($admin->department_id)) {
+            return 'Election with '.$admin->department->name.' already exists';
         }
 
         return '';
@@ -27,7 +25,7 @@ class EventService
 
     public static function createCdsgElectionFailureMessage(Event $event, Admin $admin): string
     {
-        if (!$admin->is_super_admin) {
+        if (! $admin->is_super_admin) {
             return 'Unauthorized';
         }
 
@@ -45,7 +43,7 @@ class EventService
 
         $activeDsgElectionsCount = $activeDsgElections->count();
         if ($activeDsgElectionsCount > 0) {
-            return 'Found ' . $activeDsgElectionsCount . ' active DSG elections';
+            return 'Found '.$activeDsgElectionsCount.' active DSG elections';
         }
 
         if ($event->hasConflictedElections()) {

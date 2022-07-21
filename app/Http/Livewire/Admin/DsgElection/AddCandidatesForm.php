@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Admin\DsgElection;
 
-use App\Models\ElectionType;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;

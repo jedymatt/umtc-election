@@ -12,7 +12,6 @@ class ElectionFinalizedWinnerController extends Controller
 {
     public function store(Request $request, Election $election)
     {
-
         $validator = Validator::make($request->all(), [
             'winners.*' => 'required|integer',
         ]);
@@ -21,7 +20,7 @@ class ElectionFinalizedWinnerController extends Controller
 
         foreach ($validated['winners'] as $positionId => $winnerId) {
             $election->winners()
-                ->whereHas('candidate', function (Builder $query) use ($positionId, $winnerId) {
+                ->whereHas('candidate', function (Builder $query) use ($positionId) {
                     $query->where('position_id', '=', $positionId);
                 })
                 ->where('id', '!=', $winnerId)->delete();

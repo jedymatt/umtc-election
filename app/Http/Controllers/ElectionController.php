@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\User;
 use App\Services\ElectionService;
-use Illuminate\Database\Eloquent\Builder;
 
 class ElectionController extends Controller
 {

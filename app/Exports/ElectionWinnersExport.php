@@ -3,18 +3,12 @@
 namespace App\Exports;
 
 use App\Models\Election;
-use App\Models\Winner;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use LaravelIdea\Helper\App\Models\_IH_Winner_QB;
-use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
 {

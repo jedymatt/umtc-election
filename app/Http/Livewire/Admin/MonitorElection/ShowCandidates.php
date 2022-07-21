@@ -9,6 +9,7 @@ use Livewire\Component;
 class ShowCandidates extends Component
 {
     public $election;
+
     public $candidates;
 
     public function mount(Election $election)

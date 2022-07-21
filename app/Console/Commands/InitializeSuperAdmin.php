@@ -47,13 +47,14 @@ class InitializeSuperAdmin extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return 1;
         }
 
         $this->createSuperAdminAccount($validator);
 
-        if (!is_null($generatedPassword)) {
-            $this->alert('Generated Password: ' . $generatedPassword);
+        if (! is_null($generatedPassword)) {
+            $this->alert('Generated Password: '.$generatedPassword);
         }
 
         $this->info('Super admin successfully created.');
@@ -62,7 +63,7 @@ class InitializeSuperAdmin extends Command
     }
 
     /**
-     * @param array $credentials
+     * @param  array  $credentials
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
     public function validator(array $credentials): \Illuminate\Validation\Validator|\Illuminate\Contracts\Validation\Validator
@@ -89,7 +90,7 @@ class InitializeSuperAdmin extends Command
     }
 
     /**
-     * @param string|null $generatedPassword
+     * @param  string|null  $generatedPassword
      * @return array
      */
     public function getCredentials(?string $generatedPassword): array

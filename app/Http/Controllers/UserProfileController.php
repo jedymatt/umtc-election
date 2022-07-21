@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\Department;
-use App\Models\Program;
 use App\Models\YearLevel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use function redirect;
 use function view;
 

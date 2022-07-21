@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\StoreAdminRequest;
 use App\Models\Admin;
 use App\Models\Department;
-use App\Http\Requests\Admin\StoreAdminRequest;
-use Illuminate\Support\Facades\Hash;
 
 class AdminManagementController extends Controller
 {

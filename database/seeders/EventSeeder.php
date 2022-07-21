@@ -7,7 +7,6 @@ use App\Models\Department;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -20,9 +19,8 @@ class EventSeeder extends Seeder
     public function run()
     {
         $event = Event::create([
-            'title' => 'School Year 2022-2023'
+            'title' => 'School Year 2022-2023',
         ]);
-
 
         $departments = Department::all();
         $positions = ElectionType::find(ElectionType::TYPE_DSG)->positions;
@@ -30,7 +28,7 @@ class EventSeeder extends Seeder
         foreach ($departments as $department) {
             $election = Election::create([
                 'election_type_id' => ElectionType::TYPE_DSG,
-                'title' => $department->name . ' for ' . $event->title,
+                'title' => $department->name.' for '.$event->title,
                 'event_id' => $event->id,
                 'department_id' => $department->id,
                 'start_at' => now(),

@@ -32,6 +32,6 @@ class VoteSubmitted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('election.' . $this->electionId);
+        return new PrivateChannel('election.'.$this->electionId);
     }
 }

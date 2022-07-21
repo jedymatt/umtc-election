@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\ElectionType;
 use App\Models\Position;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ElectionTypePositionSeeder extends Seeder

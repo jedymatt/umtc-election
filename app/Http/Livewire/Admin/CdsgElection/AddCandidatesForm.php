@@ -2,18 +2,13 @@
 
 namespace App\Http\Livewire\Admin\CdsgElection;
 
-use App\Models\Candidate;
-use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\Event;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class AddCandidatesForm extends Component
 {

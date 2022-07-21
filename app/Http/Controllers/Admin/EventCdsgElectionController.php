@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
-use App\Models\Event;
-use App\Models\Election;
-use App\Models\ElectionType;
-use Illuminate\Http\Request;
-use App\Services\EventService;
-use App\Services\ElectionService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCdsgElectionRequest;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Admin;
+use App\Models\Event;
+use App\Services\ElectionService;
+use App\Services\EventService;
 
 class EventCdsgElectionController extends Controller
 {
@@ -27,7 +23,7 @@ class EventCdsgElectionController extends Controller
         /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        abort_if(!empty(EventService::createCdsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
+        abort_if(! empty(EventService::createCdsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
         return view('admin.events.cdsg-elections.create', compact('event'));
     }

@@ -1,29 +1,23 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@alpinejs/collapse": "^3.10.2",
+        "@alpinejs/focus": "^3.10.2",
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.10.2",
         "autoprefixer": "^10.4.7",
-        "axios": "^0.25",
+        "axios": "^0.27",
         "laravel-echo": "^1.11.7",
-        "laravel-mix": "^6.0.6",
+        "laravel-vite-plugin": "^0.5.0",
         "lodash": "^4.17.19",
-        "postcss": "^8.4.6",
+        "postcss": "^8.4.14",
         "pusher-js": "^7.1.0-beta",
         "sweetalert2": "^11.4.17",
-        "tailwindcss": "^3.0.24"
-    },
-    "dependencies": {
-        "@alpinejs/focus": "^3.10.2"
+        "tailwindcss": "^3.1.6",
+        "vite": "^3.0.0"
     }
 }

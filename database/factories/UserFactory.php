@@ -20,12 +20,12 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $firstName = $this->faker->firstName();
-        $lastName = $this->faker->lastName();
-        $studentId = $this->faker->unique()->randomNumber(6, true);
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+        $studentId = fake()->unique()->randomNumber(6, true);
 
-        $name = $firstName . ' ' . $lastName;
-        $email = strtolower(substr($firstName, 0, 1) . '.' . $lastName . '.' . $studentId . '.tc@umindanao.edu.ph');
+        $name = $firstName.' '.$lastName;
+        $email = strtolower(substr($firstName, 0, 1).'.'.$lastName.'.'.$studentId.'.tc@umindanao.edu.ph');
 
         return [
             'name' => $name,
@@ -34,9 +34,9 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
 
-            'department_id' => $this->faker->randomElement(Department::all()),
-            'program_id' => $this->faker->randomElement(Program::all()),
-            'year_level_id' => $this->faker->randomElement(YearLevel::all()),
+            'department_id' => fake()->randomElement(Department::all()),
+            'program_id' => fake()->randomElement(Program::all()),
+            'year_level_id' => fake()->randomElement(YearLevel::all()),
         ];
     }
 

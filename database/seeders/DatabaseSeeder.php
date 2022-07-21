@@ -2,14 +2,9 @@
 
 namespace Database\Seeders;
 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
-use App\Models\Candidate;
-use App\Models\Department;
-use App\Models\Election;
-use App\Models\Event;
 use App\Models\User;
-use App\Models\Vote;
-use App\Models\Winner;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,7 +27,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         if (config('app.env') === 'local') {
-
             Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
             ]);

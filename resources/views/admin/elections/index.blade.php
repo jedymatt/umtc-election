@@ -24,9 +24,6 @@
                                     Type
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Schedule
-                                </th>
-                                <th scope="col" class="px-6 py-3">
                                     Department
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -50,17 +47,6 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $election->electionType->name }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        @if ($election->isPending())
-                                            Starts at: {{ $election->start_at->diffForHumans() }}
-                                        @endif
-                                        @if ($election->isActive())
-                                            Ends at: {{ $election->end_at->diffForHumans() }}
-                                        @endif
-                                        @if ($election->isExpired())
-                                            Expired at: {{ $election->end_at->longRelativeToNowDiffForHumans() }}
-                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $election->department?->name }}

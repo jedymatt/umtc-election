@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\VoteSubmitted;
 use App\Http\Requests\StoreElectionVoteRequest;
 use App\Models\Election;
-use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
 use App\Services\ElectionService;
@@ -18,8 +17,6 @@ class ElectionVoteController extends Controller
 
         abort_if(! $canVote, 403);
 
-        $positions = Position::all()->orderBy('id')->get();
-
         $candidates = $election->candidates()
             ->with(['election', 'position', 'user'])
             ->orderBy('position_id')
@@ -27,10 +24,11 @@ class ElectionVoteController extends Controller
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
+        $candidatesByPositionName = $candidates->groupBy('position.name');
+
         return view('elections.vote', compact(
             'election',
-            'positions',
-            'candidates'
+            'candidatesByPositionName'
         ));
     }
 

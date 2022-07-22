@@ -25,20 +25,20 @@
                         <div class="mt-4 border-t sm:border-none">
                             <form action="{{ route('elections.vote', $election) }}" method="post">
                                 @csrf
-                                @foreach($positions as $position)
+                                @foreach($candidatesByPositionName as $positionName => $candidates)
                                     <div class="px-4 sm:my-6 py-4 sm:rounded-md sm:border border-b">
-                                        @error('candidates.'.$position->id)
+                                        @error('candidates.'.$candidates[0]->position_id)
                                         <p class="text-sm text-red-600">{{ $message }}</p>
                                         @enderror
-                                        <span class="font-bold text-lg text-primary">{{ $position->name }}</span>
-                                        @foreach($candidates->where('position_id', $position->id) as $candidate)
+                                        <span class="font-bold text-lg text-primary">{{ $positionName }}</span>
+                                        @foreach($candidates as $candidate)
                                             <div class="mt-2">
-                                                <input id="candidates.{{$position->id}}.{{$candidate->id}}"
-                                                       name="candidates[{{ $position->id }}]" type="radio"
+                                                <input id="candidates.{{$candidate->position_id}}.{{$candidate->id}}"
+                                                       name="candidates[{{ $candidate->position_id }}]" type="radio"
                                                        class="text-primary"
                                                        value="{{ $candidate->id }}"/>
                                                 <label
-                                                    for="candidates.{{$position->id}}.{{$candidate->id}}">
+                                                    for="candidates.{{$candidate->position_id}}.{{$candidate->id}}">
                                                     {{ $candidate->user->name }}
                                                 </label>
                                             </div>

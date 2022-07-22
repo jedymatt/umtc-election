@@ -27,7 +27,7 @@ class AddCandidatesForm extends Component
     public function mount(Event $event)
     {
         $this->event = $event;
-        $this->positions = Position::Cdsgelection()->get();
+        $this->positions = Position::all();
         $this->selectedPositionId = $this->positions->first()->id;
         $this->candidates = collect();
     }

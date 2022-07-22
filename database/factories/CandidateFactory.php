@@ -34,7 +34,7 @@ class CandidateFactory extends Factory
             if ($candidate->has('election')
                 && $candidate->election->election_type_id == ElectionType::TYPE_DSG) {
                 $candidate->user->department_id = $candidate->election->department_id;
-                $candidate->position_id = $candidate->election->electionType->positions->random()->id;
+                $candidate->position_id = Position::all()->random()->id;
                 $candidate->user->save();
             }
         });

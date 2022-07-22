@@ -10,7 +10,7 @@ class MonitorElectionController extends Controller
 {
     public function show(Election $election)
     {
-        $election->loadMissing('electionType', 'electionType.positions');
+        $election->loadMissing('electionType');
 
         $isPendingResult = $election->isEnded()
             && $election->candidates()->exists()
@@ -29,7 +29,10 @@ class MonitorElectionController extends Controller
             : [];
 
         return view('admin.monitor-election', compact(
-            'election', 'isPendingResult', 'conflictedWinners', 'winners'
+            'election',
+            'isPendingResult',
+            'conflictedWinners',
+            'winners'
         ));
     }
 }

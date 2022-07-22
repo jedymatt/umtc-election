@@ -19,9 +19,4 @@ class ElectionType extends Model
     {
         return $this->hasMany(Election::class);
     }
-
-    public function positions()
-    {
-        return $this->belongsToMany(Position::class);
-    }
 }

@@ -21,7 +21,7 @@ class AddCandidatesForm extends Component
 
     public function mount()
     {
-        $this->positions = Position::dsgElection()->get();
+        $this->positions = Position::all();
         $this->selectedPosition = $this->positions->first()->id;
         $this->candidates = collect();
     }

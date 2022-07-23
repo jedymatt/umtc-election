@@ -202,6 +202,27 @@ class ElectionService
             ->get();
     }
 
+    public static function getVotableElectionsFromUser(User $user)
+    {
+        return Election::with('department', 'electionType')
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('election_type_id', ElectionType::TYPE_DSG)
+                    ->where('department_id', $user->department_id);
+            })
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('election_type_id', ElectionType::TYPE_CDSG)
+                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
+            })
+            ->active()
+            ->where(function (Builder $query) use ($user) {
+                // User's vote doesn't exist
+                $query->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            })
+            ->get();
+    }
+
     public static function pastElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
     {
         return Election::query()

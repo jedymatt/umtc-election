@@ -9,6 +9,7 @@ User/Student routes
 - /elections - show curent and past elections
 - /elections/{election}/vote - Student vote election
 - /elections/{election}/result - final result of election
+- /logout - logout session
 
 Admin routes
 
@@ -22,3 +23,4 @@ Admin routes
 - /elections/{election}/candidates - manage candidates
 - /elections/{election}/result - live result of election
 - /elections/{election}/resolve-conflict - Resolve election conflict on winners
+- /logout - logout session

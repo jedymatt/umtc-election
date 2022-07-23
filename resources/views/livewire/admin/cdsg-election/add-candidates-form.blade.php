@@ -35,7 +35,7 @@
                         @if ($users->isNotEmpty())
                             Showing {{ $users->firstItem() }} - {{ $users->lastItem() }} of {{ $users->total() }}
                             users
-                        @elseif($search != '')
+                        @elseif($searchText != '')
                             No results
                         @endif
                     </div>

@@ -48,6 +48,10 @@
                             <x-button>Save</x-button>
                         </div>
                     </form>
+
+                    <div class="border-t mt-6 pt-6">
+                        @livewire('profile.update-password-form')
+                    </div>
                 </div>
             </div>
         </div>

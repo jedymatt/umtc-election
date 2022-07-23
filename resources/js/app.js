@@ -29,6 +29,15 @@ window.fireToast = ({ icon, message }) => {
 
     Toast.fire({
         icon: icon,
-        title: message,
+        titleText: message,
     });
 };
+
+
+
+window.addEventListener('notify', function (event) {
+    fireToast({
+        icon: event.detail.type,
+        message: event.detail.message,
+    });
+});

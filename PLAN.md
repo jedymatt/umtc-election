@@ -5,7 +5,8 @@
 User/Student routes
 
 - /user/profile - Update user information
-- /dashboard - Show current and past elections
+- /dashboard - Show current
+- /elections - show curent and past elections
 - /elections/{election}/vote - Student vote election
 - /elections/{election}/result - final result of election
 

@@ -23,9 +23,11 @@
                         </a>
                     </div>
                     <div class="mt-4">
-                        @foreach ($elections as $election)
-                            <x-election-card :election="$election" />
-                        @endforeach
+                        <div class="grid grid-cols-2 gap-6">
+                            @foreach ($elections as $election)
+                                <x-election-card :election="$election" />
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

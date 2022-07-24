@@ -1,7 +1,7 @@
 <div>
     <div x-data="{ show: false }" class="inline-flex flex-row w-full gap-1 items-baseline">
         <div class="w-1/3">
-            <select wire:model="selectedPosition" class="rounded-md inline-block w-full mt-1 sm:mt-0">
+            <select wire:model="selectedPositionId" class="rounded-md inline-block w-full mt-1 sm:mt-0">
                 @foreach ($positions as $position)
                     <option value="{{ $position->id }}">
                         {{ $position->name }}
@@ -11,11 +11,11 @@
         </div>
         <div class="relative w-full sm:w-2/3">
             <div class="sm:flex gap-4">
-                <input x-on:click="show = true" x-on:click.away="show=false" wire:model="search" type="search"
+                <input x-on:click="show = true" x-on:click.away="show=false" wire:model="searchText" type="search"
                     placeholder="Search using name or email" class="rounded-md w-full inline-block">
 
             </div>
-            <div x-show="show && $wire.search.length !== 0" class="my-2 absolute bg-white overflow-y-auto h-40 w-full">
+            <div x-show="show && $wire.searchText.length !== 0" class="my-2 absolute bg-white overflow-y-auto h-40 w-full">
                 <div class="border rounded-md shadom-sm">
                     <ul>
                         @foreach ($users as $user)

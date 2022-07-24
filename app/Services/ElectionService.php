@@ -76,9 +76,19 @@ class ElectionService
         return true;
     }
 
+    public static function isVotable(Election $election, User $user): bool
+    {
+        return Election::with('event.votes')
+            ->active()
+            ->whereRelation('event.votes', 'user_id', $user->id)
+            ->where('id', $election->id)
+            ->doesntExist();
+    }
+
     public static function canVote(Election $election, User $user): bool
     {
-        return static::canVoteDsgElection($election, $user) || static::canVoteCDSGElection($election, $user);
+        return self::isVotable($election, $user);
+        // return static::canVoteDsgElection($election, $user) || static::canVoteCDSGElection($election, $user);
     }
 
     public function generateFileName(): string
@@ -206,21 +216,41 @@ class ElectionService
     {
         return Election::with('department', 'electionType')
             ->orWhere(function (Builder $query) use ($user) {
-                $query->where('election_type_id', ElectionType::TYPE_DSG)
-                    ->where('department_id', $user->department_id);
+                $query->electionTypeDsg()
+                    ->ofDepartmentId($user->department_id);
             })
             ->orWhere(function (Builder $query) use ($user) {
-                $query->where('election_type_id', ElectionType::TYPE_CDSG)
-                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
+                $query->electionTypeCdsg()
+                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    });
             })
             ->active()
-            ->doesntHaveVotesFromUser($user)
+            ->doesntHaveEventVotesFromUser($user)
+            ->get();
+    }
+
+    public static function getVotedElectionsFromUser(User $user)
+    {
+        return Election::with('department', 'electionType')
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->electionTypeDsg()
+                    ->ofDepartmentId($user->department_id);
+            })
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->electionTypeCdsg()
+                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    });
+            })
+            ->active()
+            ->hasEventVotesFromUser($user)
             ->get();
     }
 
     public static function pastElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
     {
-        return Election::query()
+        return Election::with('department', 'electionType')
             ->orWhere(function (Builder $query) use ($user) {
                 $query->where('department_id', '=', $user->department_id);
             })

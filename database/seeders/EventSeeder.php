@@ -19,9 +19,7 @@ class EventSeeder extends Seeder
      */
     public function run()
     {
-        $event = Event::create([
-            'title' => 'School Year 2022-2023',
-        ]);
+        $event = Event::factory()->create();
 
         $departments = Department::all();
         $positions = Position::all();

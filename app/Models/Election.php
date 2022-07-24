@@ -175,4 +175,11 @@ class Election extends Model
 
         return false;
     }
+
+    public function scopeDoesntHaveVotesFromUser(Builder $query, User $user): Builder
+    {
+        return $query->whereDoesntHave('votes', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
 }

@@ -85,6 +85,26 @@ class Election extends Model
             ->where('election_type_id', ElectionType::TYPE_DSG);
     }
 
+    public function scopeOfDepartmentId(Builder $query, int $departmentId): Builder
+    {
+        return $query->where('department_id', $departmentId);
+    }
+
+    public function scopeOfElectionTypeId(Builder $query, int $electionTypeId): Builder
+    {
+        return $query->where('election_type_id', $electionTypeId);
+    }
+
+    public function scopeElectionTypeDsg(Builder $query): Builder
+    {
+        return $query->where('election_type_id', ElectionType::TYPE_DSG);
+    }
+
+    public function scopeElectionTypeCdsg(Builder $query): Builder
+    {
+        return $query->where('election_type_id', ElectionType::TYPE_CDSG);
+    }
+
     public function status(): int
     {
         $now = Carbon::now();
@@ -179,6 +199,20 @@ class Election extends Model
     public function scopeDoesntHaveVotesFromUser(Builder $query, User $user): Builder
     {
         return $query->whereDoesntHave('votes', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
+
+    public function scopeDoesntHaveEventVotesFromUser(Builder $query, User $user): Builder
+    {
+        return $query->whereDoesntHave('event.votes', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
+    }
+
+    public function scopeHasEventVotesFromUser(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('event.votes', function (Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         });
     }

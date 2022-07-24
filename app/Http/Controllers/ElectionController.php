@@ -13,9 +13,11 @@ class ElectionController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $isCompleteUserInfo = $user->department_id != null;
+        $isCompleteUserInfo = $user->department_id !== null;
 
-        $activeElections = $isCompleteUserInfo ? ElectionService::activeElectionsByUser($user) : [];
+        $availableElections = $isCompleteUserInfo ? ElectionService::getVotableElectionsFromUser($user) : [];
+        $votedElections = $isCompleteUserInfo ? ElectionService::getVotedElectionsFromUser($user) : [];
+
         $pastElections = $isCompleteUserInfo ? ElectionService::pastElectionsByUser($user) : [];
 
         $isPendingWinners = [];
@@ -25,18 +27,12 @@ class ElectionController extends Controller
                 || $election->hasConflictedWinners();
         }
 
-        $userCanVoteActiveElections = [];
-
-        foreach ($activeElections as $election) {
-            $userCanVoteActiveElections[$election->id] = ElectionService::canVote($election, auth()->user());
-        }
-
         return view('elections.index', compact(
-            'activeElections',
             'pastElections',
             'isPendingWinners',
-            'userCanVoteActiveElections',
             'isCompleteUserInfo',
+            'availableElections',
+            'votedElections'
         ));
     }
 

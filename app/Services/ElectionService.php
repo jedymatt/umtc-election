@@ -214,12 +214,7 @@ class ElectionService
                     ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
             })
             ->active()
-            ->where(function (Builder $query) use ($user) {
-                // User's vote doesn't exist
-                $query->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                    $query->where('user_id', $user->id);
-                });
-            })
+            ->doesntHaveVotesFromUser($user)
             ->get();
     }
 

@@ -15,7 +15,7 @@ class StudentEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        return preg_match('/^[a-z]\.[a-z]*\.(\d{6})(\.tc)?@umindanao\.edu\.ph$/', $value) === 1;
+        return preg_match('/^[a-z]\.[a-z]*\.\d{6}(\.tc)?@umindanao\.edu\.ph$/', $value) === 1;
     }
 
     /**

@@ -15,24 +15,7 @@ class StudentEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        $username = explode('@', $value)[0];
-
-        return $this->isValidDomain($value) && $this->isValidUsername($username);
-    }
-
-    private function isValidDomain($value)
-    {
-        return str($value)->endsWith('@umindanao.edu.ph');
-    }
-
-    private function isValidUsername($username)
-    {
-        [$initialName, $lastName, $studentId, $postfix] = explode('.', $username);
-
-        return strlen($initialName) == 1
-            && strlen($lastName) > 0
-            && (strlen($studentId) == 6 && ctype_digit($studentId))
-            && $postfix == 'tc';
+        return preg_match('/^[a-z]\.[a-z]*\.(\d{6})(\.tc)?@umindanao\.edu\.ph$/', $value) === 1;
     }
 
     /**

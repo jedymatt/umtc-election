@@ -47,6 +47,11 @@ class StudentEmailTest extends TestCase
             'email',
             'f.lastname.123456.tc@gmail.com'
         ));
+
+        $this->assertFalse((new StudentEmail)->passes(
+            'email',
+            'f.lastname.123456.tc@umindanao.edu.phextracharacter'
+        ));
     }
 
     public function test_empty_postfix_in_username()
@@ -89,15 +94,15 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_incomplete_username()
+    public function test_valid_um_main_email()
     {
-        $this->assertFalse((new StudentEmail)->passes(
+        $this->assertTrue((new StudentEmail)->passes(
             'email',
             'f.lastname.123456@umindanao.edu.ph'
         ));
     }
 
-    public function test_valid_um_email()
+    public function test_valid_um_tagum_email()
     {
         $this->assertTrue((new StudentEmail)->passes(
             'email',

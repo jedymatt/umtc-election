@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminManagementController;
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -8,22 +8,13 @@ use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ElectionController;
-use App\Http\Controllers\Admin\ElectionFinalizedWinnerController;
-use App\Http\Controllers\Admin\ElectionResultController;
-use App\Http\Controllers\Admin\ElectionWinnerExportExcelController;
-use App\Http\Controllers\Admin\EventCdsgElectionController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\EventDsgElectionController;
-use App\Http\Controllers\Admin\MonitorElectionController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])
+    Route::get('/', [Admin\DashboardController::class, 'index'])
         ->middleware('auth:admin');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
+    Route::get('/dashboard', [Admin\DashboardController::class, 'index'])
         ->middleware('auth:admin')
         ->name('dashboard');
 
@@ -82,39 +73,39 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Routes for authenticated admin
     Route::middleware('auth:admin')->group(function () {
-        Route::resource('/admin-management', AdminManagementController::class)
+        Route::resource('/admin-management', Admin\AdminManagementController::class)
             ->only(['index', 'create', 'store']);
 
-        Route::resource('/elections', ElectionController::class)
-            ->only(['index', 'show']);
+        Route::resource('/elections', Admin\ElectionController::class)
+            ->only(['index', 'show', 'create']);
 
-        Route::get('/events/{event}/dsg-elections/create', [EventDsgElectionController::class, 'create'])
+        Route::get('/events/{event}/dsg-elections/create', [Admin\EventDsgElectionController::class, 'create'])
             ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
             ->name('events.dsg-elections.create');
 
-        Route::post('/events/{event}/dsg-elections', [EventDsgElectionController::class, 'store'])
+        Route::post('/events/{event}/dsg-elections', [Admin\EventDsgElectionController::class, 'store'])
             ->name('events.dsg-elections.store');
 
-        Route::get('/events/{event}/cdsg-elections/create', [EventCdsgElectionController::class, 'create'])
+        Route::get('/events/{event}/cdsg-elections/create', [Admin\EventCdsgElectionController::class, 'create'])
             ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
             ->name('events.cdsg-elections.create');
 
-        Route::post('/events/{event}/cdsg-elections', [EventCdsgElectionController::class, 'store'])
+        Route::post('/events/{event}/cdsg-elections', [Admin\EventCdsgElectionController::class, 'store'])
             ->name('events.cdsg-elections.store');
 
-        Route::resource('/events', EventController::class)
+        Route::resource('/events', Admin\EventController::class)
             ->only(['index', 'show', 'create', 'store']);
 
-        Route::get('/monitor-election/{election}', [MonitorElectionController::class, 'show'])
+        Route::get('/monitor-election/{election}', [Admin\MonitorElectionController::class, 'show'])
             ->name('monitor-election');
 
-        Route::get('/elections/{election}/winners/export-excel', [ElectionWinnerExportExcelController::class, 'store'])
+        Route::get('/elections/{election}/winners/export-excel', [Admin\ElectionWinnerExportExcelController::class, 'store'])
             ->name('elections.winners.export-excel');
 
-        Route::post('/elections/{election}/finalize-winners', [ElectionFinalizedWinnerController::class, 'store'])
+        Route::post('/elections/{election}/finalize-winners', [Admin\ElectionFinalizedWinnerController::class, 'store'])
             ->name('elections.finalize-winners');
 
-        Route::get('/elections/{election}/result', [ElectionResultController::class, 'show'])
+        Route::get('/elections/{election}/result', [Admin\ElectionResultController::class, 'show'])
             ->name('elections.result');
     });
 });

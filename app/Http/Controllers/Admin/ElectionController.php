@@ -12,9 +12,7 @@ class ElectionController extends Controller
 {
     public function index()
     {
-        $elections = Election::with(['electionType', 'department'])->latest()->paginate(10);
-
-        return view('admin.elections.index', compact('elections'));
+        return view('admin.elections.index');
     }
 
     public function show(Election $election)
@@ -27,5 +25,10 @@ class ElectionController extends Controller
             ->get();
 
         return view('admin.elections.show', compact('election', 'candidates'));
+    }
+
+    public function create()
+    {
+        return view('admin.elections.create');
     }
 }

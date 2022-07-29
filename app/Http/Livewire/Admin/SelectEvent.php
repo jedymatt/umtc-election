@@ -20,8 +20,7 @@ class SelectEvent extends Component
     public function mount()
     {
         $this->selectedEvent = Event::orderByDesc('created_at')->first();
-        $this->events = Event::select('id', 'title')
-            ->get();
+        $this->events = Event::select('id', 'title')->get();
     }
 
     public function updatingSearchText()

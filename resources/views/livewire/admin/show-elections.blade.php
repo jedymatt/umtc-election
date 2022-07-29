@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($elections as $election)
+                @forelse ($elections as $election)
                     <tr class="bg-white border-b hover:bg-gray-50 align-text-top" wire:loading.class='hidden'>
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap truncate max-w-xs">
@@ -55,7 +55,13 @@
                                 class="font-medium text-blue-600 hover:underline">Monitor</a>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr class="h-60">
+                        <td colspan="5">
+                            <p class="text-center text-gray-500">No elections found.</p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

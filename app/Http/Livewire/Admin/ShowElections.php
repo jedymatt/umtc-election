@@ -31,7 +31,7 @@ class ShowElections extends Component
     protected function getElectionsFromCurrentEvent()
     {
         return Election::with(['electionType', 'department'])
-            ->where('event_id', $this->currentEvent->id)
+            ->where('event_id', $this->currentEvent?->id)
             ->get();
     }
 

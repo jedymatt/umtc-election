@@ -6,7 +6,7 @@
         </div>
         <x-button-primary href="{{ route('admin.elections.create') }}">New Election</x-button-primary>
     </div>
-    <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg min-h-[20rem]">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
@@ -56,8 +56,8 @@
                         </td>
                     </tr>
                 @empty
-                    <tr class="h-60">
-                        <td colspan="5">
+                    <tr>
+                        <td class="h-64" colspan="5">
                             <p class="text-center text-gray-500">No elections found.</p>
                         </td>
                     </tr>

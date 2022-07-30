@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
+use App\Models\Department;
 use App\Models\Election;
 use App\Models\User;
 use function view;
@@ -29,6 +30,7 @@ class ElectionController extends Controller
 
     public function create()
     {
-        return view('admin.elections.create');
+        $departments = Department::all();
+        return view('admin.elections.create', compact('departments'));
     }
 }

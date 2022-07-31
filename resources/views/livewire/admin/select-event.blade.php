@@ -5,7 +5,7 @@
             @if ($selectedEvent !== null)
                 <span class="ml-2 block">{{ $selectedEvent->title }}</span>
             @else
-                <span class="ml-2 block text-gray-500">No events found</span>
+                <span class="ml-2 block text-gray-500">No event selected</span>
             @endif
         </span>
         <span class="absolute inset-y-0 right-0 inline-flex items-center ml-2 pr-2">

@@ -30,7 +30,6 @@ class ElectionController extends Controller
 
     public function create()
     {
-        $departments = Department::all();
-        return view('admin.elections.create', compact('departments'));
+        return view('admin.elections.create');
     }
 }

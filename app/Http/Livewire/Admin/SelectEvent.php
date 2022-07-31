@@ -19,7 +19,7 @@ class SelectEvent extends Component
 
     public function mount()
     {
-        $this->selectedEvent = Event::orderByDesc('created_at')->first();
+        $this->selectedEvent = null;
         $this->events = Event::select('id', 'title')->get();
     }
 
@@ -30,7 +30,7 @@ class SelectEvent extends Component
 
     public function selectEvent(Event $event)
     {
-        if ($event->id === $this->selectedEvent->id) {
+        if ($this->selectedEvent?->id === $event->id) {
             return;
         }
 

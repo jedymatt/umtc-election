@@ -20,10 +20,9 @@ class ShowElections extends Component
 
     public function mount()
     {
-        $this->currentEvent = Event::orderByDesc('created_at')->first();
+        $this->currentEvent = null;
 
-        $this->events = Event::select('id', 'title')
-            ->get();
+        $this->events = Event::select('id', 'title')->get();
 
         $this->elections = $this->getElectionsFromCurrentEvent();
     }

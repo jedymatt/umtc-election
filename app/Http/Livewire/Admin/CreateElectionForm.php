@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Department;
-use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
 use App\Services\ElectionService;
@@ -13,9 +12,13 @@ use Livewire\Component;
 class CreateElectionForm extends Component
 {
     public int $currentElectionTypeId;
+
     public Event $currentEvent;
+
     public $electionTypes;
+
     public $departments;
+
     public bool $showDepartmentsOption = true;
 
     public $form = [
@@ -23,7 +26,7 @@ class CreateElectionForm extends Component
         'description' => '',
         'start_at' => '',
         'end_at' => '',
-        'department_id' => ''
+        'department_id' => '',
     ];
 
     protected $listeners = [
@@ -48,11 +51,10 @@ class CreateElectionForm extends Component
         $this->showDepartmentsOption = $this->currentElectionTypeId === ElectionType::TYPE_DSG;
     }
 
-
     public function createElection()
     {
         if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
-            $election =  $this->createDsgElection();
+            $election = $this->createDsgElection();
         } else {
             $election = $this->createCdsgElection();
         }
@@ -67,7 +69,7 @@ class CreateElectionForm extends Component
             'description' => 'nullable|string',
             'start_at' => 'required|date|before_or_equal:end_at',
             'end_at' => 'required|date|after:start_at',
-            'department_id' => 'required|integer'
+            'department_id' => 'required|integer',
         ])->validate();
 
         return ElectionService::createDsgElection(
@@ -92,7 +94,6 @@ class CreateElectionForm extends Component
             ])
         );
     }
-
 
     public function render()
     {

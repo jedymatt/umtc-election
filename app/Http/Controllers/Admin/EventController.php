@@ -32,6 +32,7 @@ class EventController extends Controller
         foreach ($dsgElections as $election) {
             if (! $election->isEnded()) {
                 $dsgElectionsHasWinnersConflict[$election->id] = false;
+
                 continue;
             }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Department;
+use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\Event;
 use App\Services\ElectionService;
@@ -11,10 +12,11 @@ use Livewire\Component;
 
 class CreateElectionForm extends Component
 {
-    public $currentEvent;
-    public $currentElectionTypeId;
+    public int $currentElectionTypeId;
+    public Event $currentEvent;
     public $electionTypes;
     public $departments;
+    public bool $showDepartmentsOption = true;
 
     public $form = [
         'title' => '',
@@ -30,9 +32,9 @@ class CreateElectionForm extends Component
 
     public function mount()
     {
-        $this->currentElectionTypeId = null;
-        $this->departments = Department::all();
         $this->electionTypes = ElectionType::all();
+        $this->currentElectionTypeId = ElectionType::TYPE_DSG;
+        $this->departments = Department::all();
     }
 
     public function updateCurrentEvent(Event $event): void
@@ -40,22 +42,25 @@ class CreateElectionForm extends Component
         $this->currentEvent = $event;
     }
 
-    public function updateCurrentElectionType(ElectionType $electionType): void
+    public function changeElectionType(): void
     {
-        $this->currentElectionTypeId = $electionType;
+        // $this->currentElectionTypeId = $electionType;
+        $this->showDepartmentsOption = $this->currentElectionTypeId === ElectionType::TYPE_DSG;
     }
 
 
-    public function createElection(): void
+    public function createElection()
     {
-        if ((int)$this->currentElectionTypeId === ElectionType::TYPE_DSG) {
-            $this->createDsgElection();
+        if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
+            $election =  $this->createDsgElection();
         } else {
-            $this->createCdsgElection();
+            $election = $this->createCdsgElection();
         }
+
+        return $this->redirect(route('admin.elections.show', $election));
     }
 
-    public function createDsgElection(): void
+    public function createDsgElection()
     {
         Validator::make($this->form, [
             'title' => 'required|string|unique:elections',
@@ -65,7 +70,7 @@ class CreateElectionForm extends Component
             'department_id' => 'required|integer'
         ])->validate();
 
-        ElectionService::createDsgElection(
+        return ElectionService::createDsgElection(
             array_merge($this->form, [
                 'event_id' => $this->currentEvent->id,
             ])
@@ -74,7 +79,18 @@ class CreateElectionForm extends Component
 
     public function createCdsgElection()
     {
-        // code...
+        Validator::make($this->form, [
+            'title' => 'required|string|unique:elections',
+            'description' => 'nullable|string',
+            'start_at' => 'required|date|before_or_equal:end_at',
+            'end_at' => 'required|date|after:start_at',
+        ])->validate();
+
+        return ElectionService::createDsgElection(
+            array_merge($this->form, [
+                'event_id' => $this->currentEvent->id,
+            ])
+        );
     }
 
 

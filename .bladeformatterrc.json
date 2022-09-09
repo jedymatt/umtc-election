@@ -1,0 +1,7 @@
+{
+    "wrapAttributes": "force-expand-multiline",
+    "sortHtmlAttributes": "code-guide",
+    "endWithNewLine": true,
+    "noMultipleEmptyLines": true,
+    "sortTailwindcssClasses": true
+}

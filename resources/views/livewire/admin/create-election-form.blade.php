@@ -25,8 +25,8 @@
     </div>
     <div
         class="mt-4"
-        x-data="{ showDepartmentsOption: @entangle('showDepartmentsOption') }"
-        x-show="$wire.showDepartmentsOption"
+        x-init=""
+        x-show="$wire.currentElectionTypeId === @js(\App\Models\ElectionType::TYPE_DSG)"
         x-transition.opacity
     >
         <label

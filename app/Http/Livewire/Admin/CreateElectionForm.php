@@ -88,7 +88,7 @@ class CreateElectionForm extends Component
             'end_at' => 'required|date|after:start_at',
         ])->validate();
 
-        return ElectionService::createDsgElection(
+        return ElectionService::createCdsgElection(
             array_merge($this->form, [
                 'event_id' => $this->currentEvent->id,
             ])

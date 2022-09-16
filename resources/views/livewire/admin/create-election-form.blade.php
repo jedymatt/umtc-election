@@ -15,7 +15,6 @@
                     type="radio"
                     value="{{ $electionType->id }}"
                     wire:model="currentElectionTypeId"
-                    wire:change="changeElectionType"
                 />
                 <label for="currentElectionType.{{ $electionType->id }}">
                     {{ $electionType->name }}
@@ -25,8 +24,8 @@
     </div>
     <div
         class="mt-4"
-        x-init=""
-        x-show="$wire.currentElectionTypeId === @js(\App\Models\ElectionType::TYPE_DSG)"
+        x-data="{ currentElectionTypeId: @entangle('currentElectionTypeId') }"
+        x-show="currentElectionTypeId === @js(\App\Models\ElectionType::TYPE_DSG)"
         x-transition.opacity
     >
         <label
@@ -131,7 +130,10 @@
             </div>
 
             <div class="mt-4 flex justify-end">
-                <x-button-primary type="submit">
+                <x-button-primary
+                    type="submit"
+                    :disabled="$currentEvent === null"
+                >
                     Create Election
                 </x-button-primary>
             </div>

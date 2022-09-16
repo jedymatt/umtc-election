@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\ElectionType;
 use App\Models\Event;
 use App\Services\ElectionService;
+use App\Services\EventService;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
@@ -13,13 +14,11 @@ class CreateElectionForm extends Component
 {
     public int $currentElectionTypeId;
 
-    public Event $currentEvent;
+    public ?Event $currentEvent;
 
     public $electionTypes;
 
     public $departments;
-
-    public bool $showDepartmentsOption = true;
 
     public $form = [
         'title' => '',
@@ -43,16 +42,28 @@ class CreateElectionForm extends Component
     public function updateCurrentEvent(Event $event): void
     {
         $this->currentEvent = $event;
-    }
 
-    public function changeElectionType(): void
-    {
-        // $this->currentElectionTypeId = $electionType;
-        $this->showDepartmentsOption = $this->currentElectionTypeId === ElectionType::TYPE_DSG;
+        $availableDepartments = Department::orderBy('name')->doesntHaveDsgElectionOfEvent($event)->get();
+        $this->departments = auth()->user()->is_super_admin ? $availableDepartments : $availableDepartments->where('id', auth()->user()->department_id);
     }
 
     public function createElection()
     {
+        if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
+            $failureMessage = EventService::createDsgElectionFailureMessage($this->currentEvent, auth('admin')->user());
+        } else {
+            $failureMessage = EventService::createCdsgElectionFailureMessage($this->currentEvent, auth('admin')->user());
+        }
+
+        if (! empty($failureMessage)) {
+            $this->dispatchBrowserEvent('toast-alert', [
+                'type' => 'error',
+                'message' => $failureMessage,
+            ]);
+
+            return;
+        }
+
         if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
             $election = $this->createDsgElection();
         } else {

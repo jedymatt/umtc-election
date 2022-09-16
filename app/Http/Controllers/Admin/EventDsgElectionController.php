@@ -26,16 +26,8 @@ class EventDsgElectionController extends Controller
 
         abort_if(! empty(EventService::createDsgElectionFailureMessage($event, $admin)), 403, 'Cannot create election');
 
-        $occupiedDepartments = $event->dsgElections->map(function ($election) {
-            return $election->department_id;
-        })->filter();
-
-        if ($admin->is_super_admin) {
-            $departments = Department::orderBy('name')
-                ->whereNotIn('id', $occupiedDepartments)->get();
-        } else {
-            $departments = $occupiedDepartments->contains($admin->department_id) ? collect() : collect([$admin->department]);
-        }
+        $availableDepartments = Department::orderBy('name')->doesntHaveDsgElectionOfEvent($event)->get();
+        $departments = $admin->is_super_admin ? $availableDepartments : $availableDepartments->where('id', $admin->department_id);
 
         return view('admin.events.dsg-elections.create', compact('event', 'departments'));
     }

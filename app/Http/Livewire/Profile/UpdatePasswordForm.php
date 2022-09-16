@@ -40,7 +40,7 @@ class UpdatePasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        $this->dispatchBrowserEvent('notify', [
+        $this->dispatchBrowserEvent('toast-alert', [
             'type' => 'success',
             'message' => 'Your password has been updated.',
         ]);

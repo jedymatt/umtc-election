@@ -33,9 +33,7 @@ window.fireToast = ({ icon, message }) => {
     });
 };
 
-
-
-window.addEventListener('notify', function (event) {
+window.addEventListener('toast-alert', function (event) {
     fireToast({
         icon: event.detail.type,
         message: event.detail.message,

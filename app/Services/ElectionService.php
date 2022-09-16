@@ -261,7 +261,7 @@ class ElectionService
             ->get();
     }
 
-    public function createDsgElection(array $data): Election
+    public static function createDsgElection(array $data): Election
     {
         return  Election::create([
             'title' => $data['title'],
@@ -274,7 +274,7 @@ class ElectionService
         ]);
     }
 
-    public function createCdsgElection(array $data)
+    public static function createCdsgElection(array $data): Election
     {
         return Election::create([
             'title' => $data['title'],

@@ -36,7 +36,7 @@ class CreateElectionForm extends Component
     {
         $this->electionTypes = ElectionType::all();
         $this->currentElectionTypeId = ElectionType::TYPE_DSG;
-        $this->departments = Department::all();
+        $this->departments = [];
     }
 
     public function updateCurrentEvent(Event $event): void

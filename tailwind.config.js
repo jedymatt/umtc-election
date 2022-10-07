@@ -1,3 +1,4 @@
+const plugin = require('tailwindcss/plugin');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
@@ -33,5 +34,8 @@ module.exports = {
 
     plugins: [
         require('@tailwindcss/forms'),
+        plugin(function({addVariant}) {
+            addVariant('not-last', '&:not(:last-child)')
+        })
     ],
 }

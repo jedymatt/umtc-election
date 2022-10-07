@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Models\Election;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -107,5 +108,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/elections/{election}/result', [Admin\ElectionResultController::class, 'show'])
             ->name('elections.result');
+
+        Route::get('/elections/{election}/candidates', function (Election $election) {
+            return view('admin.elections.candidates', compact('election'));
+        })->name('elections.candidates');
     });
 });

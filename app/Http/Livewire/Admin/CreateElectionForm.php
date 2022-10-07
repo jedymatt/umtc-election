@@ -70,7 +70,7 @@ class CreateElectionForm extends Component
             $election = $this->createCdsgElection();
         }
 
-        return $this->redirect(route('admin.elections.show', $election));
+        return $this->redirect(route('admin.elections.candidates', $election));
     }
 
     public function createDsgElection()

@@ -123,15 +123,13 @@ class ElectionService
 
     public function saveWinners(): void
     {
-        $winners = $this->getWinningCandidates()->map(function ($candidate) {
-            return Winner::make([
+        $this->getWinningCandidates()->each(function ($candidate) {
+            Winner::create([
                 'candidate_id' => $candidate->id,
                 'election_id' => $this->election->id,
                 'votes' => $candidate->votes_count,
             ]);
         });
-
-        $this->election->winners()->saveMany($winners);
     }
 
     // TODO: Refactor this method

@@ -29,20 +29,10 @@ class EventController extends Controller
         /** @var Election $cdsgElection */
         $cdsgElection = $event->cdsgElection()->first();
 
-        $dsgElectionsHasWinnersConflict = [];
-        foreach ($dsgElections as $election) {
-            $dsgElectionsHasWinnersConflict[$election->id] = $election->hasConflictedWinners();
-        }
-
-        $cdsgElectionHasWinnersConflict = $cdsgElection != null
-            && $cdsgElection->hasConflictedWinners();
-
         return view('admin.events.show', compact(
             'event',
             'dsgElections',
             'cdsgElection',
-            'dsgElectionsHasWinnersConflict',
-            'cdsgElectionHasWinnersConflict',
         ));
     }
 

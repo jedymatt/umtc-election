@@ -65,7 +65,7 @@
                                                 </span>
                                             </td>
                                             <td class="p-4">
-                                                @if ($cdsgElectionHasWinnersConflict)
+                                                @if ($cdsgElection->hasConflictedWinners())
                                                     <div class="inline-flex items-center">
                                                         <x-icon.warning class="inline-block text-yellow-500" />
                                                         <a class="text-sm text-red-500 hover:underline hover:text-red-700"
@@ -149,7 +149,7 @@
                                                 {{ $election->department?->name }}
                                             </td>
                                             <td class="p-4">
-                                                @if ($dsgElectionsHasWinnersConflict[$election->id])
+                                                @if ($election->hasConflictedWinners())
                                                     <div class="inline-flex items-center">
                                                         <x-icon.warning class="inline-block text-yellow-500" />
                                                         <a class="text-sm text-red-500 hover:underline hover:text-red-700"

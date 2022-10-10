@@ -8,6 +8,7 @@ use App\Services\ElectionService;
 
 class MonitorElectionController extends Controller
 {
+    // TODO: Refactor this method
     public function show(Election $election)
     {
         $election->loadMissing('electionType');

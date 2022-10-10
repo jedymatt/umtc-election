@@ -133,6 +133,7 @@ class ElectionService
         $this->election->winners()->saveMany($winners);
     }
 
+    // TODO: Refactor this method
     public function getWinnersConflicts(): Collection
     {
         $this->election->winners->loadMissing(['candidate', 'candidate.position']);

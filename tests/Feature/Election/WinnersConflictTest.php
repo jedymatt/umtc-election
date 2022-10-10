@@ -6,8 +6,6 @@ use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\Winner;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class WinnersConflictTest extends TestCase
@@ -57,7 +55,8 @@ class WinnersConflictTest extends TestCase
         $this->assertFalse($election->hasConflictedWinners());
     }
 
-    public function test_has_no_conflict_same_number_of_votes_but_different_position() {
+    public function test_has_no_conflict_same_number_of_votes_but_different_position()
+    {
         $election = Election::factory()->create();
 
         Winner::factory()->create([

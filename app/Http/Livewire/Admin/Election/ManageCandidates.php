@@ -69,7 +69,8 @@ class ManageCandidates extends Component
         ]);
     }
 
-    public function removeCandidate(Candidate $candidate) {
+    public function removeCandidate(Candidate $candidate)
+    {
         $candidate->delete();
         $this->candidates = $this->candidates->filter(function ($c) use ($candidate) {
             return $c->id !== $candidate->id;

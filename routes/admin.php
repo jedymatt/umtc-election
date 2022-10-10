@@ -74,7 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Routes for authenticated admin
     Route::middleware('auth:admin')->group(function () {
-        Route::resource('/admin-management', Admin\AdminManagementController::class)
+        Route::resource('/admin-management', Admin\AdminController::class)
             ->only(['index', 'create', 'store']);
 
         Route::resource('/elections', Admin\ElectionController::class)

@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreAdminRequest;
 use App\Models\Admin;
 use App\Models\Department;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
 
-class AdminManagementController extends Controller
+class AdminController extends Controller
 {
-    private $adminService;
-
     public function __construct()
     {
         $this->authorizeResource(Admin::class, 'admin');
-        $this->adminService = app()->make('App\Services\AdminService');
     }
 
     public function index()
@@ -34,9 +32,16 @@ class AdminManagementController extends Controller
         return view('admin.admin-management.create', compact('departments'));
     }
 
-    public function store(StoreAdminRequest $request)
+    public function store(Request $request)
     {
-        $this->adminService->createAdmin([
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'department_id' => ['required', 'integer', 'exists:departments,id'],
+        ]);
+
+        Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,

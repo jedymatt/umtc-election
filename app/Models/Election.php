@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Election extends Model
 {
@@ -185,15 +186,17 @@ class Election extends Model
 
     public function hasConflictedWinners(): bool
     {
-        $positionIdWinners = $this->winners()->with(['candidate'])->get()
-            ->groupBy('candidate.position_id');
-        foreach ($positionIdWinners as $positionId => $winners) {
-            if ($winners->count() > 1) {
-                return true;
-            }
+        if (! $this->ended()) {
+            return false;
         }
 
-        return false;
+        return DB::table('winners')
+            ->select('candidates.position_id')
+            ->join('candidates', 'candidates.id', '=', 'winners.candidate_id')
+            ->where('winners.election_id', $this->id)
+            ->havingRaw('COUNT(candidates.position_id) > ?', [1])
+            ->groupBy('candidates.position_id')
+            ->exists();
     }
 
     public function scopeDoesntHaveVotesFromUser(Builder $query, User $user): Builder

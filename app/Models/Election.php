@@ -219,4 +219,9 @@ class Election extends Model
             $query->where('user_id', $user->id);
         });
     }
+
+    public function hasNoWinners(): bool
+    {
+        return $this->winners()->doesntExist();
+    }
 }

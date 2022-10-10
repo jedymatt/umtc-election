@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Election;
 use App\Models\User;
 use App\Services\ElectionService;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class ElectionController extends Controller
 {
@@ -13,27 +14,27 @@ class ElectionController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $isCompleteUserInfo = $user->department_id !== null;
-
-        $availableElections = $isCompleteUserInfo ? ElectionService::getVotableElectionsFromUser($user) : [];
-        $votedElections = $isCompleteUserInfo ? ElectionService::getVotedElectionsFromUser($user) : [];
-
-        $pastElections = $isCompleteUserInfo ? ElectionService::pastElectionsByUser($user) : [];
-
-        $isPendingWinners = [];
-
-        foreach ($pastElections as $election) {
-            $isPendingWinners[$election->id] = $election->winners()->doesntExist()
-                || $election->hasConflictedWinners();
+        if ($user->department_id !== null) {
+            $availableElections = ElectionService::getVotableElectionsFromUser($user);
+            $votedElections = ElectionService::getVotedElectionsFromUser($user);
+            $pastElections = ElectionService::pastElectionsByUser($user);
+        } else {
+            $availableElections = EloquentCollection::empty();
+            $votedElections = EloquentCollection::empty();
+            $pastElections = EloquentCollection::empty();
         }
 
-        return view('elections.index', compact(
-            'pastElections',
-            'isPendingWinners',
-            'isCompleteUserInfo',
-            'availableElections',
-            'votedElections'
-        ));
+        $hasPendingWinners = $pastElections->map(function (Election $election) {
+            return $election->hasNoWinners() || $election->hasConflictedWinners();
+        });
+
+        return view('elections.index', [
+            'availableElections' => $availableElections,
+            'votedElections' => $votedElections,
+            'pastElections' => $pastElections,
+            'hasPendingWinners' => $hasPendingWinners,
+            'userHasNoDepartment' => $user->department_id === null,
+        ]);
     }
 
     public function show(Election $election)

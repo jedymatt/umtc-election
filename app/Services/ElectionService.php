@@ -8,6 +8,7 @@ use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -173,7 +174,10 @@ class ElectionService
         return false;
     }
 
-    public function getWinningCandidatesConflicts(): Collection
+    /**
+     * @return EloquentCollection<Candidate>
+     */
+    public function getWinningCandidatesConflicts()
     {
         $candidates = Candidate::ofElection($this->election)
             ->with('position')
@@ -198,7 +202,11 @@ class ElectionService
         return $winnersConflicts;
     }
 
-    public static function activeElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
+    /**
+     * @param  User  $user
+     * @return EloquentCollection<Election>
+     */
+    public static function activeElectionsByUser(User $user)
     {
         return Election::with(['department', 'electionType'])
             ->orWhere(function (Builder $query) use ($user) {
@@ -213,8 +221,17 @@ class ElectionService
             ->get();
     }
 
+    // TODO: refactor this method specially the parameters
+    /**
+     * @param  User  $user
+     * @return EloquentCollection<Election>
+     */
     public static function getVotableElectionsFromUser(User $user)
     {
+        if ($user->department_id === null) {
+            return EloquentCollection::empty();
+        }
+
         return Election::with('department', 'electionType')
             ->orWhere(function (Builder $query) use ($user) {
                 $query->electionTypeDsg()
@@ -231,6 +248,11 @@ class ElectionService
             ->get();
     }
 
+    // TODO: refactor this method specially the parameters
+    /**
+     * @param  User  $user
+     * @return EloquentCollection<Election>
+     */
     public static function getVotedElectionsFromUser(User $user)
     {
         return Election::with('department', 'electionType')
@@ -249,7 +271,11 @@ class ElectionService
             ->get();
     }
 
-    public static function pastElectionsByUser(User $user): \Illuminate\Database\Eloquent\Collection|array
+    /**
+     * @param  User  $user
+     * @return EloquentCollection<Election>
+     */
+    public static function pastElectionsByUser(User $user)
     {
         return Election::with('department', 'electionType')
             ->orWhere(function (Builder $query) use ($user) {

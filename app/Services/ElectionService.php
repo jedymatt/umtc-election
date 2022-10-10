@@ -92,6 +92,7 @@ class ElectionService
         // return static::canVoteDsgElection($election, $user) || static::canVoteCDSGElection($election, $user);
     }
 
+    // TODO: Move to a dedicated service
     public function generateFileName(): string
     {
         $title = $this->election->title;
@@ -103,10 +104,11 @@ class ElectionService
     }
 
     /**
-     * @return Collection<Candidate>
+     * @return \Illuminate\Support\Collection
      */
-    public function getWinningCandidates(): Collection
+    public function getWinningCandidates()
     {
+        // TODO: Refactor this
         $candidates = $this->election->candidates()->withCount('votes')->orderBy('position_id')->get();
 
         $candidates = $candidates->groupBy('position_id');

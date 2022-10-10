@@ -18,15 +18,15 @@ class ElectionController extends Controller
             $availableElections = ElectionService::getVotableElectionsFromUser($user);
             $votedElections = ElectionService::getVotedElectionsFromUser($user);
             $pastElections = ElectionService::pastElectionsByUser($user);
+            $hasPendingWinners = $pastElections->map(function (Election $election) {
+                return $election->hasNoWinners() || $election->hasConflictedWinners();
+            });
         } else {
             $availableElections = EloquentCollection::empty();
             $votedElections = EloquentCollection::empty();
             $pastElections = EloquentCollection::empty();
+            $hasPendingWinners = EloquentCollection::empty();
         }
-
-        $hasPendingWinners = $pastElections->map(function (Election $election) {
-            return $election->hasNoWinners() || $election->hasConflictedWinners();
-        });
 
         return view('elections.index', [
             'availableElections' => $availableElections,

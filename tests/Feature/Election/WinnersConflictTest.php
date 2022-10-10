@@ -6,10 +6,13 @@ use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\Winner;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class WinnersConflictTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_has_conflict()
     {
         $election = Election::factory()->create();

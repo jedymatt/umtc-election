@@ -20,6 +20,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
+        /** @var Election[] $dsgElections */
         $dsgElections = $event->dsgElections()
             ->orderBy(Department::select('name')
                 ->whereColumn('department_id', '=', 'id'))
@@ -30,12 +31,6 @@ class EventController extends Controller
 
         $dsgElectionsHasWinnersConflict = [];
         foreach ($dsgElections as $election) {
-            if (! $election->isEnded()) {
-                $dsgElectionsHasWinnersConflict[$election->id] = false;
-
-                continue;
-            }
-
             $dsgElectionsHasWinnersConflict[$election->id] = $election->hasConflictedWinners();
         }
 

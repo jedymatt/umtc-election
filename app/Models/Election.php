@@ -186,11 +186,7 @@ class Election extends Model
 
     public function hasConflictedWinners(): bool
     {
-        if (! $this->ended()) {
-            return false;
-        }
-
-        return DB::table('winners')
+        return $this->active() && DB::table('winners')
             ->select('candidates.position_id')
             ->join('candidates', 'candidates.id', '=', 'winners.candidate_id')
             ->where('winners.election_id', $this->id)

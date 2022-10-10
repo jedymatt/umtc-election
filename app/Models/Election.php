@@ -14,6 +14,9 @@ class Election extends Model
 {
     use HasFactory;
 
+    // TODO: Improve naming statuses
+    // And decide if having winners and not having winners is a status
+
     public const STATUS_PENDING = 1;
 
     public const STATUS_ACTIVE = 2;

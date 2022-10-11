@@ -20,6 +20,7 @@ class ElectionService
         $this->election = $election;
     }
 
+    // TODO: Analyze the code because it is not clear what it does
     public static function isVotable(Election $election, User $user): bool
     {
         return Election::with('event.votes')

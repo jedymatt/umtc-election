@@ -1,4 +1,4 @@
-# UMTC Election 
+# UMTC Election
 
 ![](https://img.shields.io/badge/dev%20status-maintenance-blue?style=flat-square)
 
@@ -6,16 +6,17 @@ University of Mindanao Tagum College Election System
 
 ## Prerequisites
 
-* Php 8.0.2 or up
-* Node.js and Npm
-* composer
-* MySQL
-* XAMPP (Optional) or Docker (Optional)
-* [Pusher app credentials](https://pusher.com/)
+- Php 8.0.2 or up
+- Node.js and Npm
+- composer
+- MySQL
+- XAMPP (Optional) or Docker (Optional)
+- [Pusher app credentials](https://pusher.com/)
 
 ## Run Locally
 
 Clone the repository and go to umtc-election directory
+
 ```shell
 git clone https://github.com/jedymatt/umtc-election.git
 
@@ -23,6 +24,7 @@ cd umtc-election
 ```
 
 Generate .env file
+
 ```shell
 cp .env.development .env
 ```
@@ -30,10 +32,13 @@ cp .env.development .env
 Then, configure the .env file according to your use case.
 
 Install the composer dependencies
+
 ```shell
 composer install --ignore-platform-reqs
 ```
+
 Run this instead when using docker:
+
 ```shell
 docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -44,25 +49,30 @@ docker run --rm \
 ```
 
 Then, compile the assets
+
 ```shell
 npm install
 npm run dev
 ```
 
 Populate the tables and the data to the database
+
 ```shell
 php artisan migrate --seed
 ```
 
 Generate app key
+
 ```shell
 php artisan key:generate
 ```
 
 Run the application
+
 ```shell
 php artisan serve
 ```
+
 Finally, visit <http://localhost:8000> to view the site.
 
 ### Login as Admin

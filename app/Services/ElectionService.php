@@ -23,6 +23,10 @@ class ElectionService
     // TODO: Analyze the code because it is not clear what it does
     public static function isVotable(Election $election, User $user): bool
     {
+        if ($election->isTypeCdsg()) {
+            return $election->candidates()->where('user_id', $user->id)->exists();
+        }
+
         return Election::with('event.votes')
             ->active()
             ->whereRelation('event.votes', 'user_id', '=', $user->id)
@@ -161,7 +165,7 @@ class ElectionService
      */
     public static function getVotableElectionsFromUser(User $user)
     {
-        if ($user->department_id === null) {
+        if (is_null($user->department_id)) {
             return EloquentCollection::empty();
         }
 
@@ -172,12 +176,14 @@ class ElectionService
             })
             ->orWhere(function (Builder $query) use ($user) {
                 $query->electionTypeCdsg()
-                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                    ->whereHas('candidates', function (Builder $query) use ($user) {
                         $query->where('user_id', $user->id);
                     });
             })
             ->active()
-            ->doesntHaveEventVotesFromUser($user)
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->get();
     }
 
@@ -195,12 +201,14 @@ class ElectionService
             })
             ->orWhere(function (Builder $query) use ($user) {
                 $query->electionTypeCdsg()
-                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                    ->whereHas('candidates', function (Builder $query) use ($user) {
                         $query->where('user_id', $user->id);
                     });
             })
             ->active()
-            ->hasEventVotesFromUser($user)
+            ->whereHas('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->get();
     }
 

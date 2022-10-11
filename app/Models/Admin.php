@@ -48,11 +48,6 @@ class Admin extends Authenticatable
         return $this->belongsTo(Department::class);
     }
 
-    public function isSuperAdmin(): bool
-    {
-        return $this->is_super_admin;
-    }
-
     public function roleMessage(): string
     {
         return $this->is_super_admin ? 'Super Administrator' : 'Administrator';

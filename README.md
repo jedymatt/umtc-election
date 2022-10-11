@@ -1,6 +1,6 @@
 # UMTC Election
 
-![](https://img.shields.io/badge/dev%20status-maintenance-blue?style=flat-square)
+![Development Status Badge](https://img.shields.io/badge/dev%20status-maintenance-blue?style=flat-square)
 
 University of Mindanao Tagum College Election System
 

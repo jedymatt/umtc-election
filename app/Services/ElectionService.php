@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class ElectionService
@@ -21,86 +20,19 @@ class ElectionService
         $this->election = $election;
     }
 
-    public static function canVoteDsgElection(Election $election, User $user): bool
-    {
-        if (! $election->isTypeDsg()) {
-            return false;
-        }
-
-        if (! $election->isActive()) {
-            return false;
-        }
-
-        // User's vote exist
-        if (Election::query()
-            ->where('election_type_id', ElectionType::TYPE_DSG)
-            ->where('event_id', $election->event_id)
-            ->whereRelation('event.elections.votes', 'user_id', $user->id)
-            ->exists()
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function canVoteCDSGElection(Election $election, User $user): bool
-    {
-        if (! $election->isTypeCdsg()) {
-            return false;
-        }
-
-        if (! $election->isActive()) {
-            return false;
-        }
-
-        // User's vote exist
-        if (Election::query()
-            ->where('election_type_id', ElectionType::TYPE_CDSG)
-            ->where('id', $election->id)
-            ->whereRelation('votes', 'user_id', $user->id)
-            ->exists()
-        ) {
-            return false;
-        }
-
-        // User is not a DSG candidate winner
-        if (Election::query()
-            ->where('election_type_id', ElectionType::TYPE_CDSG)
-            ->where('event_id', $election->event_id)
-            ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id)
-            ->doesntExist()
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
     public static function isVotable(Election $election, User $user): bool
     {
         return Election::with('event.votes')
             ->active()
-            ->whereRelation('event.votes', 'user_id', $user->id)
+            ->whereRelation('event.votes', 'user_id', '=', $user->id)
             ->where('id', $election->id)
             ->doesntExist();
     }
 
+    // TODO: Refactor this method
     public static function canVote(Election $election, User $user): bool
     {
         return self::isVotable($election, $user);
-        // return static::canVoteDsgElection($election, $user) || static::canVoteCDSGElection($election, $user);
-    }
-
-    // TODO: Move to a dedicated service
-    public function generateFileName(): string
-    {
-        $title = $this->election->title;
-        $extension = '.xlsx';
-
-        $dateString = Carbon::now()->format('M d, Y u');
-
-        return $title.' '.$dateString.$extension;
     }
 
     /**

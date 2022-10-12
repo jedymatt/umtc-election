@@ -34,19 +34,6 @@ class UserVoteTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_non_voters_cannot_visit_the_cdsg_election_voting_page()
-    {
-        $user = User::factory()->create();
-
-        $election = Election::factory()->state([
-            'election_type_id' => ElectionType::TYPE_CDSG,
-        ])->create();
-
-        $this->actingAs($user)
-            ->get('/elections/'.$election->id.'/vote')
-            ->assertForbidden();
-    }
-
     public function test_cdsg_election_voters_can_vote()
     {
         $user = User::factory()->create();
@@ -119,36 +106,17 @@ class UserVoteTest extends TestCase
             ->assertSuccessful();
     }
 
-    public function test_dsg_election_should_should_not_visit_when_the_voter_does_not_belong_to_the_election_department()
+    public function test_dsg_election_should_not_allow_vote_from_different_department()
     {
         $user = User::factory()->create();
 
         $election = Election::factory()->state([
             'election_type_id' => ElectionType::TYPE_DSG,
-        ])
-        ->for(Department::factory())
-        ->create();
+            'department_id' => Department::factory()->create()->id,
+        ])->create();
 
         $this->actingAs($user)
-            ->get('/elections/'.$election->id.'/vote')
-            ->assertForbidden();
-    }
-
-    public function test_dsg_election_should_should_not_visit_when_the_voter_already_voted()
-    {
-        $user = User::factory()->create();
-
-        $election = Election::factory()->state([
-            'election_type_id' => ElectionType::TYPE_DSG,
-            'department_id' => $user->department_id,
-        ])
-        ->has(Vote::factory()->state([
-            'user_id' => $user->id,
-        ]))
-        ->create();
-
-        $this->actingAs($user)
-            ->get('/elections/'.$election->id.'/vote')
+            ->post('/elections/'.$election->id.'/vote')
             ->assertForbidden();
     }
 

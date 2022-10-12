@@ -205,20 +205,6 @@ class Election extends Model
         });
     }
 
-    public function scopeDoesntHaveEventVotesFromUser(Builder $query, User $user): Builder
-    {
-        return $query->whereDoesntHave('event.votes', function (Builder $query) use ($user) {
-            $query->where('user_id', $user->id);
-        });
-    }
-
-    public function scopeHasEventVotesFromUser(Builder $query, User $user): Builder
-    {
-        return $query->whereHas('event.votes', function (Builder $query) use ($user) {
-            $query->where('user_id', $user->id);
-        });
-    }
-
     public function hasNoWinners(): bool
     {
         return $this->winners()->doesntExist();

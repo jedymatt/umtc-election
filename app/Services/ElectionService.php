@@ -20,20 +20,39 @@ class ElectionService
         $this->election = $election;
     }
 
-    // TODO: Analyze the code because it is not clear what it does
-    public static function isVotable(Election $election, User $user): bool
-    {
-        return Election::with('event.votes')
-            ->active()
-            ->whereRelation('event.votes', 'user_id', '=', $user->id)
-            ->where('id', $election->id)
-            ->doesntExist();
-    }
-
-    // TODO: Refactor this method
     public static function canVote(Election $election, User $user): bool
     {
-        return self::isVotable($election, $user);
+        if ($election->votes()->where('user_id', $user->id)->exists()) {
+            return false;
+        }
+
+        if ($election->isTypeDsg()) {
+            return $user->department_id === $election->department_id;
+        }
+
+        return $election->isTypeCdsg() && $election->candidates()->where('user_id', $user->id)->exists();
+    }
+
+    // Ideal query but slow because of eloquent overhead
+    public static function _canVote(Election $election, User $user): bool
+    {
+        return Election::query()
+            ->where(function (Builder $query) use ($user) {
+                $query->orWhere(function (Builder $query) use ($user) {
+                    $query->where('election_type_id', ElectionType::TYPE_CDSG)
+                            ->whereRelation('candidates', 'user_id', '=', $user->id);
+                })
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->where('election_type_id', ElectionType::TYPE_DSG)
+                            ->where('department_id', $user->department_id);
+                });
+            })
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->where('id', $election->id)
+            ->active()
+            ->exists();
     }
 
     /**
@@ -161,7 +180,7 @@ class ElectionService
      */
     public static function getVotableElectionsFromUser(User $user)
     {
-        if ($user->department_id === null) {
+        if (is_null($user->department_id)) {
             return EloquentCollection::empty();
         }
 
@@ -172,12 +191,14 @@ class ElectionService
             })
             ->orWhere(function (Builder $query) use ($user) {
                 $query->electionTypeCdsg()
-                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                    ->whereHas('candidates', function (Builder $query) use ($user) {
                         $query->where('user_id', $user->id);
                     });
             })
             ->active()
-            ->doesntHaveEventVotesFromUser($user)
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->get();
     }
 
@@ -195,12 +216,14 @@ class ElectionService
             })
             ->orWhere(function (Builder $query) use ($user) {
                 $query->electionTypeCdsg()
-                    ->whereHas('event.elections.winners.candidate', function (Builder $query) use ($user) {
+                    ->whereHas('candidates', function (Builder $query) use ($user) {
                         $query->where('user_id', $user->id);
                     });
             })
             ->active()
-            ->hasEventVotesFromUser($user)
+            ->whereHas('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
             ->get();
     }
 

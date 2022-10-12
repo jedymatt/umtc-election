@@ -20,18 +20,21 @@ class ElectionService
         $this->election = $election;
     }
 
-    // TODO: Analyze the code because it is not clear what it does
     public static function isVotable(Election $election, User $user): bool
     {
-        if ($election->isTypeCdsg()) {
-            return $election->candidates()->where('user_id', $user->id)->exists();
-        }
-
-        return Election::with('event.votes')
-            ->active()
-            ->whereRelation('event.votes', 'user_id', '=', $user->id)
+        return Election::query()
+            // CDSG election: user is a candidate
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('election_type_id', ElectionType::TYPE_CDSG)
+                        ->whereRelation('candidates', 'user_id', '=', $user->id);
+            })
+            // user has not voted
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', '=', $user->id);
+            })
             ->where('id', $election->id)
-            ->doesntExist();
+            ->active()
+            ->exists();
     }
 
     // TODO: Refactor this method

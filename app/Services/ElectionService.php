@@ -20,27 +20,39 @@ class ElectionService
         $this->election = $election;
     }
 
-    public static function isVotable(Election $election, User $user): bool
+    public static function canVote(Election $election, User $user): bool
+    {
+        if ($election->votes()->where('user_id', $user->id)->exists()) {
+            return false;
+        }
+
+        if ($election->isTypeDsg()) {
+            return $user->department_id === $election->department_id;
+        }
+
+        return $election->isTypeCdsg() && $election->candidates()->where('user_id', $user->id)->exists();
+    }
+
+    // Ideal query but slow because of eloquent overhead
+    public static function _canVote(Election $election, User $user): bool
     {
         return Election::query()
-            // CDSG election: user is a candidate
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->where('election_type_id', ElectionType::TYPE_CDSG)
-                        ->whereRelation('candidates', 'user_id', '=', $user->id);
+            ->where(function (Builder $query) use ($user) {
+                $query->orWhere(function (Builder $query) use ($user) {
+                    $query->where('election_type_id', ElectionType::TYPE_CDSG)
+                            ->whereRelation('candidates', 'user_id', '=', $user->id);
+                })
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->where('election_type_id', ElectionType::TYPE_DSG)
+                            ->where('department_id', $user->department_id);
+                });
             })
-            // user has not voted
             ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', '=', $user->id);
+                $query->where('user_id', $user->id);
             })
             ->where('id', $election->id)
             ->active()
             ->exists();
-    }
-
-    // TODO: Refactor this method
-    public static function canVote(Election $election, User $user): bool
-    {
-        return self::isVotable($election, $user);
     }
 
     /**

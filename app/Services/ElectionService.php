@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
@@ -55,23 +56,18 @@ class ElectionService
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return EloquentCollection<Candidate>
      */
     public function getWinningCandidates()
     {
-        // TODO: Refactor this
-        $candidates = $this->election->candidates()->withCount('votes')->orderBy('position_id')->get();
+        return $this->election->candidates()->withCount('votes')->orderBy('position_id')->get()
+            ->groupBy('position_id')->flatMap(function (EloquentCollection $candidates) {
+                $maxVotesCount = $candidates->max('votes_count');
 
-        $candidates = $candidates->groupBy('position_id');
-
-        $winningCandidates = collect();
-
-        foreach ($candidates as $positionCandidates) {
-            $maxVotesCount = $positionCandidates->max('votes_count');
-            $winningCandidates->push(...$positionCandidates->where('votes_count', '=', $maxVotesCount));
-        }
-
-        return $winningCandidates;
+                return $candidates->filter(function (Candidate $candidate) use ($maxVotesCount) {
+                    return $candidate->votes_count === $maxVotesCount;
+                });
+            });
     }
 
     public function saveWinners(): void
@@ -170,7 +166,7 @@ class ElectionService
                 $query->where('department_id', '=', $user->department_id);
             })
             ->orWhere(function (Builder $query) {
-                $query->where('election_type_id', ElectionType::TYPE_CDSG);
+                $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
             })
             ->ended()
             ->get();

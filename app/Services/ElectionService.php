@@ -40,12 +40,12 @@ class ElectionService
             ->where(function (Builder $query) use ($user) {
                 $query->orWhere(function (Builder $query) use ($user) {
                     $query->where('election_type_id', ElectionType::TYPE_CDSG)
-                            ->whereRelation('candidates', 'user_id', '=', $user->id);
+                        ->whereRelation('candidates', 'user_id', '=', $user->id);
                 })
-                ->orWhere(function (Builder $query) use ($user) {
-                    $query->where('election_type_id', ElectionType::TYPE_DSG)
+                    ->orWhere(function (Builder $query) use ($user) {
+                        $query->where('election_type_id', ElectionType::TYPE_DSG)
                             ->where('department_id', $user->department_id);
-                });
+                    });
             })
             ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -126,54 +126,8 @@ class ElectionService
         return false;
     }
 
-    /**
-     * @return EloquentCollection<Candidate>
-     */
-    public function getWinningCandidatesConflicts()
-    {
-        $candidates = Candidate::ofElection($this->election)
-            ->with('position')
-            ->withCount('votes')
-            ->orderBy('position_id')
-            ->get();
-
-        $candidates = $candidates->groupBy('position.name');
-
-        $winnersConflicts = collect();
-
-        foreach ($candidates as $positionName => $positionCandidates) {
-            $maxVotesCount = $positionCandidates->max('votes_count');
-
-            $winners = $positionCandidates->where('votes_count', '=', $maxVotesCount);
-
-            if ($winners->count() > 1) {
-                $winnersConflicts[$positionName] = $winners;
-            }
-        }
-
-        return $winnersConflicts;
-    }
-
-    /**
-     * @param  User  $user
-     * @return EloquentCollection<Election>
-     */
-    public static function activeElectionsByUser(User $user)
-    {
-        return Election::with(['department', 'electionType'])
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->where('election_type_id', ElectionType::TYPE_DSG)
-                    ->where('department_id', $user->department_id);
-            })
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->where('election_type_id', ElectionType::TYPE_CDSG)
-                    ->whereRelation('event.elections.winners.candidate', 'user_id', '=', $user->id);
-            })
-            ->active()
-            ->get();
-    }
-
     // TODO: refactor this method specially the parameters
+
     /**
      * @param  User  $user
      * @return EloquentCollection<Election>
@@ -203,6 +157,7 @@ class ElectionService
     }
 
     // TODO: refactor this method specially the parameters
+
     /**
      * @param  User  $user
      * @return EloquentCollection<Election>
@@ -246,7 +201,7 @@ class ElectionService
 
     public static function createDsgElection(array $data): Election
     {
-        return  Election::create([
+        return Election::create([
             'title' => $data['title'],
             'description' => $data['description'],
             'election_type_id' => ElectionType::TYPE_DSG,

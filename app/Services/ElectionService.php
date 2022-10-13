@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
@@ -102,28 +101,6 @@ class ElectionService
         }
 
         return $winnersConflicts;
-    }
-
-    public function hasWinningCandidatesConflict(): bool
-    {
-        $candidates = Candidate::ofElection($this->election)
-            ->withCount('votes')
-            ->orderBy('position_id')
-            ->get();
-
-        $candidates = $candidates->groupBy('position_id');
-
-        foreach ($candidates as $positionCandidates) {
-            $maxVotesCount = $positionCandidates->max('votes_count');
-
-            $winners = $positionCandidates->where('votes_count', '=', $maxVotesCount);
-
-            if ($winners->count() > 1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     // TODO: refactor this method specially the parameters

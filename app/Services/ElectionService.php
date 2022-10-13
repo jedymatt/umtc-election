@@ -81,22 +81,13 @@ class ElectionService
         });
     }
 
-    // TODO: Refactor this method
-    public function getWinnersConflicts(): Collection
+    /**
+     * @param EloquentCollection<Winner> $winners
+     * @return Collection
+     */
+    public static function getWinnersConflicts(EloquentCollection $winners): Collection
     {
-        $this->election->winners->loadMissing(['candidate', 'candidate.position']);
-
-        $positionWinners = $this->election->winners()->get()->groupBy('candidate.position.name');
-
-        $winnersConflicts = collect();
-
-        foreach ($positionWinners as $positionName => $winners) {
-            if ($winners->count() > 1) {
-                $winnersConflicts[$positionName] = $winners;
-            }
-        }
-
-        return $winnersConflicts;
+        return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
     }
 
     // TODO: refactor this method specially the parameters
@@ -122,10 +113,10 @@ class ElectionService
                         $query->where('user_id', $user->id);
                     });
             })
-            ->active()
             ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                 $query->where('user_id', $user->id);
             })
+            ->active()
             ->get();
     }
 

@@ -25,9 +25,7 @@ class MonitorElectionController extends Controller
             'election',
         ])->get();
 
-        $conflictedWinners = $election->hasConflictedWinners() ?
-            (new ElectionService($election))->getWinnersConflicts()
-            : [];
+        $conflictedWinners = ElectionService::getWinnersConflicts($winners);
 
         return view('admin.monitor-election', compact(
             'election',

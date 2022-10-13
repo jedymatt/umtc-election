@@ -28,7 +28,7 @@
                                 Pending result! Result has yet to be processed. Wait for at least 5 minutes...
                             </div>
                         @endif
-                        @if(!$isPendingResult && !empty($conflictedWinners))
+                        @if(!$isPendingResult && $conflictedWinners->isNotEmpty())
                             <span class="font-semibold">Resolve conflict by selecting the final winners:</span>
 
                             <form action="{{ route('admin.elections.finalize-winners', $election) }}" method="post">
@@ -58,7 +58,7 @@
                                 </div>
                             </form>
                         @endif
-                        @if(!$isPendingResult && empty($conflictedWinners))
+                        @if(!$isPendingResult && $conflictedWinners->isEmpty())
                             <span class="font-semibold text-xl">Final Winners</span>
                             <div class="overflow-x-auto border-x border-t">
                                 <table class="table-auto w-full">

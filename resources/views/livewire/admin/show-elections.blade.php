@@ -1,7 +1,7 @@
 <div>
     <div class="flex flex-row justify-between items-baseline gap-4">
         <div class="flex-grow">
-            @livewire('admin.select-event')
+            @livewire('admin.select-event', ['default' => $currentEvent])
         </div>
         <x-button-primary href="{{ route('admin.elections.create') }}">New Election</x-button-primary>
     </div>

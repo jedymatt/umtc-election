@@ -17,9 +17,9 @@ class SelectEvent extends Component
         'eventSelected' => 'selectEvent',
     ];
 
-    public function mount()
+    public function mount(Event|int $default = null)
     {
-        $this->selectedEvent = null;
+        $this->selectedEvent = is_int($default) ? Event::find($default) : $default;
         $this->events = Event::select('id', 'title')->get();
     }
 

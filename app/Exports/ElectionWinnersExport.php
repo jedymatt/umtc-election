@@ -3,14 +3,15 @@
 namespace App\Exports;
 
 use App\Models\Election;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings
+class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMapping, WithHeadings, WithStyles
 {
     protected Election $election;
 
@@ -19,7 +20,17 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMappi
         $this->election = $election;
     }
 
-    public function collection(): HasMany|Collection
+    public function styles(Worksheet $sheet) {
+        return [
+            1 => [
+                'font' => [
+                    'bold' => true,
+                ],
+            ],
+        ];
+    }
+
+    public function collection(): Collection
     {
         return $this->election->winners;
     }
@@ -41,4 +52,5 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMappi
             $row->votes,
         ];
     }
+
 }

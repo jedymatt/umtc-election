@@ -13,8 +13,7 @@ class ElectionWinnerExportExcelController extends Controller
     public function store(Election $election)
     {
         $extension = '.xlsx';
-        $dateString = now()->format('M_d_Y_u');
-        $fileName = Str::slug($election->title).'_'.$dateString.$extension;
+        $fileName = Str::slug($election->title).'_'.$extension;
 
         return Excel::download(new ElectionWinnersExport($election), $fileName);
     }

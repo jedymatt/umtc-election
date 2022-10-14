@@ -4,17 +4,13 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Department;
 use App\Models\ElectionType;
-use App\Models\Event;
 use App\Services\ElectionService;
-use App\Services\EventService;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class CreateElectionForm extends Component
 {
     public int $currentElectionTypeId;
-
-    public ?Event $currentEvent;
 
     public $electionTypes;
 
@@ -28,82 +24,29 @@ class CreateElectionForm extends Component
         'department_id' => '',
     ];
 
-    protected $listeners = [
-        'eventSelected' => 'updateCurrentEvent',
-    ];
-
     public function mount()
     {
         $this->electionTypes = ElectionType::all();
         $this->currentElectionTypeId = ElectionType::TYPE_DSG;
-        $this->departments = [];
-    }
-
-    public function updateCurrentEvent(Event $event): void
-    {
-        $this->currentEvent = $event;
-
-        $availableDepartments = Department::orderBy('name')->doesntHaveDsgElectionOfEvent($event)->get();
-        $this->departments = auth()->user()->is_super_admin ? $availableDepartments : $availableDepartments->where('id', auth()->user()->department_id);
+        $this->departments = Department::orderBy('name')->get();
     }
 
     public function createElection()
     {
-        if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
-            $failureMessage = EventService::createDsgElectionFailureMessage($this->currentEvent, auth('admin')->user());
-        } else {
-            $failureMessage = EventService::createCdsgElectionFailureMessage($this->currentEvent, auth('admin')->user());
-        }
+        Validator::validate($this->form, [
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'start_at' => 'required|date|before_or_equal:end_at',
+            'end_at' => 'required|date|after:start_at',
+            'election_type_id' => 'required|integer',
+            'department_id' => 'required_if:election_type_id,'.ElectionType::TYPE_CDSG,
+        ]);
 
-        if (! empty($failureMessage)) {
-            $this->dispatchBrowserEvent('toast-alert', [
-                'type' => 'error',
-                'message' => $failureMessage,
-            ]);
-
-            return;
-        }
-
-        if ($this->currentElectionTypeId === ElectionType::TYPE_DSG) {
-            $election = $this->createDsgElection();
-        } else {
-            $election = $this->createCdsgElection();
-        }
+        $election = $this->currentElectionTypeId == ElectionType::TYPE_DSG
+            ? ElectionService::createDsgElection($this->form)
+            : ElectionService::createCdsgElection($this->form);
 
         return $this->redirect(route('admin.elections.candidates', $election));
-    }
-
-    public function createDsgElection()
-    {
-        Validator::make($this->form, [
-            'title' => 'required|string|unique:elections',
-            'description' => 'nullable|string',
-            'start_at' => 'required|date|before_or_equal:end_at',
-            'end_at' => 'required|date|after:start_at',
-            'department_id' => 'required|integer',
-        ])->validate();
-
-        return ElectionService::createDsgElection(
-            array_merge($this->form, [
-                'event_id' => $this->currentEvent->id,
-            ])
-        );
-    }
-
-    public function createCdsgElection()
-    {
-        Validator::make($this->form, [
-            'title' => 'required|string|unique:elections',
-            'description' => 'nullable|string',
-            'start_at' => 'required|date|before_or_equal:end_at',
-            'end_at' => 'required|date|after:start_at',
-        ])->validate();
-
-        return ElectionService::createCdsgElection(
-            array_merge($this->form, [
-                'event_id' => $this->currentEvent->id,
-            ])
-        );
     }
 
     public function render()

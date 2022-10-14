@@ -34,7 +34,6 @@ class Election extends Model
         'end_at',
         'election_type_id',
         'department_id',
-        'event_id',
     ];
 
     protected $casts = [
@@ -60,11 +59,6 @@ class Election extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
-    }
-
-    public function event(): BelongsTo
-    {
-        return $this->belongsTo(Event::class);
     }
 
     public function winners(): HasMany

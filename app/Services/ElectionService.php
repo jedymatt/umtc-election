@@ -82,7 +82,7 @@ class ElectionService
     }
 
     /**
-     * @param EloquentCollection<Winner> $winners
+     * @param  EloquentCollection<Winner>  $winners
      * @return Collection
      */
     public static function getWinnersConflicts(EloquentCollection $winners): Collection
@@ -90,37 +90,27 @@ class ElectionService
         return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
     }
 
-    // TODO: refactor this method specially the parameters
-
     /**
      * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function getVotableElectionsFromUser(User $user)
     {
-        if (is_null($user->department_id)) {
-            return EloquentCollection::empty();
-        }
-
-        return Election::with('department', 'electionType')
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->electionTypeDsg()
-                    ->ofDepartmentId($user->department_id);
-            })
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->electionTypeCdsg()
-                    ->whereHas('candidates', function (Builder $query) use ($user) {
-                        $query->where('user_id', $user->id);
-                    });
-            })
-            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->active()
-            ->get();
+        return is_null($user->department_id)
+            ? EloquentCollection::empty()
+            : Election::with('department', 'electionType')
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->electionTypeDsg()
+                        ->ofDepartmentId($user->department_id);
+                })->orWhere(function (Builder $query) use ($user) {
+                    $query->electionTypeCdsg()
+                        ->whereHas('candidates', function (Builder $query) use ($user) {
+                            $query->where('user_id', $user->id);
+                        });
+                })->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->active()->get();
     }
-
-    // TODO: refactor this method specially the parameters
 
     /**
      * @param  User  $user
@@ -128,22 +118,20 @@ class ElectionService
      */
     public static function getVotedElectionsFromUser(User $user)
     {
-        return Election::with('department', 'electionType')
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->electionTypeDsg()
-                    ->ofDepartmentId($user->department_id);
-            })
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->electionTypeCdsg()
-                    ->whereHas('candidates', function (Builder $query) use ($user) {
-                        $query->where('user_id', $user->id);
-                    });
-            })
-            ->active()
-            ->whereHas('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->get();
+        return is_null($user->department_id)
+            ? EloquentCollection::empty()
+            : Election::with('department', 'electionType')
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->electionTypeDsg()
+                        ->ofDepartmentId($user->department_id);
+                })->orWhere(function (Builder $query) use ($user) {
+                    $query->electionTypeCdsg()
+                        ->whereHas('candidates', function (Builder $query) use ($user) {
+                            $query->where('user_id', $user->id);
+                        });
+                })->active()->whereHas('votes', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })->get();
     }
 
     /**
@@ -152,15 +140,14 @@ class ElectionService
      */
     public static function pastElectionsByUser(User $user)
     {
-        return Election::with('department', 'electionType')
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->where('department_id', '=', $user->department_id);
-            })
-            ->orWhere(function (Builder $query) {
-                $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
-            })
-            ->ended()
-            ->get();
+        return is_null($user->department_id)
+            ? EloquentCollection::empty()
+            : Election::with('department', 'electionType')
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->where('department_id', '=', $user->department_id);
+                })->orWhere(function (Builder $query) {
+                    $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
+                })->ended()->get();
     }
 
     public static function createDsgElection(array $data): Election

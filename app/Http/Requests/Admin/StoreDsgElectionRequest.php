@@ -34,8 +34,6 @@ class StoreDsgElectionRequest extends FormRequest
             'start_at' => 'required|date|before_or_equal:end_at',
             'end_at' => 'required|date|after:start_at',
             'department_id' => 'required|integer',
-            'candidates.*.user_id' => 'integer',
-            'candidates.*.position_id' => 'integer',
         ];
     }
 }

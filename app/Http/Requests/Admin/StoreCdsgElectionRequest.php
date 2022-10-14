@@ -33,9 +33,6 @@ class StoreCdsgElectionRequest extends FormRequest
             'description' => 'nullable|string',
             'start_at' => 'required|date|before:end_at',
             'end_at' => 'required|date|after:start_at',
-            'candidates' => 'nullable|array',
-            'candidates.*.user_id' => 'integer',
-            'candidates.*.position_id' => 'integer',
         ];
     }
 }

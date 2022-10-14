@@ -42,14 +42,6 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mt-4 border-t border-gray-200">
-                        </div>
-                        <div class="mt-4">
-                            <span class="text-xl font-medium text-primary">Candidates</span>
-                            <div class="my-2">
-                                <livewire:admin.cdsg-election.add-candidates-form :event="$event"/>
-                            </div>
-                        </div>
                         <div class="flex justify-end mt-4">
                             <x-button>Create</x-button>
                         </div>

@@ -40,9 +40,7 @@ class EventCdsgElectionController extends Controller
             'event_id' => $event->id,
         ]);
 
-        $election->candidates()->createMany($validated['candidates'] ?? []);
-
-        return redirect()->route('admin.events.show', $event)
+        return redirect()->route('admin.elections.candidates', $election)
             ->with('success', 'CDSG election successfully created!');
     }
 }

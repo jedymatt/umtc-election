@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
-use function redirect;
 use function view;
 
 class UserProfileController extends Controller

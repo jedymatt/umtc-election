@@ -12,7 +12,9 @@ class ElectionController extends Controller
 {
     public function index()
     {
-        return view('admin.elections.index');
+        return view('admin.elections.index', [
+            'elections' => Election::with(['electionType', 'department'])->get(),
+        ]);
     }
 
     public function show(Election $election)

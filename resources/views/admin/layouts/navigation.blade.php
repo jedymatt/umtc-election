@@ -18,9 +18,6 @@
                     <x-nav-link :href="route('admin.admin-management.index')" :active="request()->routeIs('admin.admin-management.*')">
                         {{ __('Admin Management') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
-                        {{ __('Events') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.*')">
                         {{ __('Elections') }}
                     </x-nav-link>
@@ -77,9 +74,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.admin-management.index')" :active="request()->routeIs('admin.admin-management.*')">
                 {{ __('Admin Management') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
-                {{ __('Events') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.elections.index')" :active="request()->routeIs('admin.elections.*')">
                 {{ __('Elections') }}

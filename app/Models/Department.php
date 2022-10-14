@@ -27,16 +27,4 @@ class Department extends Model
     {
         return preg_replace('/\b([A-Z])|./', '$1', $this->name);
     }
-
-    public function scopeDoesntHaveDsgElectionOfEvent(EloquentBuilder $query, Event $event)
-    {
-        return $query->whereNotExists(function (QueryBuilder $query) use ($event) {
-            $query->select()
-                ->from('elections')
-                ->whereColumn('department_id', '=', 'departments.id')
-                ->where('election_type_id', '=', ElectionType::TYPE_DSG)
-                ->where('event_id', '=', $event->id)
-                ->whereNotNull('department_id');
-        });
-    }
 }

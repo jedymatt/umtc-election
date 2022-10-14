@@ -1,8 +1,4 @@
 <div>
-    <div class="flex flex-row items-baseline justify-center gap-4">
-        <span class="block">Select Event</span>
-        <div class="flex-grow">@livewire('admin.select-event')</div>
-    </div>
     <div class="mt-4 flex flex-row items-baseline gap-4">
         <div>
             <span class="block">Select Election Type</span>
@@ -130,10 +126,7 @@
             </div>
 
             <div class="mt-4 flex justify-end">
-                <x-button-primary
-                    type="submit"
-                    :disabled="$currentEvent === null"
-                >
+                <x-button-primary type="submit">
                     Create Election
                 </x-button-primary>
             </div>

@@ -80,23 +80,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('/elections', Admin\ElectionController::class)
             ->only(['index', 'show', 'create']);
 
-        Route::get('/events/{event}/dsg-elections/create', [Admin\EventDsgElectionController::class, 'create'])
-            ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
-            ->name('events.dsg-elections.create');
-
-        Route::post('/events/{event}/dsg-elections', [Admin\EventDsgElectionController::class, 'store'])
-            ->name('events.dsg-elections.store');
-
-        Route::get('/events/{event}/cdsg-elections/create', [Admin\EventCdsgElectionController::class, 'create'])
-            ->middleware(\App\Http\Middleware\EnsureCanCreateElection::class)
-            ->name('events.cdsg-elections.create');
-
-        Route::post('/events/{event}/cdsg-elections', [Admin\EventCdsgElectionController::class, 'store'])
-            ->name('events.cdsg-elections.store');
-
-        Route::resource('/events', Admin\EventController::class)
-            ->only(['index', 'show', 'create', 'store']);
-
         Route::get('/monitor-election/{election}', [Admin\MonitorElectionController::class, 'show'])
             ->name('monitor-election');
 

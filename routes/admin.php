@@ -12,7 +12,7 @@ use App\Models\Election;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [Admin\DashboardController::class, 'index'])
+    Route::get('/', fn () => redirect()->route('admin.dashboard'))
         ->middleware('auth:admin');
 
     Route::get('/dashboard', [Admin\DashboardController::class, 'index'])

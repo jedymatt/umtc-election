@@ -20,12 +20,4 @@ class UserProfileController extends Controller
             'departments',
         ));
     }
-
-    public function update(UpdateUserProfileRequest $request)
-    {
-        $request->user()->update($request->validated());
-
-        return redirect()->route('user-profile')
-            ->with('success', 'Profile updated successfully!');
-    }
 }

@@ -11,12 +11,9 @@ use App\Services\ElectionService;
 
 class ElectionVoteController extends Controller
 {
-    // TODO: Refactor this method
     public function create(Election $election)
     {
-        $canVote = ElectionService::canVote($election, auth()->user());
-
-        abort_if(! $canVote, 403);
+        abort_if(! ElectionService::canVote($election, auth()->user()), 403);
 
         $candidates = $election->candidates()
             ->with(['election', 'position', 'user'])

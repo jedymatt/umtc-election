@@ -20,7 +20,8 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMappi
         $this->election = $election;
     }
 
-    public function styles(Worksheet $sheet) {
+    public function styles(Worksheet $sheet)
+    {
         return [
             1 => [
                 'font' => [
@@ -52,5 +53,4 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithMappi
             $row->votes,
         ];
     }
-
 }

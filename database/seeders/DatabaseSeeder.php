@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
         ]);
 
-        if (config('app.env') === 'local') {
+        if (app()->isLocal()) {
             Admin::factory()->superAdmin()->create([
                 'email' => 'admin@example.com',
             ]);

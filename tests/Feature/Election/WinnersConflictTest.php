@@ -30,6 +30,8 @@ class WinnersConflictTest extends TestCase
 
     public function test_has_no_conflict()
     {
+        $this->markTestIncomplete();
+
         $election = Election::factory()->create();
 
         Winner::factory()->create([

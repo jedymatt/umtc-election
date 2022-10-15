@@ -29,6 +29,8 @@ class CreateElectionForm extends Component
         $this->electionTypes = ElectionType::all();
         $this->currentElectionTypeId = ElectionType::TYPE_DSG;
         $this->departments = Department::orderBy('name')->get();
+
+        $this->form['department_id'] = strval($this->departments->first()->id);
     }
 
     public function createElection()
@@ -38,7 +40,6 @@ class CreateElectionForm extends Component
             'description' => 'nullable|string',
             'start_at' => 'required|date|before_or_equal:end_at',
             'end_at' => 'required|date|after:start_at',
-            'election_type_id' => 'required|integer',
             'department_id' => 'required_if:election_type_id,'.ElectionType::TYPE_CDSG,
         ]);
 

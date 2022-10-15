@@ -29,7 +29,7 @@ Generate .env file
 cp .env.development .env
 ```
 
-Then, configure the .env file according to your use case.
+Then, configure the .env file and set your pusher crendentials
 
 Install the composer dependencies
 

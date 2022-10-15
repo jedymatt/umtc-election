@@ -2,9 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Candidate;
 use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;

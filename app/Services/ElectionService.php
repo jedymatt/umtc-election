@@ -98,7 +98,7 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with('department', 'electionType')
+            : Election::with(['department', 'electionType'])
                 ->orWhere(function (Builder $query) use ($user) {
                     $query->electionTypeDsg()
                         ->ofDepartmentId($user->department_id);
@@ -120,7 +120,7 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with('department', 'electionType')
+            : Election::with(['department', 'electionType'])
                 ->orWhere(function (Builder $query) use ($user) {
                     $query->electionTypeDsg()
                         ->ofDepartmentId($user->department_id);
@@ -142,7 +142,7 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with('department', 'electionType')
+            : Election::with(['department', 'electionType'])
                 ->orWhere(function (Builder $query) use ($user) {
                     $query->where('department_id', '=', $user->department_id);
                 })->orWhere(function (Builder $query) {

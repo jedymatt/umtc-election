@@ -47,7 +47,7 @@ class CreateElectionForm extends Component
             ? ElectionService::createDsgElection($this->form)
             : ElectionService::createCdsgElection($this->form);
 
-        return $this->redirect(route('admin.elections.candidates', $election));
+        $this->redirect(route('admin.elections.candidates', $election));
     }
 
     public function render()

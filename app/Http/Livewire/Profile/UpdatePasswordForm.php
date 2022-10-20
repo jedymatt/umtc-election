@@ -16,9 +16,7 @@ class UpdatePasswordForm extends Component
 
     public function updatePassword(): void
     {
-        /**
-         * @var App\Models\User $user
-         */
+        /** @var \App\Models\User */
         $user = auth()->user();
 
         Validator::make($this->state, [

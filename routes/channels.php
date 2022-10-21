@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Election;
 use Illuminate\Support\Facades\Broadcast;
 
 /*

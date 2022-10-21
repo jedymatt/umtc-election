@@ -13,7 +13,7 @@ class VoteSubmitted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $electionId;
+    public Election $election;
 
     /**
      * Create a new event instance.
@@ -22,7 +22,7 @@ class VoteSubmitted implements ShouldBroadcast
      */
     public function __construct(Election $election)
     {
-        $this->electionId = $election->id;
+        $this->election = $election;
     }
 
     /**
@@ -32,6 +32,6 @@ class VoteSubmitted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('election.'.$this->electionId);
+        return new PrivateChannel('election.'.$this->election->id);
     }
 }

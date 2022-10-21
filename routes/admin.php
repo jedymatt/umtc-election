@@ -83,6 +83,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/monitor-election/{election}', [Admin\MonitorElectionController::class, 'show'])
             ->name('monitor-election');
 
+        Route::get('/elections/{election}/live-result', Admin\ElectionLiveResultController::class)
+            ->name('elections.live-result');
+
         Route::get('/elections/{election}/winners/export-excel', [Admin\ElectionWinnerExportExcelController::class, 'store'])
             ->name('elections.winners.export-excel');
 

@@ -38,7 +38,7 @@ class CreateElectionForm extends Component
         Validator::validate($this->form, [
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'start_at' => 'required|date|before_or_equal:end_at',
+            'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'department_id' => 'required_if:election_type_id,'.ElectionType::TYPE_CDSG,
         ]);

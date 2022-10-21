@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\ElectionResultController;
 use App\Http\Controllers\ElectionVoteController;
 use App\Http\Controllers\UserProfileController;
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'show'])
+    Route::get('/dashboard', fn () => redirect()->route('elections.index'))
         ->name('dashboard');
 
     Route::resource('/elections', ElectionController::class)

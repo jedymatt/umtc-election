@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Admin\MonitorElection;
+namespace App\Http\Livewire\Admin\Election;
 
 use App\Models\Election;
 use App\Models\User;
 use Livewire\Component;
 
-class ShowCandidates extends Component
+class ShowLiveResult extends Component
 {
     public $election;
 
@@ -20,7 +20,7 @@ class ShowCandidates extends Component
 
     public function render()
     {
-        return view('livewire.admin.monitor-election.show-candidates');
+        return view('livewire.admin.election.show-live-result');
     }
 
     public function refreshCandidates()

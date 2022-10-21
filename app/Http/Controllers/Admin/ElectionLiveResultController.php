@@ -9,7 +9,6 @@ class ElectionLiveResultController extends Controller
 {
     public function __invoke(Election $election)
     {
-        // TODO: Create livewire component for live result
         return view('admin.elections.live-result', compact('election'));
     }
 }

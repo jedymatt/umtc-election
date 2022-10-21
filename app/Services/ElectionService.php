@@ -41,11 +41,13 @@ class ElectionService
                 $query->orWhere(function (Builder $query) use ($user) {
                     $query->where('election_type_id', ElectionType::TYPE_CDSG)
                         ->whereRelation('candidates', 'user_id', '=', $user->id);
-                })
+                }
+                )
                     ->orWhere(function (Builder $query) use ($user) {
                         $query->where('election_type_id', ElectionType::TYPE_DSG)
                             ->where('department_id', $user->department_id);
-                    });
+                    }
+                    );
             })
             ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -66,7 +68,8 @@ class ElectionService
 
                 return $candidates->filter(function (Candidate $candidate) use ($maxVotesCount) {
                     return $candidate->votes_count === $maxVotesCount;
-                });
+                }
+                );
             });
     }
 
@@ -98,18 +101,27 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with(['department', 'electionType'])
-                ->orWhere(function (Builder $query) use ($user) {
+            : Election::query()
+            ->with(['department', 'electionType'])
+            ->where(function (Builder $query) use ($user) {
+                $query->orWhere(function (Builder $query) use ($user) {
                     $query->electionTypeDsg()
                         ->ofDepartmentId($user->department_id);
-                })->orWhere(function (Builder $query) use ($user) {
+                }
+                )->orWhere(function (Builder $query) use ($user) {
                     $query->electionTypeCdsg()
                         ->whereHas('candidates', function (Builder $query) use ($user) {
                             $query->where('user_id', $user->id);
-                        });
-                })->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })->active()->get();
+                        }
+                        );
+                }
+                );
+            })
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->active()
+            ->get();
     }
 
     /**
@@ -120,8 +132,10 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with(['department', 'electionType'])
-                ->orWhere(function (Builder $query) use ($user) {
+            : Election::query()
+            ->with(['department', 'electionType'])
+            ->where(function (Builder $query) use ($user) {
+                $query->orWhere(function (Builder $query) use ($user) {
                     $query->electionTypeDsg()
                         ->ofDepartmentId($user->department_id);
                 })->orWhere(function (Builder $query) use ($user) {
@@ -129,9 +143,11 @@ class ElectionService
                         ->whereHas('candidates', function (Builder $query) use ($user) {
                             $query->where('user_id', $user->id);
                         });
-                })->active()->whereHas('votes', function (Builder $query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })->get();
+                });
+            })
+            ->whereRelation('votes', 'user_id', '=', $user->id)
+            ->active()
+            ->get();
     }
 
     /**
@@ -142,12 +158,13 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::with(['department', 'electionType'])
-                ->orWhere(function (Builder $query) use ($user) {
-                    $query->where('department_id', '=', $user->department_id);
-                })->orWhere(function (Builder $query) {
-                    $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
-                })->ended()->get();
+            : Election::query()
+            ->with(['department', 'electionType'])
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('department_id', '=', $user->department_id);
+            })->orWhere(function (Builder $query) {
+                $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
+            })->ended()->get();
     }
 
     public static function createDsgElection(array $data): Election

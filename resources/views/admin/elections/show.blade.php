@@ -26,15 +26,6 @@
                     <div class="mt-4">
                         End at: {{ $election->end_at->toDayDateTimeString() }}
                     </div>
-                    <div class="mt-4">
-                        Related Links:
-                        <a
-                            class="text-blue-600 underline"
-                            href="{{ route('admin.monitor-election', $election) }}"
-                        >
-                            Monitor Election
-                        </a>
-                    </div>
                     @if ($election->description != null)
                         <div class="mt-4">
                             <p class="text-justify leading-normal">

@@ -35,32 +35,6 @@ class ElectionService
             ->exists();
     }
 
-    // Ideal query but slow because of eloquent overhead
-    public static function _canVote(Election $election, User $user): bool
-    {
-        return Election::query()
-            ->where(function (Builder $query) use ($user) {
-                $query->orWhere(
-                    function (Builder $query) use ($user) {
-                        $query->where('election_type_id', ElectionType::TYPE_CDSG)
-                            ->whereRelation('candidates', 'user_id', '=', $user->id);
-                    }
-                )
-                    ->orWhere(
-                        function (Builder $query) use ($user) {
-                            $query->where('election_type_id', ElectionType::TYPE_DSG)
-                                ->where('department_id', $user->department_id);
-                        }
-                    );
-            })
-            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->where('id', $election->id)
-            ->active()
-            ->exists();
-    }
-
     /**
      * @return EloquentCollection<Candidate>
      */

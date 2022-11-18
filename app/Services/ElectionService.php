@@ -22,15 +22,17 @@ class ElectionService
 
     public static function canVote(Election $election, User $user): bool
     {
-        if ($election->votes()->where('user_id', $user->id)->exists()) {
-            return false;
-        }
-
-        if ($election->isTypeDsg()) {
-            return $user->department_id === $election->department_id;
-        }
-
-        return $election->isTypeCdsg() && $election->candidates()->where('user_id', $user->id)->exists();
+        return Election::find($election->id)
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->when($election->isTypeDsg(), function (Builder $query) use ($user) {
+                $query->where('department_id', $user->department_id);
+            })
+            ->when($election->isTypeCdsg(), function (Builder $query) use ($user) {
+                $query->whereRelation('candidates', 'user_id', $user->id);
+            })
+            ->exists();
     }
 
     // Ideal query but slow because of eloquent overhead

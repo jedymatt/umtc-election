@@ -8,6 +8,7 @@ use App\Models\Election;
 use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Vote;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,38 +18,56 @@ class UserVoteTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
+    public $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+
+        // This mimics the real world scenario where there can be multiple elections.
+        // It also ensures the tests are querying the correct election and not these.
+        Election::factory(3)->state(
+            new Sequence(
+                [
+                    'election_type_id' => ElectionType::TYPE_DSG,
+                    'department_id' => $this->user->department_id,
+                ],
+                ['election_type_id' => ElectionType::TYPE_DSG],
+                ['election_type_id' => ElectionType::TYPE_CDSG],
+            )
+        )->create();
+    }
+
     public function test_voters_can_visit_the_cdsg_election_voting_page()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()->state([
             'election_type_id' => ElectionType::TYPE_CDSG,
         ])->has(
             Candidate::factory()->state([
-                'user_id' => $user->id,
+                'user_id' => $this->user->id,
             ])
         )->create();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->get('/elections/'.$election->id.'/vote')
             ->assertStatus(200);
     }
 
     public function test_cdsg_election_voters_can_vote()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()
-        ->has(Candidate::factory()->state([
-            'user_id' => $user->id,
-        ]))
-        ->create([
-            'election_type_id' => ElectionType::TYPE_CDSG,
-        ]);
+            ->has(Candidate::factory()->state([
+                'user_id' => $this->user->id,
+            ]))
+            ->create([
+                'election_type_id' => ElectionType::TYPE_CDSG,
+            ]);
 
         $candidate = $election->candidates()->first();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote', [
                 'candidates' => [
                     $candidate->position_id => $candidate->id,
@@ -61,7 +80,7 @@ class UserVoteTest extends TestCase
 
         $this->assertDatabaseHas('votes', [
             'id' => $vote->id,
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'election_id' => $election->id,
         ]);
 
@@ -73,17 +92,15 @@ class UserVoteTest extends TestCase
 
     public function test_cdsg_election_non_voters_cannot_vote()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()
-        ->has(Candidate::factory())
-        ->create([
-            'election_type_id' => ElectionType::TYPE_CDSG,
-        ]);
+            ->has(Candidate::factory())
+            ->create([
+                'election_type_id' => ElectionType::TYPE_CDSG,
+            ]);
 
         $candidate = $election->candidates()->first();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote', [
                 'candidates' => [
                     $candidate->position_id => $candidate->id,
@@ -94,47 +111,41 @@ class UserVoteTest extends TestCase
 
     public function test_voters_can_visit_the_dsg_election_voting_page()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()->state([
             'election_type_id' => ElectionType::TYPE_DSG,
-            'department_id' => $user->department_id,
+            'department_id' => $this->user->department_id,
         ])->create();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->get('/elections/'.$election->id.'/vote')
             ->assertSuccessful();
     }
 
     public function test_dsg_election_should_not_allow_vote_from_different_department()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()->state([
             'election_type_id' => ElectionType::TYPE_DSG,
             'department_id' => Department::factory()->create()->id,
         ])->create();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote')
             ->assertForbidden();
     }
 
     public function test_dsg_election_voters_can_submit_vote()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()
-        ->state([
-            'election_type_id' => ElectionType::TYPE_DSG,
-            'department_id' => $user->department_id,
-        ])
-        ->has(Candidate::factory()->has(User::factory()))
-        ->create();
+            ->state([
+                'election_type_id' => ElectionType::TYPE_DSG,
+                'department_id' => $this->user->department_id,
+            ])
+            ->has(Candidate::factory()->has(User::factory()))
+            ->create();
 
         $candidate = $election->candidates()->first();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote', [
                 'candidates' => [
                     $candidate->position_id => $candidate->id,
@@ -147,7 +158,7 @@ class UserVoteTest extends TestCase
 
         $this->assertDatabaseHas('votes', [
             'id' => $vote->id,
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'election_id' => $election->id,
         ]);
 
@@ -159,44 +170,40 @@ class UserVoteTest extends TestCase
 
     public function test_cdsg_election_should_not_allow_multiple_votes()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()
-        ->state([
-            'election_type_id' => ElectionType::TYPE_CDSG,
-        ])
-        ->has(Candidate::factory()->state([
-            'user_id' => $user->id,
-        ]))
-        ->create();
+            ->state([
+                'election_type_id' => ElectionType::TYPE_CDSG,
+            ])
+            ->has(Candidate::factory()->state([
+                'user_id' => $this->user->id,
+            ]))
+            ->create();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote')
             ->assertStatus(302)
             ->assertRedirect('/elections');
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote')
             ->assertForbidden();
     }
 
     public function test_dsg_election_should_not_allow_multiple_votes()
     {
-        $user = User::factory()->create();
-
         $election = Election::factory()
-        ->state([
-            'election_type_id' => ElectionType::TYPE_DSG,
-            'department_id' => $user->department_id,
-        ])
-        ->create();
+            ->state([
+                'election_type_id' => ElectionType::TYPE_DSG,
+                'department_id' => $this->user->department_id,
+            ])
+            ->create();
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote')
             ->assertStatus(302)
             ->assertRedirect('/elections');
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->post('/elections/'.$election->id.'/vote')
             ->assertForbidden();
     }

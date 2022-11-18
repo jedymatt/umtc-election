@@ -40,18 +40,18 @@ class ElectionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'start_at' => $this->faker->dateTimeBetween(),
-                'end_at' => Carbon::now(),
+                'start_at' => $this->faker->dateTimeBetween('-1 year', '-1 month'),
+                'end_at' => $this->faker->dateTimeBetween('-1 month, +1 day', '-1 day'),
             ];
         });
     }
 
-    public function expired()
+    public function finished()
     {
         return $this->state(function (array $attributes) {
             return [
-                'start_at' => $this->faker->dateTimeBetween(),
-                'end_at' => Carbon::now(),
+                'start_at' => $this->faker->dateTimeBetween('-1 year', '-1 month'),
+                'end_at' => $this->faker->dateTimeBetween('-1 month, +1 day', '-1 day'),
             ];
         });
     }

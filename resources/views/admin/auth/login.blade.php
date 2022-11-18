@@ -2,7 +2,7 @@
 
     <x-auth-card>
         <x-slot name="logo">
-            <a href="{{ route('admin.') }}">
+            <a href="/admin">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </a>
         </x-slot>

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElectionType[] $electionType
  * @property-read int|null $election_type_count
+ *
  * @method static Builder|Position cdsgElection()
  * @method static Builder|Position dsgElection()
  * @method static Builder|Position newModelQuery()

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $candidates_count
  * @property-read \App\Models\Election $election
  * @property-read \App\Models\User $user
+ *
  * @method static \Database\Factories\VoteFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Vote newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Vote newQuery()

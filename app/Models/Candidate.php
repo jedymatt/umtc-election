@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vote[] $votes
  * @property-read int|null $votes_count
  * @property-read \App\Models\Winner|null $winner
+ *
  * @method static \Database\Factories\CandidateFactory factory(...$parameters)
  * @method static Builder|Candidate newModelQuery()
  * @method static Builder|Candidate newQuery()

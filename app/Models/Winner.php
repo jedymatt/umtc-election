@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Candidate $candidate
  * @property-read \App\Models\Election $election
+ *
  * @method static \Database\Factories\WinnerFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Winner newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Winner newQuery()

@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\DB;
  * @property-read int|null $votes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Winner[] $winners
  * @property-read int|null $winners_count
+ *
  * @method static Builder|Election active()
  * @method static Builder|Election doesntHaveVotesFromUser(\App\Models\User $user)
  * @method static Builder|Election electionTypeCdsg()

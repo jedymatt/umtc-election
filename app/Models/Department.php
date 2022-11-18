@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Election[] $elections
  * @property-read int|null $elections_count
+ *
  * @method static \Database\Factories\DepartmentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Department newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Department newQuery()

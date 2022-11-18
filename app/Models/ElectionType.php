@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $description
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Election[] $elections
  * @property-read int|null $elections_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType query()

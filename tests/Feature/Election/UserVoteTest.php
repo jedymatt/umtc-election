@@ -40,7 +40,7 @@ class UserVoteTest extends TestCase
         )->create();
     }
 
-    public function test_should_not_vote_when_election_ended()
+    public function test_should_not_allow_visiting_the_voting_page_of_ended_election()
     {
         $election = Election::factory()
             ->ended()

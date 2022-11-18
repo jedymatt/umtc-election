@@ -33,6 +33,7 @@ class ElectionService
             ->when($election->isTypeCdsg(), function (Builder $query) use ($user) {
                 $query->whereRelation('candidates', 'user_id', $user->id);
             })
+            ->active()
             ->exists();
     }
 

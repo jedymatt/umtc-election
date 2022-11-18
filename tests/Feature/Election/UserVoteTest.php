@@ -40,6 +40,19 @@ class UserVoteTest extends TestCase
         )->create();
     }
 
+    public function test_should_not_vote_ended_election()
+    {
+        $election = Election::factory()
+            ->ended()
+            ->create([
+                'department_id' => $this->user->department_id,
+            ]);
+
+        $this->actingAs($this->user)
+            ->post(route('elections.vote', $election))
+            ->assertForbidden();
+    }
+
     public function test_voters_can_visit_the_cdsg_election_voting_page()
     {
         $election = Election::factory()->state([

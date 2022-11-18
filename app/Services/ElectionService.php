@@ -107,7 +107,7 @@ class ElectionService
             : Election::query()
                 ->with(['department', 'electionType'])
                 ->where(function (Builder $query) use ($user) {
-                    $query->orWhere( // TODO: Try using where instead of orWhere, not included in tests
+                    $query->where(
                         function (Builder $query) use ($user) {
                             $query->electionTypeDsg()
                                 ->ofDepartmentId($user->department_id);
@@ -142,17 +142,21 @@ class ElectionService
             : Election::query()
                 ->with(['department', 'electionType'])
                 ->where(function (Builder $query) use ($user) {
-                    $query->orWhere(function (Builder $query) use ($user) {
-                        $query->electionTypeDsg()
-                            ->ofDepartmentId($user->department_id);
-                    }
-                    )->orWhere(function (Builder $query) use ($user) {
-                        $query->electionTypeCdsg()
-                            ->whereHas('candidates', function (Builder $query) use ($user) {
-                                $query->where('user_id', $user->id);
-                            }
-                            );
-                    }
+                    $query->where(
+                        function (Builder $query) use ($user) {
+                            $query->electionTypeDsg()
+                                ->ofDepartmentId($user->department_id);
+                        }
+                    )->orWhere(
+                        function (Builder $query) use ($user) {
+                            $query->electionTypeCdsg()
+                                ->whereHas(
+                                    'candidates',
+                                    function (Builder $query) use ($user) {
+                                        $query->where('user_id', $user->id);
+                                    }
+                                );
+                        }
                     );
                 })
                 ->whereRelation('votes', 'user_id', '=', $user->id)

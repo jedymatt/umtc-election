@@ -61,13 +61,15 @@ class Election extends Model
     // TODO: Improve naming statuses
     // And decide if having winners and not having winners is a status
 
-    public const STATUS_PENDING = 1;
+    public const STATUS_PENDING = 1; // Election has not started yet
 
     public const STATUS_ACTIVE = 2;
 
     public const STATUS_ONGOING = 2;
 
     public const STATUS_ENDED = 3;
+
+    public const STATUS_FINISHED = 3; // voting done, winners declared
 
     public const STATUS_EXPIRED = 3;
 

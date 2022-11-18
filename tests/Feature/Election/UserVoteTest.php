@@ -18,7 +18,7 @@ class UserVoteTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    public $user;
+    public User $user;
 
     public function setUp(): void
     {

@@ -7,6 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * App\Models\Position
+ *
+ * @property int $id
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElectionType[] $electionType
+ * @property-read int|null $election_type_count
+ * @method static Builder|Position cdsgElection()
+ * @method static Builder|Position dsgElection()
+ * @method static Builder|Position newModelQuery()
+ * @method static Builder|Position newQuery()
+ * @method static Builder|Position ofElectionType(\App\Models\ElectionType $electionType)
+ * @method static Builder|Position query()
+ * @method static Builder|Position whereId($value)
+ * @method static Builder|Position whereName($value)
+ * @mixin \Eloquent
+ */
 class Position extends Model
 {
     use HasFactory;

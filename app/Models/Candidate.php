@@ -9,6 +9,35 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * App\Models\Candidate
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $position_id
+ * @property int $election_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Election $election
+ * @property-read \App\Models\Position $position
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vote[] $votes
+ * @property-read int|null $votes_count
+ * @property-read \App\Models\Winner|null $winner
+ * @method static \Database\Factories\CandidateFactory factory(...$parameters)
+ * @method static Builder|Candidate newModelQuery()
+ * @method static Builder|Candidate newQuery()
+ * @method static Builder|Candidate ofElection(\App\Models\Election $election)
+ * @method static Builder|Candidate ofPosition(\App\Models\Position $position)
+ * @method static Builder|Candidate query()
+ * @method static Builder|Candidate whereCreatedAt($value)
+ * @method static Builder|Candidate whereElectionId($value)
+ * @method static Builder|Candidate whereId($value)
+ * @method static Builder|Candidate wherePositionId($value)
+ * @method static Builder|Candidate whereUpdatedAt($value)
+ * @method static Builder|Candidate whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Candidate extends Model
 {
     use HasFactory;

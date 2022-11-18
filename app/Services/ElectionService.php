@@ -22,7 +22,8 @@ class ElectionService
 
     public static function canVote(Election $election, User $user): bool
     {
-        return Election::find($election->id)
+        return Election::query()
+            ->where('id', $election->id)
             ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                 $query->where('user_id', $user->id);
             })

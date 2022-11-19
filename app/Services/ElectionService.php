@@ -74,6 +74,31 @@ class ElectionService
         return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
     }
 
+    private static function constraintsQuery(User $user): Builder
+    {
+        return Election::query()
+            ->with(['department', 'electionType'])
+            ->where(function (Builder $query) use ($user) {
+                $query->where(
+                    function (Builder $query) use ($user) {
+                        $query->electionTypeDsg()
+                            ->ofDepartmentId($user->department_id);
+                    }
+                )->orWhere(
+                    function (Builder $query) use ($user) {
+                        $query->electionTypeCdsg()
+                            ->whereHas(
+                                'candidates',
+                                function (Builder $query) use ($user) {
+                                    $query->where('user_id', $user->id);
+                                }
+                            );
+                    }
+                );
+            })
+            ->active();
+    }
+
     /**
      * @param  User  $user
      * @return EloquentCollection<Election>
@@ -82,30 +107,10 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::query()
-                ->with(['department', 'electionType'])
-                ->where(function (Builder $query) use ($user) {
-                    $query->where(
-                        function (Builder $query) use ($user) {
-                            $query->electionTypeDsg()
-                                ->ofDepartmentId($user->department_id);
-                        }
-                    )->orWhere(
-                        function (Builder $query) use ($user) {
-                            $query->electionTypeCdsg()
-                                ->whereHas(
-                                    'candidates',
-                                    function (Builder $query) use ($user) {
-                                        $query->where('user_id', $user->id);
-                                    }
-                                );
-                        }
-                    );
-                })
+            : self::constraintsQuery($user)
                 ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                     $query->where('user_id', $user->id);
                 })
-                ->active()
                 ->get();
     }
 
@@ -117,28 +122,8 @@ class ElectionService
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
-            : Election::query()
-                ->with(['department', 'electionType'])
-                ->where(function (Builder $query) use ($user) {
-                    $query->where(
-                        function (Builder $query) use ($user) {
-                            $query->electionTypeDsg()
-                                ->ofDepartmentId($user->department_id);
-                        }
-                    )->orWhere(
-                        function (Builder $query) use ($user) {
-                            $query->electionTypeCdsg()
-                                ->whereHas(
-                                    'candidates',
-                                    function (Builder $query) use ($user) {
-                                        $query->where('user_id', $user->id);
-                                    }
-                                );
-                        }
-                    );
-                })
+            : self::constraintsQuery($user)
                 ->whereRelation('votes', 'user_id', '=', $user->id)
-                ->active()
                 ->get();
     }
 

@@ -18,18 +18,21 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::query()
+            ->with('department')
             ->orderByDesc('is_super_admin')
             ->orderBy('name')
             ->paginate(10);
 
-        return view('admin.admin-management.index', compact('admins'));
+        return view('admin.admin-management.index')
+            ->with('admins', $admins);
     }
 
     public function create()
     {
-        $departments = Department::orderBy('name')->pluck('name', 'id');
+        $departments = Department::orderBy('name')->get();
 
-        return view('admin.admin-management.create', compact('departments'));
+        return view('admin.admin-management.create')
+            ->with('departments', $departments);
     }
 
     public function store(Request $request)
@@ -42,10 +45,10 @@ class AdminController extends Controller
         ]);
 
         Admin::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'department_id' => $request->department_id,
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'department_id' => $request->get('department_id'),
         ]);
 
         return redirect()->route('admin.admin-management.index')

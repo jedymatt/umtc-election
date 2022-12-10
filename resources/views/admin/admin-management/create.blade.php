@@ -49,12 +49,12 @@
                         <div class="mt-4">
                             <x-label for="department" value="Assigned Department"/>
 
-                            @foreach($departments as $id => $department)
+                            @foreach($departments as $department)
                                 <div class="mt-1">
-                                    <input type="radio" value="{{ $id }}"
-                                           id="department_id.{{ $id }}" name="department_id"/>
-                                    <label for="department_id.{{ $id }}">
-                                        {{ $department }}
+                                    <input type="radio" value="{{ $department->id }}"
+                                           id="department_id.{{ $department->id  }}" name="department_id"/>
+                                    <label for="department_id.{{ $department->id }}">
+                                        {{ $department->name }}
                                     </label>
                                 </div>
                             @endforeach

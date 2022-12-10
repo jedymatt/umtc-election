@@ -9,6 +9,7 @@ class ElectionLiveResultController extends Controller
 {
     public function __invoke(Election $election)
     {
-        return view('admin.elections.live-result', compact('election'));
+        return view('admin.elections.live-result')
+            ->with('election', $election);
     }
 }

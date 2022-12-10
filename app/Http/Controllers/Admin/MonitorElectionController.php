@@ -26,11 +26,10 @@ class MonitorElectionController extends Controller
 
         $conflictedWinners = ElectionService::getWinnersConflicts($winners);
 
-        return view('admin.monitor-election', compact(
-            'election',
-            'isPendingResult',
-            'conflictedWinners',
-            'winners'
-        ));
+        return view('admin.monitor-election')
+            ->with('election', $election)
+            ->with('isPendingResult', $isPendingResult)
+            ->with('conflictedWinners', $conflictedWinners)
+            ->with('winners', $winners);
     }
 }

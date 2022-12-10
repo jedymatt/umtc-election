@@ -9,8 +9,7 @@ class ElectionResultController extends Controller
 {
     public function show(Election $election)
     {
-        $winners = $election->winners;
-
-        return view('admin.elections.result', compact('winners'));
+        return view('admin.elections.result')
+            ->with('winners', $election->winners);
     }
 }

@@ -40,7 +40,7 @@ class ElectionService
     /**
      * @return EloquentCollection<Candidate>
      */
-    public function getWinningCandidates()
+    public function getWinningCandidates(): EloquentCollection
     {
         return $this->election->candidates()->withCount('votes')->orderBy('position_id')->get()
             ->groupBy('position_id')->flatMap(function (EloquentCollection $candidates) {
@@ -66,12 +66,12 @@ class ElectionService
     }
 
     /**
-     * @param  EloquentCollection<Winner>  $winners
+     * @param EloquentCollection<Winner> $winners
      * @return Collection
      */
     public static function getWinnersConflicts(EloquentCollection $winners): Collection
     {
-        return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
+        return $winners->groupBy('candidate.position.name')->filter(fn(EloquentCollection $winners) => $winners->count() > 1);
     }
 
     private static function constraintsQuery(User $user): Builder
@@ -100,10 +100,10 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return EloquentCollection<Election>
      */
-    public static function getVotableElectionsFromUser(User $user)
+    public static function getVotableElectionsFromUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
@@ -115,10 +115,10 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return EloquentCollection<Election>
      */
-    public static function getVotedElectionsFromUser(User $user)
+    public static function getVotedElectionsFromUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()
@@ -128,10 +128,10 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return EloquentCollection<Election>
      */
-    public static function pastElectionsByUser(User $user)
+    public static function pastElectionsByUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
             ? EloquentCollection::empty()

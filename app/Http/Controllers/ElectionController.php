@@ -20,17 +20,17 @@ class ElectionController extends Controller
             return $election->hasNoWinners() || $election->hasConflictedWinners();
         });
 
-        return view('elections.index', [
-            'availableElections' => $availableElections,
-            'votedElections' => $votedElections,
-            'pastElections' => $pastElections,
-            'hasPendingWinners' => $hasPendingWinners,
-            'userHasNoDepartment' => $user->department_id === null,
-        ]);
+        return view('elections.index')
+            ->with('availableElections', $availableElections)
+            ->with('votedElections', $votedElections)
+            ->with('pastElections', $pastElections)
+            ->with('hasPendingWinners', $hasPendingWinners)
+            ->with('userHasNoDepartment', $user->department_id === null);
     }
 
     public function show(Election $election)
     {
-        return view('elections.show', compact('election'));
+        return view('elections.show')
+            ->with('election', $election);
     }
 }

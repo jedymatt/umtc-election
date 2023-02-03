@@ -106,7 +106,7 @@ class ElectionService
     public static function getVotableElectionsFromUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
-            ? EloquentCollection::empty()
+            ? $user->newCollection()
             : self::constraintsQuery($user)
                 ->whereDoesntHave('votes', function (Builder $query) use ($user) {
                     $query->where('user_id', $user->id);
@@ -121,7 +121,7 @@ class ElectionService
     public static function getVotedElectionsFromUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
-            ? EloquentCollection::empty()
+            ? $user->newCollection()
             : self::constraintsQuery($user)
                 ->whereRelation('votes', 'user_id', '=', $user->id)
                 ->get();
@@ -134,7 +134,7 @@ class ElectionService
     public static function pastElectionsByUser(User $user): EloquentCollection
     {
         return is_null($user->department_id)
-            ? EloquentCollection::empty()
+            ? $user->newCollection()
             : Election::query()
                 ->with(['department', 'electionType'])
                 ->orWhere(function (Builder $query) use ($user) {

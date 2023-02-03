@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static Builder|Position query()
  * @method static Builder|Position whereId($value)
  * @method static Builder|Position whereName($value)
+ *
  * @mixin \Eloquent
  */
 class Position extends Model

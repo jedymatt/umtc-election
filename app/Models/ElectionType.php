@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ElectionType whereName($value)
+ *
  * @mixin \Eloquent
  */
 class ElectionType extends Model

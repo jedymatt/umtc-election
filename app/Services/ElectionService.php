@@ -66,12 +66,12 @@ class ElectionService
     }
 
     /**
-     * @param EloquentCollection<Winner> $winners
+     * @param  EloquentCollection<Winner>  $winners
      * @return Collection
      */
     public static function getWinnersConflicts(EloquentCollection $winners): Collection
     {
-        return $winners->groupBy('candidate.position.name')->filter(fn(EloquentCollection $winners) => $winners->count() > 1);
+        return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
     }
 
     private static function constraintsQuery(User $user): Builder
@@ -100,7 +100,7 @@ class ElectionService
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function getVotableElectionsFromUser(User $user): EloquentCollection
@@ -115,7 +115,7 @@ class ElectionService
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function getVotedElectionsFromUser(User $user): EloquentCollection
@@ -128,7 +128,7 @@ class ElectionService
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function pastElectionsByUser(User $user): EloquentCollection

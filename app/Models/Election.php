@@ -53,6 +53,7 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder|Election whereStartAt($value)
  * @method static Builder|Election whereTitle($value)
  * @method static Builder|Election whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Election extends Model

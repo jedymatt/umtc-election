@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static Builder|Candidate wherePositionId($value)
  * @method static Builder|Candidate whereUpdatedAt($value)
  * @method static Builder|Candidate whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Candidate extends Model

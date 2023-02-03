@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Vote whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Vote extends Model

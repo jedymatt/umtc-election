@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Department query()
  * @method static \Illuminate\Database\Eloquent\Builder|Department whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Department whereName($value)
+ *
  * @mixin \Eloquent
  */
 class Department extends Model

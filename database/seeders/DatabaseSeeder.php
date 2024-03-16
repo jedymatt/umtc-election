@@ -31,6 +31,9 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Juan Dela Cruz',
                 'email' => 'j.delacruz.123456.tc@umindanao.edu.ph',
             ]);
+
+            User::factory(50)->create();
+
         }
     }
 }

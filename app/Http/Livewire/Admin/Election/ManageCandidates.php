@@ -26,7 +26,7 @@ class ManageCandidates extends Component
 
     public function mount(Election $election)
     {
-        $this->election = $election;
+        $this->election = $election->loadMissing(['candidates.user', 'candidates.position']);
         $this->positions = Position::all(['id', 'name']);
         $this->candidates = $election->candidates;
         $this->selectedPositionId = $this->positions->first()->id;

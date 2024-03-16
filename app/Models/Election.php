@@ -10,52 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * App\Models\Election
- *
- * @property int $id
- * @property string $title
- * @property string|null $description
- * @property Carbon $start_at
- * @property Carbon $end_at
- * @property int $election_type_id
- * @property int|null $department_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Candidate[] $candidates
- * @property-read int|null $candidates_count
- * @property-read \App\Models\Department|null $department
- * @property-read \App\Models\ElectionType $electionType
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vote[] $votes
- * @property-read int|null $votes_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Winner[] $winners
- * @property-read int|null $winners_count
- *
- * @method static Builder|Election active()
- * @method static Builder|Election doesntHaveVotesFromUser(\App\Models\User $user)
- * @method static Builder|Election electionTypeCdsg()
- * @method static Builder|Election electionTypeDsg()
- * @method static Builder|Election ended()
- * @method static \Database\Factories\ElectionFactory factory(...$parameters)
- * @method static Builder|Election newModelQuery()
- * @method static Builder|Election newQuery()
- * @method static Builder|Election noCdsg()
- * @method static Builder|Election ofDepartment(\App\Models\Department $department)
- * @method static Builder|Election ofDepartmentId(int $departmentId)
- * @method static Builder|Election ofElectionTypeId(int $electionTypeId)
- * @method static Builder|Election query()
- * @method static Builder|Election whereCreatedAt($value)
- * @method static Builder|Election whereDepartmentId($value)
- * @method static Builder|Election whereDescription($value)
- * @method static Builder|Election whereElectionTypeId($value)
- * @method static Builder|Election whereEndAt($value)
- * @method static Builder|Election whereId($value)
- * @method static Builder|Election whereStartAt($value)
- * @method static Builder|Election whereTitle($value)
- * @method static Builder|Election whereUpdatedAt($value)
- *
- * @mixin \Eloquent
- */
 class Election extends Model
 {
     use HasFactory;

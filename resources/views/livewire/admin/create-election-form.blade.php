@@ -4,63 +4,73 @@
             <div>{{ $error }}</div>
         @endforeach
     @endif
-    <form wire:submit.prevent="createElection">
+    <form wire:submit.prevent="submit">
         @csrf
         <div>
             <label
-                class="block text-sm font-medium text-gray-700"
-                for="title"
+                    class="block text-sm font-medium text-gray-700"
+                    for="title"
             >
                 Title
             </label>
             <input
-                class="w-full rounded-md"
-                id="title"
-                name="title"
-                type="text"
-                wire:model.defer="form.title"
+                    class="w-full rounded-md"
+                    id="title"
+                    name="title"
+                    type="text"
+                    wire:model.defer="title"
             />
             @error('title')
-                <p class="text-sm text-red-600">{{ $message }}</p>
+            <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        <div class="mt-4 flex flex-row items-baseline gap-4">
-            <div>
-                <span class="block">Select Election Type</span>
-            </div>
-            <div class="flex flex-grow items-baseline justify-start gap-4">
-                @foreach ($electionTypes as $electionType)
-                    <input
-                        id="currentElectionType.{{ $electionType->id }}"
-                        name="currentElectionType"
-                        type="radio"
-                        value="{{ $electionType->id }}"
-                        wire:model="currentElectionTypeId"
-                    />
-                    <label for="currentElectionType.{{ $electionType->id }}">
-                        {{ $electionType->name }}
-                    </label>
-                @endforeach
-            </div>
+        <div class="mt-4">
+            <fieldset class="flex flex-row items-baseline gap-4">
+                <div>
+                    <span class="block">Select Election Type</span>
+                </div>
+                <div class="flex flex-grow justify-start gap-4">
+                    @foreach ($electionTypes as $electionType)
+                        <label class="flex items-center">
+                            <input
+                                    id="{{ $electionType->value }}"
+                                    name="type"
+                                    type="radio"
+                                    value="{{ $electionType->value }}"
+                                    wire:model="type"
+                            />
+                            <span class="ml-1"> {{ $electionType->label() }}</span>
+                        </label>
+                    @endforeach
+                </div>
+            </fieldset>
+            @error('type')
+            <p class="text-sm text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
         </div>
         <div
-            class="mt-4"
-            x-data="{ currentElectionTypeId: @entangle('currentElectionTypeId') }"
-            x-show="currentElectionTypeId === @js(\App\Models\ElectionType::TYPE_DSG)"
-            x-transition.opacity
+                class="mt-4"
+                x-data="{ type: @entangle('type') }"
+                x-show="type === @js(\App\Enums\ElectionType::Dsg->value)"
+                x-transition.opacity
         >
             <label
-                class="text-sm font-medium text-gray-700"
-                for="department_id"
+                    class="text-sm font-medium text-gray-700"
+                    for="department_id"
             >
                 Department
             </label>
             <select
-                class="mt-1 w-full rounded-md"
-                id="department_id"
-                name="department_id"
-                wire:model.defer="form.department_id"
+                    class="mt-1 w-full rounded-md"
+                    id="department_id"
+                    name="department_id"
+                    wire:model.defer="department_id"
             >
+                <option value="" disabled selected>
+                    Select Department
+                </option>
                 @foreach ($departments as $department)
                     <option value="{{ $department->id }}">
                         <span>{{ $department->name }}</span>
@@ -68,61 +78,61 @@
                 @endforeach
             </select>
             @error('department_id')
-                <p class="text-sm text-red-600">
-                    {{ $message }}
-                </p>
+            <p class="text-sm text-red-600">
+                {{ $message }}
+            </p>
             @enderror
         </div>
         <div class="mt-4">
             <label
-                class="block text-sm font-medium text-gray-700"
-                for="description"
+                    class="block text-sm font-medium text-gray-700"
+                    for="description"
             >
                 Description (Optional)
             </label>
             <textarea
-                class="w-full rounded-md"
-                id="description"
-                name="description"
-                wire:model.defer="form.description"
+                    class="w-full rounded-md"
+                    id="description"
+                    name="description"
+                    wire:model.defer="description"
             ></textarea>
         </div>
         <div class="mt-4">
             <label
-                class="block text-sm font-medium text-gray-700"
-                for="start_at"
+                    class="block text-sm font-medium text-gray-700"
+                    for="start_at"
             >
                 Start At
             </label>
             <input
-                class="rounded-md"
-                id="start_at"
-                name="start_at"
-                type="datetime-local"
-                wire:model.defer="form.start_at"
+                    class="rounded-md"
+                    id="start_at"
+                    name="start_at"
+                    type="datetime-local"
+                    wire:model.defer="start_at"
             />
 
             @error('start_at')
-                <p class="text-sm text-red-600">{{ $message }}</p>
+            <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
         <div class="mt-4">
             <label
-                class="block text-sm font-medium text-gray-700"
-                for="end_at"
+                    class="block text-sm font-medium text-gray-700"
+                    for="end_at"
             >
                 End At
             </label>
             <input
-                class="rounded-md"
-                id="end_at"
-                name="end_at"
-                type="datetime-local"
-                value="{{ old('end_at') }}"
-                wire:model.defer="form.end_at"
+                    class="rounded-md"
+                    id="end_at"
+                    name="end_at"
+                    type="datetime-local"
+                    value="{{ old('end_at') }}"
+                    wire:model.defer="end_at"
             />
             @error('end_at')
-                <p class="text-sm text-red-600">{{ $message }}</p>
+            <p class="text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
 

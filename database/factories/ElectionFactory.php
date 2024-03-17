@@ -3,8 +3,10 @@
 namespace Database\Factories;
 
 use App\Enums\ElectionType;
+use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
+use App\Models\Position;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -24,6 +26,13 @@ class ElectionFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
+    }
+
+    public function dsg()
+    {
+        return $this->state(function (array $attributes) {
+            return ['type' => ElectionType::Dsg];
+        });
     }
 
     public function cdsg()
@@ -74,5 +83,13 @@ class ElectionFactory extends Factory
                 'end_at' => Carbon::now()->addDays(4),
             ];
         });
+    }
+
+    public function candidates(int $count)
+    {
+        return $this->has(
+            Candidate::factory($count)
+                ->sequence(...Position::all()->map(fn (Position $position) => ['position_id' => $position->id])->toArray())
+        );
     }
 }

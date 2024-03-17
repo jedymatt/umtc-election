@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\VoteSubmitted;
 use App\Http\Requests\StoreElectionVoteRequest;
 use App\Models\Election;
 use App\Models\User;
@@ -41,8 +40,6 @@ class ElectionVoteController extends Controller
         if (array_key_exists('candidates', $validated)) {
             $vote->candidates()->sync($validated['candidates']);
         }
-
-        event(new VoteSubmitted($election));
 
         return redirect()->route('elections.index')
             ->with('success', 'Vote submitted successfully');

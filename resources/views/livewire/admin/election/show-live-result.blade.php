@@ -1,7 +1,11 @@
-<div>
-    <div class="overflow-x-auto border-x border-t">
-        <table class="table-auto w-full">
-            <thead class="border-b-2 border-b-gray-300">
+<div wire:poll>
+    <div>
+        <h3 class="text-lg font-semibold">
+            Last Fetched: {{ now()->format('l, d M Y h:i.s a') }}
+        </h3>
+        <div class="mt-4 overflow-x-auto border-x border-t">
+            <table class="table-auto w-full">
+                <thead class="border-b-2 border-b-gray-300">
                 <tr class="bg-gray-100">
                     <th class="text-left p-4 font-medium">
                         Name
@@ -13,8 +17,8 @@
                         Votes
                     </th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 @foreach ($candidates as $positionName => $positionCandidates)
                     <tr class="border-b border-l-8 border-l-primary ">
                         <td class="p-4" colspan="3">
@@ -42,7 +46,8 @@
                         </tr>
                     @endforelse
                 @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

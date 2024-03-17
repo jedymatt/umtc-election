@@ -10,7 +10,7 @@
         </div>
         <div class="text-gray-600 mt-1">
             <span class="inline-block text-sm border rounded-full p-1 bg-gray-100">
-                {{ $election->electionType->name }}
+                {{ $election->type->label() }}
             </span>
             @if ($election->department != null)
                 <span class="inline-block text-sm border rounded-full p-1 my-1 bg-gray-100">

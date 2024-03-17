@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Enums\ElectionType;
 use App\Models\Candidate;
 use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
@@ -67,7 +67,6 @@ class ElectionService
 
     /**
      * @param  EloquentCollection<Winner>  $winners
-     * @return Collection
      */
     public static function getWinnersConflicts(EloquentCollection $winners): Collection
     {
@@ -77,7 +76,7 @@ class ElectionService
     private static function constraintsQuery(User $user): Builder
     {
         return Election::query()
-            ->with(['department', 'electionType'])
+            ->with(['department'])
             ->where(function (Builder $query) use ($user) {
                 $query->where(
                     function (Builder $query) use ($user) {
@@ -100,7 +99,6 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function getVotableElectionsFromUser(User $user): EloquentCollection
@@ -115,7 +113,6 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function getVotedElectionsFromUser(User $user): EloquentCollection
@@ -128,7 +125,6 @@ class ElectionService
     }
 
     /**
-     * @param  User  $user
      * @return EloquentCollection<Election>
      */
     public static function pastElectionsByUser(User $user): EloquentCollection
@@ -136,11 +132,11 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : Election::query()
-                ->with(['department', 'electionType'])
+                ->with(['department'])
                 ->orWhere(function (Builder $query) use ($user) {
                     $query->where('department_id', '=', $user->department_id);
                 })->orWhere(function (Builder $query) {
-                    $query->where('election_type_id', '=', ElectionType::TYPE_CDSG);
+                    $query->where('type', '=', ElectionType::Cdsg);
                 })->ended()->get();
     }
 
@@ -149,7 +145,7 @@ class ElectionService
         return Election::create([
             'title' => $data['title'],
             'description' => $data['description'],
-            'election_type_id' => ElectionType::TYPE_DSG,
+            'type' => ElectionType::Dsg,
             'department_id' => $data['department_id'],
             'start_at' => $data['start_at'],
             'end_at' => $data['end_at'],
@@ -161,7 +157,7 @@ class ElectionService
         return Election::create([
             'title' => $data['title'],
             'description' => $data['description'],
-            'election_type_id' => ElectionType::TYPE_CDSG,
+            'type' => ElectionType::Cdsg,
             'start_at' => $data['start_at'],
             'end_at' => $data['end_at'],
         ]);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ElectionType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->dateTime('start_at');
             $table->dateTime('end_at');
-            $table->foreignId('election_type_id')->constrained();
+            $table->enum('type', ElectionType::values());
             $table->foreignId('department_id')->nullable()->constrained();
             $table->timestamps();
         });

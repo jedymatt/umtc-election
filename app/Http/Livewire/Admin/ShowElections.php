@@ -13,7 +13,7 @@ class ShowElections extends Component
     public function render()
     {
         return view('livewire.admin.show-elections', [
-            'elections' => Election::with(['electionType', 'department'])->paginate(10),
+            'elections' => Election::with(['department'])->paginate(10),
         ]);
     }
 }

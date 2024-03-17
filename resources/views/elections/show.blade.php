@@ -14,7 +14,7 @@
                     </div>
                     <div class="text-sm text-gray-500 italic">
                         <div class="sm:inline-block">
-                            Type: {{ $election->electionType->name }}
+                            Type: {{ $election->type->label() }}
                         </div>
                         <div class=" sm:inline-block sm:ml-2">
                             Status: {{ $election->statusMessage() }}

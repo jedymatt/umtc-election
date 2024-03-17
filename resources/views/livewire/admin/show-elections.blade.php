@@ -56,7 +56,7 @@
                             ])>{{ $election->statusMessage() }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            {{ $election->electionType->name }}
+                            {{ $election->type->label() }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $election->department?->name }}

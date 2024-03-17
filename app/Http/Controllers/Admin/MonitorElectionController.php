@@ -10,8 +10,6 @@ class MonitorElectionController extends Controller
 {
     public function show(Election $election)
     {
-        $election->loadMissing('electionType');
-
         $isPendingResult = $election->isEnded()
             && $election->candidates()->exists()
             && $election->winners()->doesntExist();

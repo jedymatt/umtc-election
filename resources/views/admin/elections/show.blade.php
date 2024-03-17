@@ -13,9 +13,9 @@
                         <span class="text-lg font-medium">{{ $election->title }}</span>
                     </div>
                     <div class="mt-4">
-                        Type: {{ $election->electionType->name }}
+                        Type: {{ $election->type->label() }}
                     </div>
-                    @if ($election->election_type_id == \App\Models\ElectionType::TYPE_DSG)
+                    @if ($election->isTypeDsg())
                         <div class="mt-4">
                             Department: {{ $election->department->name }}
                         </div>
@@ -45,32 +45,32 @@
                         <div class="overflow-x-auto border-x border-t">
                             <table class="w-full table-auto">
                                 <thead class="border-b">
-                                    <tr class="bg-gray-100">
-                                        <th class="p-4 text-left font-medium">
-                                            Name
-                                        </th>
-                                        <th class="p-4 text-left font-medium">
-                                            Position
-                                        </th>
-                                        <th class="p-4 text-left font-medium">
-                                            Department
-                                        </th>
-                                    </tr>
+                                <tr class="bg-gray-100">
+                                    <th class="p-4 text-left font-medium">
+                                        Name
+                                    </th>
+                                    <th class="p-4 text-left font-medium">
+                                        Position
+                                    </th>
+                                    <th class="p-4 text-left font-medium">
+                                        Department
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($candidates as $candidate)
-                                        <tr class="border-b hover:bg-gray-50">
-                                            <td class="p-4">
-                                                {{ $candidate->user->name }}
-                                            </td>
-                                            <td class="p-4">
-                                                {{ $candidate->position->name }}
-                                            </td>
-                                            <td class="p-4">
-                                                {{ $candidate->user->department?->name }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach ($candidates as $candidate)
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-4">
+                                            {{ $candidate->user->name }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $candidate->position->name }}
+                                        </td>
+                                        <td class="p-4">
+                                            {{ $candidate->user->department?->name }}
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
 

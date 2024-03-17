@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ElectionType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,19 +35,15 @@ class Election extends Model
         'description',
         'start_at',
         'end_at',
-        'election_type_id',
+        'type',
         'department_id',
     ];
 
     protected $casts = [
         'start_at' => 'datetime',
         'end_at' => 'datetime',
+        'type' => ElectionType::class,
     ];
-
-    public function electionType(): BelongsTo
-    {
-        return $this->belongsTo(ElectionType::class);
-    }
 
     public function department(): BelongsTo
     {
@@ -82,7 +79,7 @@ class Election extends Model
     public function scopeOfDepartment(Builder $query, Department $department): Builder
     {
         return $query->where('department_id', $department->id)
-            ->where('election_type_id', ElectionType::TYPE_DSG);
+            ->where('type', ElectionType::Dsg);
     }
 
     public function scopeOfDepartmentId(Builder $query, int $departmentId): Builder
@@ -92,17 +89,17 @@ class Election extends Model
 
     public function scopeOfElectionTypeId(Builder $query, int $electionTypeId): Builder
     {
-        return $query->where('election_type_id', $electionTypeId);
+        return $query->where('type', $electionTypeId);
     }
 
     public function scopeElectionTypeDsg(Builder $query): Builder
     {
-        return $query->where('election_type_id', ElectionType::TYPE_DSG);
+        return $query->where('type', ElectionType::Dsg);
     }
 
     public function scopeElectionTypeCdsg(Builder $query): Builder
     {
-        return $query->where('election_type_id', ElectionType::TYPE_CDSG);
+        return $query->where('type', ElectionType::Cdsg);
     }
 
     public function status(): int
@@ -175,12 +172,12 @@ class Election extends Model
 
     public function isTypeCdsg(): bool
     {
-        return $this->election_type_id === ElectionType::TYPE_CDSG;
+        return $this->type === ElectionType::Cdsg;
     }
 
     public function isTypeDsg(): bool
     {
-        return $this->election_type_id === ElectionType::TYPE_DSG;
+        return $this->type === ElectionType::Dsg;
     }
 
     public function hasConflictedWinners(): bool

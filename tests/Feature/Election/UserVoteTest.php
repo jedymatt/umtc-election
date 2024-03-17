@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Election;
 
+use App\Enums\ElectionType;
 use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
-use App\Models\ElectionType;
 use App\Models\User;
 use App\Models\Vote;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -28,25 +27,20 @@ class UserVoteTest extends TestCase
 
         // This mimics the real world scenario where there can be multiple elections.
         // It also ensures the tests are querying the correct election and not these.
-        Election::factory(3)->state(
-            new Sequence(
-                [
-                    'election_type_id' => ElectionType::TYPE_DSG,
-                    'department_id' => $this->user->department_id,
-                ],
-                ['election_type_id' => ElectionType::TYPE_DSG],
-                ['election_type_id' => ElectionType::TYPE_CDSG],
+        Election::factory()
+            ->forEachSequence(
+                ['type' => ElectionType::Dsg, 'department_id' => $this->user->department_id],
+                ['type' => ElectionType::Dsg],
+                ['type' => ElectionType::Cdsg],
             )
-        )->create();
+            ->create();
     }
 
     public function test_should_not_allow_visiting_the_voting_page_of_ended_election()
     {
         $election = Election::factory()
             ->ended()
-            ->create([
-                'department_id' => $this->user->department_id,
-            ]);
+            ->create(['department_id' => $this->user->department_id]);
 
         $this->actingAs($this->user)
             ->post(route('elections.vote', $election))
@@ -55,13 +49,10 @@ class UserVoteTest extends TestCase
 
     public function test_voters_can_visit_the_cdsg_election_voting_page()
     {
-        $election = Election::factory()->state([
-            'election_type_id' => ElectionType::TYPE_CDSG,
-        ])->has(
-            Candidate::factory()->state([
-                'user_id' => $this->user->id,
-            ])
-        )->create();
+        $election = Election::factory()
+            ->state(['type' => ElectionType::Cdsg])
+            ->has(Candidate::factory()->state(['user_id' => $this->user->id]))
+            ->create();
 
         $this->actingAs($this->user)
             ->get('/elections/'.$election->id.'/vote')
@@ -71,12 +62,8 @@ class UserVoteTest extends TestCase
     public function test_cdsg_election_voters_can_vote()
     {
         $election = Election::factory()
-            ->has(Candidate::factory()->state([
-                'user_id' => $this->user->id,
-            ]))
-            ->create([
-                'election_type_id' => ElectionType::TYPE_CDSG,
-            ]);
+            ->has(Candidate::factory()->state(['user_id' => $this->user->id]))
+            ->create(['type' => ElectionType::Cdsg]);
 
         $candidate = $election->candidates()->first();
 
@@ -108,7 +95,7 @@ class UserVoteTest extends TestCase
         $election = Election::factory()
             ->has(Candidate::factory())
             ->create([
-                'election_type_id' => ElectionType::TYPE_CDSG,
+                'type' => ElectionType::Cdsg,
             ]);
 
         $candidate = $election->candidates()->first();
@@ -125,7 +112,7 @@ class UserVoteTest extends TestCase
     public function test_voters_can_visit_the_dsg_election_voting_page()
     {
         $election = Election::factory()->state([
-            'election_type_id' => ElectionType::TYPE_DSG,
+            'type' => ElectionType::Dsg,
             'department_id' => $this->user->department_id,
         ])->create();
 
@@ -137,7 +124,7 @@ class UserVoteTest extends TestCase
     public function test_dsg_election_should_not_allow_vote_from_different_department()
     {
         $election = Election::factory()->state([
-            'election_type_id' => ElectionType::TYPE_DSG,
+            'type' => ElectionType::Dsg,
             'department_id' => Department::factory()->create()->id,
         ])->create();
 
@@ -150,7 +137,7 @@ class UserVoteTest extends TestCase
     {
         $election = Election::factory()
             ->state([
-                'election_type_id' => ElectionType::TYPE_DSG,
+                'type' => ElectionType::Dsg,
                 'department_id' => $this->user->department_id,
             ])
             ->has(Candidate::factory()->has(User::factory()))
@@ -185,7 +172,7 @@ class UserVoteTest extends TestCase
     {
         $election = Election::factory()
             ->state([
-                'election_type_id' => ElectionType::TYPE_CDSG,
+                'type' => ElectionType::Cdsg,
             ])
             ->has(Candidate::factory()->state([
                 'user_id' => $this->user->id,
@@ -206,7 +193,7 @@ class UserVoteTest extends TestCase
     {
         $election = Election::factory()
             ->state([
-                'election_type_id' => ElectionType::TYPE_DSG,
+                'type' => ElectionType::Dsg,
                 'department_id' => $this->user->department_id,
             ])
             ->create();

@@ -76,7 +76,7 @@ class ElectionService
     private static function constraintsQuery(User $user): Builder
     {
         return Election::query()
-            ->with(['department', 'electionType'])
+            ->with(['department'])
             ->where(function (Builder $query) use ($user) {
                 $query->where(
                     function (Builder $query) use ($user) {

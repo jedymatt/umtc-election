@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function availableElections()
     {
-        return Election::with(['electionType', 'department'])
+        return Election::with(['department'])
             ->where('start_at', '<=', now())
             ->where('end_at', '>=', now())
             ->where('department_id', '=', $this->department_id)

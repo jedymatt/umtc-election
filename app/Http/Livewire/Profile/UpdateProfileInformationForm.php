@@ -10,19 +10,20 @@ class UpdateProfileInformationForm extends Component
 {
     public $state = [];
 
-    public $departments;
-
     public function mount()
     {
         $this->state = Auth::user()->withoutRelations()->toArray();
-        $this->departments = Department::orderBy('name')->get();
+        $this->state['department_id'] ??= '';
     }
 
     public function updateProfileInformation()
     {
         $this->validate([
             'state.name' => 'required|string|max:255',
-            'state.department_id' => 'required|exists:departments,id',
+            'state.department_id' => 'required|integer|exists:departments,id',
+        ], attributes: [
+            'state.name' => 'name',
+            'state.department_id' => 'department',
         ]);
 
         Auth::user()->update([
@@ -38,6 +39,8 @@ class UpdateProfileInformationForm extends Component
 
     public function render()
     {
-        return view('livewire.profile.update-profile-information-form');
+        return view('livewire.profile.update-profile-information-form', [
+            'departments' => Department::orderBy('name')->get(),
+        ]);
     }
 }

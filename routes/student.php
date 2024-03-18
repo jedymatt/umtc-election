@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\ElectionController;
-use App\Http\Controllers\ElectionResultController;
-use App\Http\Controllers\ElectionVoteController;
-use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Student\ElectionController;
+use App\Http\Controllers\Student\ElectionResultController;
+use App\Http\Controllers\Student\ElectionVoteController;
+use App\Http\Controllers\Student\UserProfileController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn () => redirect()->route('elections.index'))

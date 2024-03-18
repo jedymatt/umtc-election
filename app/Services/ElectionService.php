@@ -22,19 +22,25 @@ class ElectionService
 
     public static function canVote(Election $election, User $user): bool
     {
-        return Election::query()
-            ->where('id', $election->id)
-            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->when($election->isTypeDsg(), function (Builder $query) use ($user) {
-                $query->where('department_id', $user->department_id);
-            })
-            ->when($election->isTypeCdsg(), function (Builder $query) use ($user) {
-                $query->whereRelation('candidates', 'user_id', $user->id);
-            })
-            ->active()
-            ->exists();
+        $election->loadMissing(['votes', 'candidates']);
+
+        if ($election->end_at->isPast()) {
+            return false;
+        }
+
+        if ($election->votes->contains('user_id', $user->id)) {
+            return false;
+        }
+
+        if ($election->type === ElectionType::Dsg && $election->department_id !== $user->department_id) {
+            return false;
+        }
+
+        if ($election->type === ElectionType::Cdsg && $election->candidates->doesntContain('user_id', $user->id)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

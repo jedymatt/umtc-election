@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
+use App\Models\Candidate;
 use App\Models\Election;
+use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -34,8 +36,17 @@ class DatabaseSeeder extends Seeder
 
             User::factory(50)->create();
 
-            Election::factory()->dsg()->candidates(50)->create();
-
+            Election::factory()
+                ->dsg()
+                ->has(
+                    Candidate::factory(50)
+                        ->sequence(
+                            ...Position::all()
+                                ->map(fn (Position $position) => ['position_id' => $position->id])
+                                ->toArray()
+                        )
+                )
+                ->createOne();
         }
     }
 }

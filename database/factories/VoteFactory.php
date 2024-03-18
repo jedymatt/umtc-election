@@ -18,7 +18,7 @@ class VoteFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
-            'user_id' => User::factory(),
+            'user_id' => $this->faker->randomElement(User::all()),
             'election_id' => $this->faker->randomElement(Election::all()),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\User;
@@ -24,5 +25,12 @@ class CandidateFactory extends Factory
             'position_id' => $this->faker->randomElement(Position::all()),
             'election_id' => Election::factory(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Candidate $candidate) {
+            $candidate->user->update(['department_id' => $candidate->election->department_id]);
+        });
     }
 }

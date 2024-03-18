@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
 use App\Models\Position;
+use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -83,13 +84,5 @@ class ElectionFactory extends Factory
                 'end_at' => Carbon::now()->addDays(4),
             ];
         });
-    }
-
-    public function candidates(int $count)
-    {
-        return $this->has(
-            Candidate::factory($count)
-                ->sequence(...Position::all()->map(fn (Position $position) => ['position_id' => $position->id])->toArray())
-        );
     }
 }

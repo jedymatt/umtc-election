@@ -1,7 +1,7 @@
 <div wire:poll>
     <div>
         <h3 class="text-lg font-semibold">
-            Last Fetched: {{ now()->format('l, d M Y h:i.s a') }}
+            Last Fetched: {{ now()->toDayDateTimeString() }}
         </h3>
         <div class="mt-4 overflow-x-auto border-x border-t">
             <table class="table-auto w-full">

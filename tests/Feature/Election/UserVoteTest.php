@@ -36,7 +36,7 @@ class UserVoteTest extends TestCase
             ->create();
     }
 
-    public function test_should_not_allow_visiting_the_voting_page_of_ended_election()
+    public function test_should_not_allow_visiting_the_voting_page_of_ended_election(): void
     {
         $election = Election::factory()
             ->ended()
@@ -47,7 +47,7 @@ class UserVoteTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_voters_can_visit_the_cdsg_election_voting_page()
+    public function test_voters_can_visit_the_cdsg_election_voting_page(): void
     {
         $election = Election::factory()
             ->state(['type' => ElectionType::Cdsg])
@@ -59,7 +59,7 @@ class UserVoteTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_cdsg_election_voters_can_vote()
+    public function test_cdsg_election_voters_can_vote(): void
     {
         $election = Election::factory()
             ->has(Candidate::factory()->state(['user_id' => $this->user->id]))
@@ -90,7 +90,7 @@ class UserVoteTest extends TestCase
         ]);
     }
 
-    public function test_cdsg_election_non_voters_cannot_vote()
+    public function test_cdsg_election_non_voters_cannot_vote(): void
     {
         $election = Election::factory()
             ->has(Candidate::factory())
@@ -109,7 +109,7 @@ class UserVoteTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_voters_can_visit_the_dsg_election_voting_page()
+    public function test_voters_can_visit_the_dsg_election_voting_page(): void
     {
         $election = Election::factory()->state([
             'type' => ElectionType::Dsg,
@@ -121,7 +121,7 @@ class UserVoteTest extends TestCase
             ->assertSuccessful();
     }
 
-    public function test_dsg_election_should_not_allow_vote_from_different_department()
+    public function test_dsg_election_should_not_allow_vote_from_different_department(): void
     {
         $election = Election::factory()->state([
             'type' => ElectionType::Dsg,
@@ -133,7 +133,7 @@ class UserVoteTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_dsg_election_voters_can_submit_vote()
+    public function test_dsg_election_voters_can_submit_vote(): void
     {
         $election = Election::factory()
             ->state([
@@ -168,7 +168,7 @@ class UserVoteTest extends TestCase
         ]);
     }
 
-    public function test_cdsg_election_should_not_allow_multiple_votes()
+    public function test_cdsg_election_should_not_allow_multiple_votes(): void
     {
         $election = Election::factory()
             ->state([
@@ -189,7 +189,7 @@ class UserVoteTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_dsg_election_should_not_allow_multiple_votes()
+    public function test_dsg_election_should_not_allow_multiple_votes(): void
     {
         $election = Election::factory()
             ->state([

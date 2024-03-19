@@ -13,7 +13,7 @@ class WinnersConflictTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_has_conflict()
+    public function test_has_conflict(): void
     {
         $election = Election::factory()->create();
 
@@ -28,7 +28,7 @@ class WinnersConflictTest extends TestCase
         $this->assertTrue($election->hasConflictedWinners());
     }
 
-    public function test_has_no_conflict()
+    public function test_has_no_conflict(): void
     {
         $this->markTestIncomplete();
 
@@ -53,14 +53,14 @@ class WinnersConflictTest extends TestCase
         $this->assertFalse($election->hasConflictedWinners());
     }
 
-    public function test_has_no_conflict_with_no_winners()
+    public function test_has_no_conflict_with_no_winners(): void
     {
         $election = Election::factory()->create();
 
         $this->assertFalse($election->hasConflictedWinners());
     }
 
-    public function test_has_no_conflict_same_number_of_votes_but_different_position()
+    public function test_has_no_conflict_same_number_of_votes_but_different_position(): void
     {
         $election = Election::factory()->create();
 

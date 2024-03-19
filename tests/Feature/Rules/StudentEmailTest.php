@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class StudentEmailTest extends TestCase
 {
-    public function test_invalid_email_format()
+    public function test_invalid_email_format(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -25,7 +25,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_no_initial()
+    public function test_no_initial(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -33,7 +33,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_initial_extra_character()
+    public function test_initial_extra_character(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -41,7 +41,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_not_institutional_domain()
+    public function test_not_institutional_domain(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -54,7 +54,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_empty_postfix_in_username()
+    public function test_empty_postfix_in_username(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -62,7 +62,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_invalid_postfix()
+    public function test_invalid_postfix(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -70,7 +70,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_student_id_contains_letter()
+    public function test_student_id_contains_letter(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -78,7 +78,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_student_id_extra_length()
+    public function test_student_id_extra_length(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -86,7 +86,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_student_id_lesser_length()
+    public function test_student_id_lesser_length(): void
     {
         $this->assertFalse((new StudentEmail)->passes(
             'email',
@@ -94,7 +94,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_valid_um_main_email()
+    public function test_valid_um_main_email(): void
     {
         $this->assertTrue((new StudentEmail)->passes(
             'email',
@@ -102,7 +102,7 @@ class StudentEmailTest extends TestCase
         ));
     }
 
-    public function test_valid_um_tagum_email()
+    public function test_valid_um_tagum_email(): void
     {
         $this->assertTrue((new StudentEmail)->passes(
             'email',

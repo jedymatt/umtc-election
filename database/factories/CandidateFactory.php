@@ -18,7 +18,7 @@ class CandidateFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'user_id' => User::factory(),
@@ -27,7 +27,7 @@ class CandidateFactory extends Factory
         ];
     }
 
-    public function configure()
+    public function configure(): static
     {
         return $this->afterCreating(function (Candidate $candidate) {
             $candidate->user->update(['department_id' => $candidate->election->department_id]);

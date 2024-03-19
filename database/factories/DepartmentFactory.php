@@ -14,7 +14,7 @@ class DepartmentFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->unique()->words(asText: true),

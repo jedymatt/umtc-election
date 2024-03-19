@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
 use App\Models\Candidate;
+use App\Models\Department;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\User;
@@ -36,8 +37,25 @@ class DatabaseSeeder extends Seeder
 
             User::factory(50)->create();
 
+            [$one, $two] = fake()->randomElements(Department::all(), 2);
+
             Election::factory()
                 ->dsg()
+                ->state(['department_id' => $one->id])
+                ->has(
+                    Candidate::factory(50)
+                        ->sequence(
+                            ...Position::all()
+                                ->map(fn (Position $position) => ['position_id' => $position->id])
+                                ->toArray()
+                        )
+                )
+                ->createOne();
+
+            Election::factory()
+                ->dsg()
+                ->state(['department_id' => $two->id])
+                ->ended()
                 ->has(
                     Candidate::factory(50)
                         ->sequence(

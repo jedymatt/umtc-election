@@ -3,11 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\ElectionType;
-use App\Models\Candidate;
 use App\Models\Department;
 use App\Models\Election;
-use App\Models\Position;
-use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

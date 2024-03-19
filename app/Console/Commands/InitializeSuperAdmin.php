@@ -62,10 +62,6 @@ class InitializeSuperAdmin extends Command
         return 0;
     }
 
-    /**
-     * @param  array  $credentials
-     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
-     */
     public function validator(array $credentials): \Illuminate\Validation\Validator|\Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($credentials, [
@@ -75,10 +71,6 @@ class InitializeSuperAdmin extends Command
         ]);
     }
 
-    /**
-     * @param $validator
-     * @return void
-     */
     public function createSuperAdminAccount($validator): void
     {
         $adminCredentials = $validator->safe()->merge([
@@ -89,10 +81,6 @@ class InitializeSuperAdmin extends Command
         Admin::create($adminCredentials);
     }
 
-    /**
-     * @param  string|null  $generatedPassword
-     * @return array
-     */
     public function getCredentials(?string $generatedPassword): array
     {
         $credentials['email'] = $this->ask('Email address');

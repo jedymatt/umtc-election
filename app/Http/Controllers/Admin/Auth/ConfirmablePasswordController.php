@@ -22,7 +22,6 @@ class ConfirmablePasswordController extends Controller
     /**
      * Confirm the admin's password.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function store(Request $request)

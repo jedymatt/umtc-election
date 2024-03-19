@@ -26,14 +26,14 @@ class ElectionFactory extends Factory
         ];
     }
 
-    public function dsg()
+    public function dsg(): static
     {
         return $this->state(function (array $attributes) {
             return ['type' => ElectionType::Dsg];
         });
     }
 
-    public function cdsg()
+    public function cdsg(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -43,7 +43,7 @@ class ElectionFactory extends Factory
         });
     }
 
-    public function ended()
+    public function ended(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -53,7 +53,7 @@ class ElectionFactory extends Factory
         });
     }
 
-    public function finished()
+    public function finished(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -63,7 +63,7 @@ class ElectionFactory extends Factory
         });
     }
 
-    public function pending()
+    public function pending(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -73,7 +73,7 @@ class ElectionFactory extends Factory
         });
     }
 
-    public function ongoing()
+    public function ongoing(): static
     {
         return $this->state(function (array $attributes) {
             return [

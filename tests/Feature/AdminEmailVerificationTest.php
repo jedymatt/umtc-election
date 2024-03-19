@@ -13,7 +13,7 @@ class AdminEmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_email_verification_screen_can_be_rendered()
+    public function test_email_verification_screen_can_be_rendered(): void
     {
         $admin = Admin::factory()->create([
             'email_verified_at' => null,
@@ -24,7 +24,7 @@ class AdminEmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_email_can_be_verified()
+    public function test_email_can_be_verified(): void
     {
         Event::fake();
 
@@ -45,7 +45,7 @@ class AdminEmailVerificationTest extends TestCase
         $response->assertRedirect(route('admin.dashboard').'?verified=1');
     }
 
-    public function test_email_is_not_verified_with_invalid_hash()
+    public function test_email_is_not_verified_with_invalid_hash(): void
     {
         $admin = Admin::factory()->create([
             'email_verified_at' => null,

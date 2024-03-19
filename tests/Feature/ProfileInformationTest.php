@@ -13,7 +13,7 @@ class ProfileInformationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_current_profile_information_is_available()
+    public function test_current_profile_information_is_available(): void
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -24,7 +24,7 @@ class ProfileInformationTest extends TestCase
         $this->assertEquals($user->department_id, $component->state['department_id']);
     }
 
-    public function test_current_profile_information_without_department_is_available()
+    public function test_current_profile_information_without_department_is_available(): void
     {
         $this->actingAs($user = User::factory()->create([
             'department_id' => null,
@@ -37,7 +37,7 @@ class ProfileInformationTest extends TestCase
         $this->assertEquals($user->department_id, $component->state['department_id']);
     }
 
-    public function test_profile_information_can_be_updated()
+    public function test_profile_information_can_be_updated(): void
     {
         $this->actingAs($user = User::factory()->create());
 
@@ -49,7 +49,7 @@ class ProfileInformationTest extends TestCase
         $this->assertEquals(1, $user->fresh()->department_id);
     }
 
-    public function test_profile_information_email_should_not_be_changed()
+    public function test_profile_information_email_should_not_be_changed(): void
     {
         $this->actingAs($user = User::factory()->create());
 

@@ -16,7 +16,7 @@ class WinnerFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'election_id' => $this->faker->randomElement(Election::all()),

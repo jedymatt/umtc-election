@@ -9,7 +9,7 @@ class AdminRegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registration_screen_can_be_rendered()
+    public function test_registration_screen_can_be_rendered(): void
     {
         $response = $this->get('admin/register');
 
@@ -20,7 +20,7 @@ class AdminRegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_new_admins_can_register()
+    public function test_new_admins_can_register(): void
     {
         $response = $this->post('admin/register', [
             'name' => 'Test Admin',

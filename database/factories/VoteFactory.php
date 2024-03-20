@@ -30,8 +30,7 @@ class VoteFactory extends Factory
 
             $candidates->groupBy('position_id')
                 ->each(
-                    fn ($candidates) => $vote->candidates()
-                        ->attach($candidates->random())
+                    fn ($candidates) => $vote->candidates()->attach($candidates->random())
                 );
 
         });

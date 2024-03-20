@@ -9,6 +9,7 @@ use App\Models\Department;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -62,6 +63,7 @@ class DatabaseSeeder extends Seeder
                                 ->toArray()
                         )
                 )
+                ->has(Vote::factory(500))
                 ->createOne();
         }
     }

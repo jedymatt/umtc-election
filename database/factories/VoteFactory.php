@@ -22,4 +22,18 @@ class VoteFactory extends Factory
             'election_id' => $this->faker->randomElement(Election::all()),
         ];
     }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Vote $vote) {
+            $candidates = $vote->election->candidates;
+
+            $candidates->groupBy('position_id')
+                ->each(
+                    fn ($candidates) => $vote->candidates()
+                        ->attach($candidates->random())
+                );
+
+        });
+    }
 }

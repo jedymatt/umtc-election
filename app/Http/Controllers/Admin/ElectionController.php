@@ -18,8 +18,9 @@ class ElectionController extends Controller
 
     public function show(Election $election)
     {
-        $candidates = Candidate::ofElection($election)
+        $candidates = Candidate::query()
             ->with(['user', 'user.department', 'position'])
+            ->where('election_id', $election->id)
             ->orderBy('position_id')
             ->orderBy(User::select('name')
                 ->whereColumn('candidates.user_id', 'users.id'))

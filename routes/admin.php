@@ -86,12 +86,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/elections/{election}/live-result', Admin\ElectionLiveResultController::class)
             ->name('elections.live-result');
 
+        // TODO: This should be a POST request
         Route::get('/elections/{election}/winners/export-excel', [Admin\ElectionWinnerExportExcelController::class, 'store'])
             ->name('elections.winners.export-excel');
 
+        // TODO: Should be removed, but before that, we have to check if there are
+        // part of this code that can be reused
         Route::post('/elections/{election}/finalize-winners', [Admin\ElectionFinalizedWinnerController::class, 'store'])
             ->name('elections.finalize-winners');
 
+        // TODO: Finalize results should be a POST request
+
+        // TODO: This should be removed, but before that, we have to check if there
+        // are part of this code that can be reused
         Route::get('/elections/{election}/result', [Admin\ElectionResultController::class, 'show'])
             ->name('elections.result');
 

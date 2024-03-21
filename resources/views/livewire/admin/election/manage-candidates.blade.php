@@ -1,25 +1,30 @@
 <div>
     <div class="flex flex-row">
-        <select wire:model.defer="selectedPositionId">
+        <select wire:model="selectedPositionId">
             @foreach ($positions as $position)
                 <option value="{{ $position->id }}">
                     {{ $position->name }}
                 </option>
             @endforeach
         </select>
-        <div class="relative flex-grow">
+        <div class="relative flex-grow"
+             x-data="{ open: @entangle('showResults') }"
+             x-on:click.outside="open = false"
+        >
             <input
                 class="w-full"
                 type="search"
                 placeholder="Select a candidate"
-                wire:model.debounce="searchText"
+                wire:model.live.debounce="searchText"
+                x-on:focus="open = $wire.searchText.length > 0"
             />
 
             <div
                 class="absolute inset-x-0 top-0 z-20 mt-12 max-h-52 w-full overflow-clip overflow-y-scroll rounded-md border bg-white shadow-lg"
-                x-data="{ open: @entangle('showResults') }"
+
                 x-show="open"
                 wire:show="searchText"
+                x-cloak
             >
                 <div class="py-1">
                     @foreach ($results as $user)
@@ -40,9 +45,13 @@
     </div>
     <div>
         <table class="w-full table-auto">
-            <tbody>
+            <tbody class="divide-y">
             @foreach ($candidates as $candidate)
-                <tr class="not-last:border-b">
+                <tr
+                    wire:key="{{ $candidate->id }}"
+                    wire:target="removeCandidate({{ $candidate->id }})"
+                    wire:loading.class="bg-red-100"
+                >
                     <td class="py-2">
                         <span class="font-medium">{{ $candidate->user->name }}</span>
                         <div class="text-xs text-slate-800">
@@ -58,6 +67,7 @@
                             type="button"
                             wire:click="removeCandidate({{ $candidate->id }})"
                             wire:loading.attr="disabled"
+                            wire:confirm="Are you sure you want to remove this candidate? \n{{$candidate->user->name}}"
                         >
 
                             <span class="text-xs tracking-wide">Remove</span>

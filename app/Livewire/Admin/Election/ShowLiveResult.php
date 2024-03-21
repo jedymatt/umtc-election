@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Election;
+namespace App\Livewire\Admin\Election;
 
 use App\Models\Election;
 use App\Models\User;

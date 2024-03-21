@@ -1,22 +1,9 @@
 import './bootstrap';
-
-import Alpine from 'alpinejs';
-import collapse from '@alpinejs/collapse';
-import focus from '@alpinejs/focus';
-
 import Swal from 'sweetalert2';
 
-
-window.Alpine = Alpine;
 window.Swal = Swal;
 
-Alpine.plugin(collapse);
-Alpine.plugin(focus);
-
-Alpine.start();
-
-
-window.fireToast = ({ icon, message }) => {
+window.fireToast = ({icon, message}) => {
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

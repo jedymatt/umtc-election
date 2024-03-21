@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Profile;
+namespace App\Livewire\Profile;
 
 use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
@@ -31,10 +31,10 @@ class UpdateProfileInformationForm extends Component
             'department_id' => $this->state['department_id'],
         ]);
 
-        $this->dispatchBrowserEvent('toast-alert', [
-            'type' => 'success',
-            'message' => 'Your profile information has been updated.',
-        ]);
+        $this->dispatch('toast-alert',
+            type: 'success',
+            message: 'Your profile information has been updated.',
+        );
     }
 
     public function render()

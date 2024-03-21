@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="updateProfileInformation">
+    <form wire:submit="updateProfileInformation">
         @method('put')
         @csrf
         <div>
@@ -9,7 +9,7 @@
                 id="name"
                 name="name"
                 type="text"
-                wire:model.defer="state.name"
+                wire:model="state.name"
                 required
             />
             @error('state.name')
@@ -21,7 +21,7 @@
             <x-input
                 class="mt-1 w-full select-none text-gray-600 hover:cursor-not-allowed"
                 type="email"
-                wire:model.defer="state.email"
+                wire:model="state.email"
                 disabled
             />
         </div>
@@ -29,7 +29,7 @@
             <x-label value="Department"/>
             <select
                 class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-1/2"
-                wire:model.defer="state.department_id"
+                wire:model="state.department_id"
             >
                 <option
                     value=""

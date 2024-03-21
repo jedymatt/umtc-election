@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\WithFaker;
-use App\Http\Livewire\Profile\UpdateProfileInformationForm;
+use App\Livewire\Profile\UpdateProfileInformationForm;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;

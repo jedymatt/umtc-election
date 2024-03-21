@@ -1,10 +1,5 @@
 <div>
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <div>{{ $error }}</div>
-        @endforeach
-    @endif
-    <form wire:submit.prevent="submit">
+    <form wire:submit="submit">
         @csrf
         <div>
             <label
@@ -18,7 +13,7 @@
                     id="title"
                     name="title"
                     type="text"
-                    wire:model.defer="title"
+                    wire:model="title"
             />
             @error('title')
             <p class="text-sm text-red-600">{{ $message }}</p>
@@ -37,7 +32,7 @@
                                     name="type"
                                     type="radio"
                                     value="{{ $electionType->value }}"
-                                    wire:model="type"
+                                    wire:model.live="type"
                             />
                             <span class="ml-1"> {{ $electionType->label() }}</span>
                         </label>
@@ -52,7 +47,7 @@
         </div>
         <div
                 class="mt-4"
-                x-data="{ type: @entangle('type') }"
+                x-data="{ type: @entangle('type').live }"
                 x-show="type === @js(\App\Enums\ElectionType::Dsg->value)"
                 x-transition.opacity
         >
@@ -66,7 +61,7 @@
                     class="mt-1 w-full rounded-md"
                     id="department_id"
                     name="department_id"
-                    wire:model.defer="department_id"
+                    wire:model="department_id"
             >
                 <option value="" disabled selected>
                     Select Department
@@ -94,7 +89,7 @@
                     class="w-full rounded-md"
                     id="description"
                     name="description"
-                    wire:model.defer="description"
+                    wire:model="description"
             ></textarea>
         </div>
         <div class="mt-4">
@@ -109,7 +104,7 @@
                     id="start_at"
                     name="start_at"
                     type="datetime-local"
-                    wire:model.defer="start_at"
+                    wire:model="start_at"
             />
 
             @error('start_at')
@@ -129,7 +124,7 @@
                     name="end_at"
                     type="datetime-local"
                     value="{{ old('end_at') }}"
-                    wire:model.defer="end_at"
+                    wire:model="end_at"
             />
             @error('end_at')
             <p class="text-sm text-red-600">{{ $message }}</p>

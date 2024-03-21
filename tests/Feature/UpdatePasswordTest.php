@@ -19,12 +19,14 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         Livewire::test(UpdatePasswordForm::class)
-            ->set('state', [
+            ->set([
                 'current_password' => 'password',
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
             ])
-            ->call('updatePassword');
+            ->call('updatePassword')
+            ->assertHasNoErrors()
+            ->assertDispatched('toast-alert');
 
         $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
     }
@@ -34,7 +36,7 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         Livewire::test(UpdatePasswordForm::class)
-            ->set('state', [
+            ->set([
                 'current_password' => 'wrong-password',
                 'password' => 'new-password',
                 'password_confirmation' => 'new-password',
@@ -50,7 +52,7 @@ class UpdatePasswordTest extends TestCase
         $this->actingAs($user = User::factory()->create());
 
         Livewire::test(UpdatePasswordForm::class)
-            ->set('state', [
+            ->set([
                 'current_password' => 'password',
                 'password' => 'new-password',
                 'password_confirmation' => 'wrong-password',

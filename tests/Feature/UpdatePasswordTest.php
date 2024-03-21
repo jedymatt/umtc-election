@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\WithFaker;
-use App\Http\Livewire\Profile\UpdatePasswordForm;
+use App\Livewire\Profile\UpdatePasswordForm;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;

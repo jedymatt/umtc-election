@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin;
+namespace App\Livewire\Admin;
 
 use App\Enums\ElectionType;
 use App\Models\Department;
@@ -10,22 +10,21 @@ use Livewire\Component;
 
 class CreateElectionForm extends Component
 {
-    public $title;
+    public $title = '';
 
-    public $description;
+    public $description = '';
 
     public $start_at;
 
     public $end_at;
 
-    public $department_id;
+    public $department_id = '';
 
     public $type;
 
     public function mount(): void
     {
         $this->type = ElectionType::Dsg->value;
-        $this->department_id = '';
     }
 
     protected function rules(): array
@@ -69,6 +68,6 @@ class CreateElectionForm extends Component
     // listen to type changes
     public function updatedType($value): void
     {
-        $this->department_id = $value === ElectionType::Dsg->value ? '' : $this->department_id;
+        $this->reset('department_id');
     }
 }

@@ -65,6 +65,20 @@ class DatabaseSeeder extends Seeder
                 )
                 ->has(Vote::factory(500))
                 ->createOne();
+
+            Election::factory(50)
+                ->dsg()
+                ->ended()
+                ->has(
+                    Candidate::factory(50)
+                        ->sequence(
+                            ...Position::all()
+                                ->map(fn (Position $position) => ['position_id' => $position->id])
+                                ->toArray()
+                        )
+                )
+                ->has(Vote::factory(500))
+                ->create();
         }
     }
 }

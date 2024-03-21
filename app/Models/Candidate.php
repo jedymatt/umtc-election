@@ -20,6 +20,8 @@ class Candidate extends Model
         'position_id',
     ];
 
+    protected $with = ['user', 'position'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

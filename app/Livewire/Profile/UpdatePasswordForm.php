@@ -19,7 +19,7 @@ class UpdatePasswordForm extends Component
     {
         try {
             $this->validate([
-                'current_password' => 'required|string',
+                'current_password' => 'required|string|current_password:web',
                 'password' => 'required|string|confirmed|min:8',
             ]);
         } catch (ValidationException  $e) {

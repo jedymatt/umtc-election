@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Collection;
 
 class ElectionService
 {
@@ -69,14 +68,6 @@ class ElectionService
                 'votes' => $candidate->votes_count,
             ]);
         });
-    }
-
-    /**
-     * @param  EloquentCollection<Winner>  $winners
-     */
-    public static function getWinnersConflicts(EloquentCollection $winners): Collection
-    {
-        return $winners->groupBy('candidate.position.name')->filter(fn (EloquentCollection $winners) => $winners->count() > 1);
     }
 
     private static function constraintsQuery(User $user): Builder

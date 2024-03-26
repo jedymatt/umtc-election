@@ -14,6 +14,7 @@ class ShowElections extends Component
     {
         return view('livewire.admin.show-elections', [
             'elections' => Election::with(['department'])->paginate(10),
+            'endedWithoutWinners' => Election::ended()->whereDoesntHave('winners')->get(),
         ]);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ class Election extends Model
     // TODO: Improve naming statuses
     // And decide if having winners and not having winners is a status
 
-    public const STATUS_PENDING = 1; // Election has not started yet
+    public const STATUS_UPCOMING = 1; // Election has not started yet
 
     public const STATUS_ACTIVE = 2;
 
@@ -60,9 +61,9 @@ class Election extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public function winners(): HasMany
+    public function winners(): BelongsToMany
     {
-        return $this->hasMany(Winner::class);
+        return $this->belongsToMany(Candidate::class, 'winners')->withPivot('votes')->withTimestamps();
     }
 
     public function scopeActive(Builder $query): Builder
@@ -106,15 +107,15 @@ class Election extends Model
     {
         $now = Carbon::now();
 
-        if ($now > $this->end_at) {
+        if ($this->end_at->isPast()) {
             return static::STATUS_ENDED;
         }
 
-        if ($now >= $this->start_at) {
+        if ($this->start_at->lessThanOrEqualTo($now)) {
             return static::STATUS_ONGOING;
         }
 
-        return static::STATUS_PENDING;
+        return static::STATUS_UPCOMING;
     }
 
     public function statusMessage(): string
@@ -124,7 +125,8 @@ class Election extends Model
         return match ($status) {
             static::STATUS_ONGOING => 'Ongoing',
             static::STATUS_EXPIRED => 'Expired',
-            default => 'Pending',
+            static::STATUS_UPCOMING => 'Upcoming',
+            default => 'Unknown'
         };
     }
 
@@ -143,9 +145,15 @@ class Election extends Model
         return $this->status() === static::STATUS_ONGOING;
     }
 
+    /** @deprecated use isUpcoming() */
     public function isPending(): bool
     {
-        return $this->status() === static::STATUS_PENDING;
+        return $this->status() === static::STATUS_UPCOMING;
+    }
+
+    public function isUpcoming(): bool
+    {
+        return $this->status() === static::STATUS_UPCOMING;
     }
 
     public function isExpired(): bool

@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ElectionWinnerExportExcelController extends Controller
 {
-    public function store(Election $election)
+    public function __invoke(Election $election)
     {
         $fileName = Str::slug($election->title).'_'.now()->timestamp.'.xlsx';
 

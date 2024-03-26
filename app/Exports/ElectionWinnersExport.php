@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -48,9 +49,9 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithHeadi
     public function map($row): array
     {
         return [
-            $row->candidate->user->name,
-            $row->candidate->position->name,
-            $row->votes,
+            $row->user->name,
+            $row->position->name,
+            $row->pivot->votes,
         ];
     }
 }

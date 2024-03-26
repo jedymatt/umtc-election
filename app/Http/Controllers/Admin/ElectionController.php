@@ -26,9 +26,10 @@ class ElectionController extends Controller
                 ->whereColumn('candidates.user_id', 'users.id'))
             ->get();
 
-        return view('admin.elections.show')
-            ->with('election', $election)
-            ->with('candidates', $candidates);
+        return view('admin.elections.show', [
+            'election' => $election,
+            'candidates' => $candidates,
+        ]);
     }
 
     public function create()

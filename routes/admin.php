@@ -77,30 +77,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('/admin-management', Admin\AdminController::class)
             ->only(['index', 'create', 'store']);
 
-        Route::resource('/elections', Admin\ElectionController::class)
-            ->only(['index', 'show', 'create']);
+        Route::resource('/elections', Admin\ElectionController::class)->only(['index', 'show', 'create']);
 
-        Route::get('/monitor-election/{election}', [Admin\MonitorElectionController::class, 'show'])
-            ->name('monitor-election');
-
-        Route::get('/elections/{election}/live-result', Admin\ElectionLiveResultController::class)
-            ->name('elections.live-result');
-
-        // TODO: This should be a POST request
-        Route::get('/elections/{election}/winners/export-excel', [Admin\ElectionWinnerExportExcelController::class, 'store'])
-            ->name('elections.winners.export-excel');
-
-        // TODO: Should be removed, but before that, we have to check if there are
-        // part of this code that can be reused
-        Route::post('/elections/{election}/finalize-winners', [Admin\ElectionFinalizedWinnerController::class, 'store'])
-            ->name('elections.finalize-winners');
-
-        // TODO: Finalize results should be a POST request
-
-        // TODO: This should be removed, but before that, we have to check if there
-        // are part of this code that can be reused
-        Route::get('/elections/{election}/result', [Admin\ElectionResultController::class, 'show'])
+        Route::get('/elections/{election}/result', Admin\ElectionResultController::class)
             ->name('elections.result');
+
+        Route::get('/elections/{election}/export-result', Admin\ElectionWinnerExportExcelController::class)
+            ->name('elections.export-result');
+
+        Route::post('/elections/{election}/finalize-results', Admin\Election\FinalizeResultsController::class)
+            ->name('elections.finalize-results');
 
         Route::get('/elections/{election}/candidates', function (Election $election) {
             return view('admin.elections.candidates', compact('election'));

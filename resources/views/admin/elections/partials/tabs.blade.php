@@ -12,10 +12,10 @@
                 >
                     Information
                 </option>
-                <option value="{{ route('admin.elections.live-result', $election) }}"
-                    @selected(request()->routeIs('admin.elections.live-result'))
+                <option value="{{ route('admin.elections.result', $election) }}"
+                    @selected(request()->routeIs('admin.elections.result'))
                 >
-                    Live Results
+                    Results
                 </option>
                 <option value="{{ route('admin.elections.candidates', $election) }}"
                     @selected(request()->routeIs('admin.elections.candidates'))
@@ -33,11 +33,11 @@
                 >
                     Information
                 </a>
-                <a href="{{ route('admin.elections.live-result', $election) }}"
-                   class="{{ request()->routeIs('admin.elections.live-result') ? 'bg-indigo-100 text-indigo-700 rounded-md px-3 py-2 text-sm font-medium' : 'text-gray-500 hover:text-gray-700 rounded-md px-3 py-2 text-sm font-medium' }}"
-                    {{ request()->routeIs('admin.elections.live-result') ? 'aria-current="page"' : '' }}
+                <a href="{{ route('admin.elections.result', $election) }}"
+                   class="{{ request()->routeIs('admin.elections.result') ? 'bg-indigo-100 text-indigo-700 rounded-md px-3 py-2 text-sm font-medium' : 'text-gray-500 hover:text-gray-700 rounded-md px-3 py-2 text-sm font-medium' }}"
+                    {{ request()->routeIs('admin.elections.result') ? 'aria-current="page"' : '' }}
                 >
-                    Live Results
+                    Results
                 </a>
                 <a href="{{ route('admin.elections.candidates', $election) }}"
                    class="{{ request()->routeIs('admin.elections.candidates') ? 'bg-indigo-100 text-indigo-700 rounded-md px-3 py-2 text-sm font-medium' : 'text-gray-500 hover:text-gray-700 rounded-md px-3 py-2 text-sm font-medium' }}"

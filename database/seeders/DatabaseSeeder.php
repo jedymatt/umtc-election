@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             Election::factory()
                 ->dsg()
                 ->state(['department_id' => $one->id])
+                ->ongoing()
                 ->has(
                     Candidate::factory(50)
                         ->sequence(
@@ -49,6 +50,7 @@ class DatabaseSeeder extends Seeder
                                 ->toArray()
                         )
                 )
+                ->has(Vote::factory(250))
                 ->createOne();
 
             Election::factory()
@@ -66,6 +68,18 @@ class DatabaseSeeder extends Seeder
                 ->has(Vote::factory(500))
                 ->createOne();
 
+            Election::factory()
+                ->dsg()
+                ->pending()
+                ->has(
+                    Candidate::factory(50)
+                        ->sequence(
+                            ...Position::all()
+                                ->map(fn (Position $position) => ['position_id' => $position->id])
+                                ->toArray()
+                        )
+                )
+                ->createOne();
             //            Election::factory(50)
             //                ->dsg()
             //                ->ended()

@@ -14,30 +14,43 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="border-b border-gray-200 bg-white p-6">
-                    <div>
-                        <span class="text-lg font-medium">{{ $election->title }}</span>
-                    </div>
-                    <div class="mt-4">
-                        Type: {{ $election->type->label() }}
-                    </div>
-                    @if ($election->isTypeDsg())
-                        <div class="mt-4">
-                            Department: {{ $election->department->name }}
+                    <div class="grid grid-cols-5 gap-y-4 gap-x-2 sm:gap-x-0">
+                        <div class="col-span-full">
+                            <span class="text-2xl font-bold">{{ $election->title }}</span>
                         </div>
-                    @endif
-                    <div class="mt-4">
-                        Start at: {{ $election->start_at->toDayDateTimeString() }}
-                    </div>
-                    <div class="mt-4">
-                        End at: {{ $election->end_at->toDayDateTimeString() }}
-                    </div>
-                    @if ($election->description != null)
-                        <div class="mt-4">
-                            <p class="text-justify leading-normal">
-                                {{ $election->description }}
-                            </p>
+                        <div class="text-gray-800">Type</div>
+                        <div class="col-span-4">{{ $election->type->label() }}</div>
+                        @if ($election->isTypeDsg())
+                            <div class="text-gray-800">Department</div>
+                            <div class="col-span-4">{{ $election->department->name }}</div>
+                        @endif
+                        <div class="text-gray-800">Schedule</div>
+                        <div class="col-span-4 space-y-1">
+                            <div>
+                                @php
+                                    if ($election->start_at->isSameDay($election->end_at)) {
+                                        echo $election->start_at->format('F j, Y');
+                                    } else {
+                                        echo $election->start_at->format('F j, Y') . ' - ' . $election->end_at->format('F j, Y');
+                                    }
+                                @endphp
+                            </div>
+                            <div>
+                                @php
+                                    echo $election->start_at->format('g:i A') . ' - ' . $election->end_at->format('g:i A');
+                                @endphp
+                            </div>
                         </div>
-                    @endif
+                        @if ($election->description != null)
+                            <div class="text-gray-800">Description</div>
+                            <div class="col-span-4">
+                                <p class="text-justify leading-normal">
+                                    {{ $election->description }}
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+
                 </div>
             </div>
         </div>

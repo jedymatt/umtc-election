@@ -77,7 +77,7 @@ class ElectionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'start_at' => Carbon::now()->addDay(),
+                'start_at' => Carbon::now()->subMinute(),
                 'end_at' => Carbon::now()->addDays(4),
             ];
         });

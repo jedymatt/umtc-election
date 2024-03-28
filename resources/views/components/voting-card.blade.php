@@ -24,7 +24,7 @@
             @if (!$voted)
                 Vote
             @else
-                Voted
+                Vote Submitted
             @endif
         </x-button-primary>
     </div>

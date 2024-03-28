@@ -39,10 +39,10 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         @foreach ($availableElections as $election)
-                            <x-election-card :election="$election" />
+                            <x-voting-card :election="$election" />
                         @endforeach
                         @foreach($votedElections as $election)
-                            <x-election-card :election="$election" :disableVote="true" />
+                            <x-voting-card :election="$election" :voted="true" />
                         @endforeach
                     </div>
                     <div class="border-t border-gray-200 mt-4 py-4">

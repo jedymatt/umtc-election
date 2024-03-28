@@ -1,4 +1,4 @@
-@props(['election', 'disableVote' => false])
+@props(['election', 'voted' => false])
 
 <div class="rounded-md shadow-sm focus:ring border border-gray-200 p-6 flex flex-col">
     <div class="flex-grow">
@@ -20,8 +20,12 @@
         </div>
     </div>
     <div class="pt-4 flex justify-end">
-        <x-button-primary href="{{ route('elections.vote', $election) }}" :disabled="$disableVote">
-            Vote
+        <x-button-primary href="{{ route('elections.vote', $election) }}" :disabled="$voted">
+            @if (!$voted)
+                Vote
+            @else
+                Voted
+            @endif
         </x-button-primary>
     </div>
 </div>

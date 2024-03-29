@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
 use App\Models\Candidate;
-use App\Models\Department;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\User;
@@ -36,14 +35,18 @@ class DatabaseSeeder extends Seeder
 
             User::factory(50)->create();
 
-            [$one, $two] = fake()->randomElements(Department::all(), 2);
-
             Election::factory()
                 ->dsg()
-                ->state(['department_id' => $one->id])
-                ->ongoing()
+                ->forEachSequence(
+                    // upcoming
+                    ['start_at' => now()->addDays(1), 'end_at' => now()->addDays(2)],
+                    // ongoing
+                    ['start_at' => now()->subDays(1), 'end_at' => now()->addDays(1)],
+                    // ended
+                    ['start_at' => now()->subDays(2), 'end_at' => now()->subDays(1)],
+                )
                 ->has(
-                    Candidate::factory(50)
+                    Candidate::factory(30)
                         ->sequence(
                             ...Position::all()
                                 ->map(fn (Position $position) => ['position_id' => $position->id])
@@ -51,48 +54,7 @@ class DatabaseSeeder extends Seeder
                         )
                 )
                 ->has(Vote::factory(250))
-                ->createOne();
-
-            Election::factory()
-                ->dsg()
-                ->state(['department_id' => $two->id])
-                ->ended()
-                ->has(
-                    Candidate::factory(50)
-                        ->sequence(
-                            ...Position::all()
-                                ->map(fn (Position $position) => ['position_id' => $position->id])
-                                ->toArray()
-                        )
-                )
-                ->has(Vote::factory(500))
-                ->createOne();
-
-            Election::factory()
-                ->dsg()
-                ->pending()
-                ->has(
-                    Candidate::factory(50)
-                        ->sequence(
-                            ...Position::all()
-                                ->map(fn (Position $position) => ['position_id' => $position->id])
-                                ->toArray()
-                        )
-                )
-                ->createOne();
-            //            Election::factory(50)
-            //                ->dsg()
-            //                ->ended()
-            //                ->has(
-            //                    Candidate::factory(50)
-            //                        ->sequence(
-            //                            ...Position::all()
-            //                                ->map(fn (Position $position) => ['position_id' => $position->id])
-            //                                ->toArray()
-            //                        )
-            //                )
-            //                ->has(Vote::factory(500))
-            //                ->create();
+                ->create();
         }
     }
 }

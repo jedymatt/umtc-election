@@ -13,6 +13,10 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
+        @if(app()->isLocal())
+            <x-login-link email="admin@example.com" guard="admin" redirect-url="{{ route('admin.dashboard') }}" label="Admin Login" />
+        @endif
+
         <form method="POST" action="{{ route('admin.login') }}">
             @csrf
 

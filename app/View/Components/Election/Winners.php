@@ -3,10 +3,8 @@
 namespace App\View\Components\Election;
 
 use App\Models\Election;
-use App\Models\User;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class Winners extends Component

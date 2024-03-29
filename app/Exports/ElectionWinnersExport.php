@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Candidate;
 use App\Models\Election;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;

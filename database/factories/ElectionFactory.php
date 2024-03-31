@@ -47,8 +47,8 @@ class ElectionFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'start_at' => $this->faker->dateTimeBetween('-1 year', '-1 month'),
-                'end_at' => $this->faker->dateTimeBetween('-1 month, +1 day', '-1 day'),
+                'start_at' => now()->subDays(2),
+                'end_at' => now()->subDay(),
             ];
         });
     }
@@ -69,6 +69,16 @@ class ElectionFactory extends Factory
             return [
                 'start_at' => Carbon::now()->addDay(),
                 'end_at' => Carbon::now()->addDays(4),
+            ];
+        });
+    }
+
+    public function upcoming(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'start_at' => Carbon::now()->addDays(1),
+                'end_at' => Carbon::now()->addDays(2),
             ];
         });
     }

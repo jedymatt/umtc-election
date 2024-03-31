@@ -19,6 +19,10 @@ class FinalizeResultsController extends Controller
             abort(403, 'The election is not yet ended.');
         }
 
+        if ($election->winners()->exists()) {
+            abort(403, 'Winners have already been declared.');
+        }
+
         $candidates = $election->candidates()->withCount('votes')->get();
 
         /** @var SupportCollection<int, EloquentCollection<int, Candidate>> $topVotedCandidates */

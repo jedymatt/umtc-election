@@ -41,7 +41,7 @@ class ElectionWinnersExport implements FromCollection, ShouldAutoSize, WithHeadi
         return [
             'Name',
             'Position',
-            'Number of Votes',
+            'Votes',
         ];
     }
 

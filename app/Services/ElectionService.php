@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Enums\ElectionType;
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\User;
-use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -34,7 +32,6 @@ class ElectionService
 
         return true;
     }
-
 
     private static function constraintsQuery(User $user): Builder
     {
@@ -69,10 +66,10 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : self::constraintsQuery($user)
-            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->get();
+                ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->get();
     }
 
     /**
@@ -83,8 +80,8 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : self::constraintsQuery($user)
-            ->whereRelation('votes', 'user_id', '=', $user->id)
-            ->get();
+                ->whereRelation('votes', 'user_id', '=', $user->id)
+                ->get();
     }
 
     /**
@@ -95,12 +92,12 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : Election::query()
-            ->with(['department'])
-            ->orWhere(function (Builder $query) use ($user) {
-                $query->where('department_id', '=', $user->department_id);
-            })->orWhere(function (Builder $query) {
-                $query->where('type', '=', ElectionType::Cdsg);
-            })->ended()->get();
+                ->with(['department'])
+                ->orWhere(function (Builder $query) use ($user) {
+                    $query->where('department_id', '=', $user->department_id);
+                })->orWhere(function (Builder $query) {
+                    $query->where('type', '=', ElectionType::Cdsg);
+                })->ended()->get();
     }
 
     public static function createDsgElection(array $data): Election

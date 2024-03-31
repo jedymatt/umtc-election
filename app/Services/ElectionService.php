@@ -42,33 +42,6 @@ class ElectionService
         return true;
     }
 
-    /**
-     * @return EloquentCollection<Candidate>
-     */
-    public function getWinningCandidates(): EloquentCollection
-    {
-        return $this->election->candidates()->withCount('votes')->orderBy('position_id')->get()
-            ->groupBy('position_id')->flatMap(function (EloquentCollection $candidates) {
-                $maxVotesCount = $candidates->max('votes_count');
-
-                return $candidates->filter(
-                    function (Candidate $candidate) use ($maxVotesCount) {
-                        return $candidate->votes_count === $maxVotesCount;
-                    }
-                );
-            });
-    }
-
-    public function saveWinners(): void
-    {
-        $this->getWinningCandidates()->each(function ($candidate) {
-            Winner::create([
-                'candidate_id' => $candidate->id,
-                'election_id' => $this->election->id,
-                'votes' => $candidate->votes_count,
-            ]);
-        });
-    }
 
     private static function constraintsQuery(User $user): Builder
     {
@@ -103,10 +76,10 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : self::constraintsQuery($user)
-                ->whereDoesntHave('votes', function (Builder $query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->get();
+            ->whereDoesntHave('votes', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->get();
     }
 
     /**
@@ -117,8 +90,8 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : self::constraintsQuery($user)
-                ->whereRelation('votes', 'user_id', '=', $user->id)
-                ->get();
+            ->whereRelation('votes', 'user_id', '=', $user->id)
+            ->get();
     }
 
     /**
@@ -129,12 +102,12 @@ class ElectionService
         return is_null($user->department_id)
             ? $user->newCollection()
             : Election::query()
-                ->with(['department'])
-                ->orWhere(function (Builder $query) use ($user) {
-                    $query->where('department_id', '=', $user->department_id);
-                })->orWhere(function (Builder $query) {
-                    $query->where('type', '=', ElectionType::Cdsg);
-                })->ended()->get();
+            ->with(['department'])
+            ->orWhere(function (Builder $query) use ($user) {
+                $query->where('department_id', '=', $user->department_id);
+            })->orWhere(function (Builder $query) {
+                $query->where('type', '=', ElectionType::Cdsg);
+            })->ended()->get();
     }
 
     public static function createDsgElection(array $data): Election

@@ -12,13 +12,6 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class ElectionService
 {
-    private Election $election;
-
-    public function __construct(Election $election)
-    {
-        $this->election = $election;
-    }
-
     public static function canVote(Election $election, User $user): bool
     {
         $election->loadMissing(['votes', 'candidates']);

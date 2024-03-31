@@ -3,22 +3,13 @@
 namespace App\Services;
 
 use App\Enums\ElectionType;
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\User;
-use App\Models\Winner;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class ElectionService
 {
-    private Election $election;
-
-    public function __construct(Election $election)
-    {
-        $this->election = $election;
-    }
-
     public static function canVote(Election $election, User $user): bool
     {
         $election->loadMissing(['votes', 'candidates']);
@@ -40,34 +31,6 @@ class ElectionService
         }
 
         return true;
-    }
-
-    /**
-     * @return EloquentCollection<Candidate>
-     */
-    public function getWinningCandidates(): EloquentCollection
-    {
-        return $this->election->candidates()->withCount('votes')->orderBy('position_id')->get()
-            ->groupBy('position_id')->flatMap(function (EloquentCollection $candidates) {
-                $maxVotesCount = $candidates->max('votes_count');
-
-                return $candidates->filter(
-                    function (Candidate $candidate) use ($maxVotesCount) {
-                        return $candidate->votes_count === $maxVotesCount;
-                    }
-                );
-            });
-    }
-
-    public function saveWinners(): void
-    {
-        $this->getWinningCandidates()->each(function ($candidate) {
-            Winner::create([
-                'candidate_id' => $candidate->id,
-                'election_id' => $this->election->id,
-                'votes' => $candidate->votes_count,
-            ]);
-        });
     }
 
     private static function constraintsQuery(User $user): Builder

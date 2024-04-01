@@ -36,11 +36,11 @@ class FinalizeResultsController extends Controller
                 return $candidate->votes_count === $maxVotes;
             }));
 
-        $tiedCandidates = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
+        $tiedCandidatesPerPosition = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
 
-        if ($tiedCandidates->isNotEmpty()) {
+        if ($tiedCandidatesPerPosition->isNotEmpty()) {
             $validated = $request->validate([
-                'candidates' => ['required', 'array', 'size:'.$tiedCandidates->keys()->count()],
+                'candidates' => ['required', 'array', 'size:'.$tiedCandidatesPerPosition->keys()->count()],
                 'candidates.*' => [
                     'required',
                     'integer',
@@ -48,11 +48,19 @@ class FinalizeResultsController extends Controller
                 ],
             ]);
 
-            $tiedCandidatePositions = $tiedCandidates->keys();
-            $selectedCandidatePositions = Candidate::findMany($validated['candidates'])->pluck('position_id')->unique();
-            if ($tiedCandidatePositions->diff($selectedCandidatePositions)->isNotEmpty()) {
+            $selectedCandidates = Candidate::findMany($validated['candidates']);
+
+            // ensure the tied candidates are selected 1 each from the tied positions
+            $selectedCandidatesPerPosition = $selectedCandidates->groupBy('position_id');
+            if ($selectedCandidatesPerPosition->count() !== $tiedCandidatesPerPosition->count()) {
+                throw ValidationException::withMessages(['candidates' => 'Select one candidate from each tied position.']);
+            }
+
+            // ensure the validated candidates are in the tied candidates
+            $tiedCandidatesWithoutGroup = $tiedCandidatesPerPosition->flatten();
+            if ($tiedCandidatesWithoutGroup->diff($selectedCandidates)->isNotEmpty()) {
                 throw ValidationException::withMessages(
-                    ['candidates' => 'Please select one candidate from each tied position.']
+                    ['candidates' => 'Cannot select a candidate that is not tied.']
                 );
             }
         }

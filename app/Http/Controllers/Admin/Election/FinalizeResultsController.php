@@ -38,7 +38,7 @@ class FinalizeResultsController extends Controller
 
         $tiedCandidatesPerPosition = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
 
-        $winners = [];
+        $overrideWinnersByPosition = collect();
 
         if ($tiedCandidatesPerPosition->isNotEmpty()) {
             $validated = $request->validate([
@@ -59,12 +59,12 @@ class FinalizeResultsController extends Controller
                 throw ValidationException::withMessages(['candidates' => 'Select one candidate from each tied position.']);
             }
 
-            $winners = $selectedCandidates;
+            $overrideWinnersByPosition = $selectedCandidates;
         }
 
-        $winners = empty($winners)
-            ? $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first())
-            : $winners;
+        $winners = $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first())
+            ->merge($overrideWinnersByPosition)
+            ->flatten();
 
         $election->winners()->sync($winners->map(fn (Candidate $candidate) => [
             'candidate_id' => $candidate->id,

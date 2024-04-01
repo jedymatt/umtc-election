@@ -8,7 +8,6 @@ use App\Models\Election;
 use App\Models\Position;
 use App\Models\User;
 use App\Models\Vote;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,22 +28,58 @@ class FinalizeResultTest extends TestCase
 
         $candidates = $election->candidates()->withCount('votes')->get();
         $topVotes = $candidates->max('votes_count');
-
-        // Get the candidate with the highest votes
-        /** @var Collection<int, Candidate> $topCandidates */
-        $topCandidates = $candidates->where('votes_count', $topVotes);
-
-        if ($topCandidates->count() > 1) {
-            // randomly vote from one of the tied candidates
-            Vote::create([
-                'user_id' => User::factory()->create()->id,
-                'election_id' => $election->id,
-            ])->candidates()->sync($topCandidates->random());
-        }
+        $topCandidate = $candidates->where('votes_count', $topVotes)->first();
+        // ensure it isn't tied with another candidate
+        Vote::create([
+            'user_id' => User::factory()->create()->id,
+            'election_id' => $election->id,
+        ])->candidates()->sync($topCandidate);
 
         $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
+
+        $this->assertDatabaseHas('winners', [
+            'election_id' => $election->id,
+            'candidate_id' => $topCandidate->id,
+        ]);
+    }
+
+    public function test_finalize_with_a_tie(): void
+    {
+        $user = Admin::factory()->create();
+
+        $election = Election::factory()
+            ->dsg()
+            ->ended()
+            ->has(Candidate::factory(5)->state(['position_id' => Position::inRandomOrder()->first()]))
+            ->has(Vote::factory(50))
+            ->create();
+
+        $candidates = $election->candidates()->withCount('votes')->get()
+            ->sortByDesc('votes_count');
+        $topVotedCandidate = $candidates->first();
+
+        // Create a tie
+        $anotherTopVotedCandidate = Candidate::factory()
+            ->hasAttached($topVotedCandidate->votes()->get())
+            ->create([
+                'election_id' => $election->id,
+                'position_id' => $topVotedCandidate->position_id,
+            ]);
+
+        $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election), [
+            'candidates' => [
+                $topVotedCandidate->position->name => $anotherTopVotedCandidate->id,
+            ],
+        ]);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('winners', [
+            'election_id' => $election->id,
+            'candidate_id' => $anotherTopVotedCandidate->id,
+        ]);
     }
 
     public function test_do_not_allow_ongoing_election(): void

@@ -59,11 +59,13 @@ class FinalizeResultsController extends Controller
                 throw ValidationException::withMessages(['candidates' => 'Select one candidate from each tied position.']);
             }
 
-            $overrideWinnersByPosition = $selectedCandidates;
+            $overrideWinnersByPosition = $selectedCandidatesPerPosition->map(fn (EloquentCollection $candidates) => $candidates->first());
         }
 
-        $winners = $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first())
-            ->merge($overrideWinnersByPosition)
+        $winners = $topVotedCandidates->map(
+            fn (EloquentCollection $candidates, $positionId) => $overrideWinnersByPosition->get($positionId)
+                ?? $candidates->first()
+        )
             ->flatten();
 
         $election->winners()->sync($winners->map(fn (Candidate $candidate) => [

@@ -62,10 +62,9 @@ class FinalizeResultsController extends Controller
             $overrideWinnersByPosition = $selectedCandidatesPerPosition->map(fn (EloquentCollection $candidates) => $candidates->first());
         }
 
-        $winners = $topVotedCandidates->map(
-            fn (EloquentCollection $candidates, $positionId) => $overrideWinnersByPosition->get($positionId)
-                ?? $candidates->first()
-        )
+        $winners = $topVotedCandidates
+            ->map(fn ($candidates) => $candidates->first())
+            ->replace($overrideWinnersByPosition)
             ->flatten();
 
         $election->winners()->sync($winners->map(fn (Candidate $candidate) => [

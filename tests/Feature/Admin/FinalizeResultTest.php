@@ -23,35 +23,24 @@ class FinalizeResultTest extends TestCase
         $election = Election::factory()
             ->dsg()
             ->ended()
-            ->has(
-                Candidate::factory(25)
-                    ->sequence(
-                        ...Position::all()
-                            ->map(fn (Position $position) => ['position_id' => $position->id])
-                            ->toArray()
-                    )
-            )
-            ->has(Vote::factory(100))
+            ->has(Candidate::factory(5)->state(['position_id' => Position::inRandomOrder()->first()]))
+            ->has(Vote::factory(50))
             ->create();
 
         $candidates = $election->candidates()->withCount('votes')->get();
+        $topVotes = $candidates->max('votes_count');
 
-        $candidates->groupBy('position_id')
-            ->each(function ($candidates) use ($election) {
-                $topVotes = $candidates->max('votes_count');
+        // Get the candidate with the highest votes
+        /** @var Collection<int, Candidate> $topCandidates */
+        $topCandidates = $candidates->where('votes_count', $topVotes);
 
-                // Get the candidate with the highest votes
-                /** @var Collection<int, Candidate> $topCandidates */
-                $topCandidates = $candidates->where('votes_count', $topVotes);
-
-                if ($topCandidates->count() > 1) {
-                    // randomly vote from one of the tied candidates
-                    Vote::create([
-                        'user_id' => User::factory()->create()->id,
-                        'election_id' => $election->id,
-                    ])->candidates()->sync($topCandidates->random());
-                }
-            });
+        if ($topCandidates->count() > 1) {
+            // randomly vote from one of the tied candidates
+            Vote::create([
+                'user_id' => User::factory()->create()->id,
+                'election_id' => $election->id,
+            ])->candidates()->sync($topCandidates->random());
+        }
 
         $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election));
         $response->assertSessionHasNoErrors();
@@ -88,41 +77,101 @@ class FinalizeResultTest extends TestCase
         $election = Election::factory()
             ->dsg()
             ->ended()
-            ->has(
-                Candidate::factory(25)
-                    ->sequence(
-                        ...Position::all()
-                            ->map(fn (Position $position) => ['position_id' => $position->id])
-                            ->toArray()
-                    )
-            )
-            ->has(Vote::factory(100))
+            ->has(Candidate::factory(5)->state(['position_id' => Position::inRandomOrder()->first()]))
+            ->has(Vote::factory(50))
             ->create();
 
-        $firstCandidate = $election->candidates()->first();
+        $candidates = $election->candidates()->withCount('votes')->get();
+        $topCandidate = $candidates->sortByDesc('votes_count')->first();
         Candidate::factory()
-            ->hasAttached($firstCandidate->votes()->get())
+            ->hasAttached($topCandidate->votes()->get())
             ->create([
                 'election_id' => $election->id,
-                'position_id' => $firstCandidate->position_id,
+                'position_id' => $topCandidate->position_id,
             ]);
-
         $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election));
         $response->assertSessionHasErrors();
     }
 
-    public function test_do_not_allow_when_there_is_a_tie_and_more_than_one_was_selected(): void
+    public function test_do_not_allow_when_there_is_a_tie_and_selected_candidates_are_not_from_the_tied_candidates(): void
     {
-        $response = $this->get('/');
+        $user = Admin::factory()->create();
 
-        $response->assertStatus(200);
+        $election = Election::factory()
+            ->dsg()
+            ->ended()
+            ->has(Candidate::factory(5)->state(['position_id' => Position::inRandomOrder()->first()]))
+            ->has(Vote::factory(50))
+            ->create();
+
+        $candidates = $election->candidates()->withCount('votes')->get();
+        $candidates = $candidates->sortByDesc('votes_count');
+        $topCandidate = $candidates->first();
+        Candidate::factory()
+            ->hasAttached($topCandidate->votes()->get())
+            ->create([
+                'election_id' => $election->id,
+                'position_id' => $topCandidate->position_id,
+            ]);
+
+        $notTiedCandidate = Candidate::factory()->create([
+            'election_id' => $election->id,
+            'position_id' => $topCandidate->position_id,
+        ]);
+
+        $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election), [
+            'candidates' => [
+                $notTiedCandidate->position->name => $notTiedCandidate->id,
+            ],
+        ]);
+
+        $response->assertSessionHasErrors();
+
+        $this->assertDatabaseMissing('winners', [
+            'election_id' => $election->id,
+            'candidate_id' => $notTiedCandidate->id,
+        ]);
     }
 
-    public function test_do_not_allow_when_there_is_a_tie_and_selected_candidates_are_not_from_the_tied_positions(): void
+    public function test_do_not_allow_when_there_is_a_tie_and_selected_candidates_are_from_the_different_position(): void
     {
-        $response = $this->get('/');
+        $user = Admin::factory()->create();
 
-        $response->assertStatus(200);
+        [$firstPosition, $secondPosition] = Position::inRandomOrder()->limit(2)->get();
+        $election = Election::factory()
+            ->dsg()
+            ->ended()
+            ->has(Candidate::factory(5)->state(['position_id' => $firstPosition]))
+            ->has(Candidate::factory(5)->state(['position_id' => $secondPosition]))
+            ->has(Vote::factory(50))
+            ->create();
+
+        $tiedCandidatesInFirstPosition = collect();
+        $election->candidates()->withCount('votes')->get()
+            ->groupBy('position_id')
+            ->each(function ($candidates) use ($election, $tiedCandidatesInFirstPosition) {
+                $candidates = $candidates->sortByDesc('votes_count');
+                $topCandidate = $candidates->first();
+                // create a tied candidate
+                $tiedCandidate = Candidate::factory()
+                    ->hasAttached($topCandidate->votes()->get())
+                    ->create([
+                        'election_id' => $election->id,
+                        'position_id' => $topCandidate->position_id,
+                    ]);
+
+                if ($tiedCandidatesInFirstPosition->isEmpty()) {
+                    $tiedCandidatesInFirstPosition->add($topCandidate);
+                    $tiedCandidatesInFirstPosition->add($tiedCandidate);
+                }
+            });
+        $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election), [
+            'candidates' => [
+                $firstPosition->name => $tiedCandidatesInFirstPosition[0]->id,
+                $secondPosition->name => $tiedCandidatesInFirstPosition[1]->id,
+            ],
+        ]);
+        $response->assertSessionHasErrors();
     }
 
     public function test_do_not_allow_when_already_finalized(): void
@@ -132,26 +181,14 @@ class FinalizeResultTest extends TestCase
         $election = Election::factory()
             ->dsg()
             ->ended()
-            ->has(
-                Candidate::factory(25)
-                    ->sequence(
-                        ...Position::all()
-                            ->map(fn (Position $position) => ['position_id' => $position->id])
-                            ->toArray()
-                    )
-            )
-            ->has(Vote::factory(100))
+            ->has(Candidate::factory(5)->state(['position_id' => Position::inRandomOrder()->first()]))
+            ->has(Vote::factory(50))
             ->create();
 
-        $winners = $election->candidates()->withCount('votes')->get()
-            ->groupBy('position_id')
-            ->map(fn ($candidates) => $candidates->first());
-
         // Finalize the election
-        $election->winners()->sync($winners->map(fn (Candidate $candidate) => [
-            'candidate_id' => $candidate->id,
-            'votes' => $candidate->votes_count,
-        ]));
+        $winners = $election->candidates()->withCount('votes')->first();
+        $election->winners()->sync([$winners->id => ['votes' => $winners->votes_count]]);
+
         $response = $this->actingAs($user, 'admin')->post(route('admin.elections.finalize-results', $election));
         $response->assertForbidden();
     }

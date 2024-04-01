@@ -38,34 +38,33 @@ class FinalizeResultsController extends Controller
 
         $tiedCandidatesPerPosition = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
 
+        $winners = [];
+
         if ($tiedCandidatesPerPosition->isNotEmpty()) {
             $validated = $request->validate([
                 'candidates' => ['required', 'array', 'size:'.$tiedCandidatesPerPosition->keys()->count()],
                 'candidates.*' => [
                     'required',
                     'integer',
-                    Rule::in($candidates->pluck('id')->toArray()),
+                    'exists:candidates,id',
+                    Rule::in($tiedCandidatesPerPosition->flatten()->pluck('id')->toArray()),
                 ],
             ]);
-
-            $selectedCandidates = Candidate::findMany($validated['candidates']);
-
+            $selectedCandidates = Candidate::withCount('votes')->findMany($validated['candidates']);
             // ensure the tied candidates are selected 1 each from the tied positions
             $selectedCandidatesPerPosition = $selectedCandidates->groupBy('position_id');
-            if ($selectedCandidatesPerPosition->count() !== $tiedCandidatesPerPosition->count()) {
+            if (
+                $selectedCandidates->count() != $selectedCandidatesPerPosition->count() ||
+                $selectedCandidatesPerPosition->count() !== $tiedCandidatesPerPosition->count()) {
                 throw ValidationException::withMessages(['candidates' => 'Select one candidate from each tied position.']);
             }
 
-            // ensure the validated candidates are in the tied candidates
-            $tiedCandidatesWithoutGroup = $tiedCandidatesPerPosition->flatten();
-            if ($tiedCandidatesWithoutGroup->diff($selectedCandidates)->isNotEmpty()) {
-                throw ValidationException::withMessages(
-                    ['candidates' => 'Cannot select a candidate that is not tied.']
-                );
-            }
+            $winners = $selectedCandidates;
         }
 
-        $winners = $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first());
+        $winners = empty($winners)
+            ? $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first())
+            : $winners;
 
         $election->winners()->sync($winners->map(fn (Candidate $candidate) => [
             'candidate_id' => $candidate->id,

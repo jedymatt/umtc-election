@@ -19,6 +19,10 @@ class FinalizeResultsController extends Controller
             abort(403, 'The election is not yet ended.');
         }
 
+        if ($election->winners()->exists()) {
+            abort(403, 'Winners have already been declared.');
+        }
+
         $candidates = $election->candidates()->withCount('votes')->get();
 
         /** @var SupportCollection<int, EloquentCollection<int, Candidate>> $topVotedCandidates */
@@ -32,28 +36,36 @@ class FinalizeResultsController extends Controller
                 return $candidate->votes_count === $maxVotes;
             }));
 
-        $tiedCandidates = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
+        $tiedCandidatesPerPosition = $topVotedCandidates->filter(fn (EloquentCollection $candidates) => $candidates->count() > 1);
 
-        if ($tiedCandidates->isNotEmpty()) {
+        $overrideWinnersByPosition = collect();
+
+        if ($tiedCandidatesPerPosition->isNotEmpty()) {
             $validated = $request->validate([
-                'candidates' => ['required', 'array', 'size:'.$tiedCandidates->keys()->count()],
+                'candidates' => ['required', 'array', 'size:'.$tiedCandidatesPerPosition->keys()->count()],
                 'candidates.*' => [
                     'required',
                     'integer',
-                    Rule::in($candidates->pluck('id')->toArray()),
+                    'exists:candidates,id',
+                    Rule::in($tiedCandidatesPerPosition->flatten()->pluck('id')->toArray()),
                 ],
             ]);
-
-            $tiedCandidatePositions = $tiedCandidates->keys();
-            $selectedCandidatePositions = Candidate::findMany($validated['candidates'])->pluck('position_id')->unique();
-            if ($tiedCandidatePositions->diff($selectedCandidatePositions)->isNotEmpty()) {
-                throw ValidationException::withMessages(
-                    ['candidates' => 'Please select one candidate from each tied position.']
-                );
+            $selectedCandidates = Candidate::withCount('votes')->findMany($validated['candidates']);
+            // ensure the tied candidates are selected 1 each from the tied positions
+            $selectedCandidatesPerPosition = $selectedCandidates->groupBy('position_id');
+            if (
+                $selectedCandidates->count() != $selectedCandidatesPerPosition->count() ||
+                $selectedCandidatesPerPosition->count() !== $tiedCandidatesPerPosition->count()) {
+                throw ValidationException::withMessages(['candidates' => 'Select one candidate from each tied position.']);
             }
+
+            $overrideWinnersByPosition = $selectedCandidatesPerPosition->map(fn (EloquentCollection $candidates) => $candidates->first());
         }
 
-        $winners = $topVotedCandidates->map(fn (EloquentCollection $candidates) => $candidates->first());
+        $winners = $topVotedCandidates
+            ->map(fn ($candidates) => $candidates->first())
+            ->replace($overrideWinnersByPosition)
+            ->flatten();
 
         $election->winners()->sync($winners->map(fn (Candidate $candidate) => [
             'candidate_id' => $candidate->id,

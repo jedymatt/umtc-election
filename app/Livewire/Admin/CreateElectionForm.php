@@ -22,6 +22,11 @@ class CreateElectionForm extends Component
 
     public $type;
 
+    public function __construct()
+    {
+        abort_unless(\Auth::guard('admin')->check(), 401);
+    }
+
     public function mount(): void
     {
         $this->type = ElectionType::Dsg->value;
